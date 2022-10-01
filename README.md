@@ -1,8 +1,8 @@
 # traning
 
 ## 使用言語 : フレームワーク
-* front : Typescript
-* back : node
+* front : TypeScript
+* back : Node 
 * framework : React
 
 ### ブランチ命名規則
@@ -21,7 +21,7 @@
 * `change`：仕様変更
 * `clean`：整理（リファクタリング等）
 * `disable`：無効化（コメントアウト等）
-* `emove`：削除（ファイル）
+* `remove`：削除（ファイル）
 * `upgrade`：バージョンアップ
 * `revert`：変更取り消し
 
