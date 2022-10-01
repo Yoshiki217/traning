@@ -1,11 +1,32 @@
 # traning
 
-## 技術
-* front : Typescript
-* back : node
+## 使用言語 : フレームワーク
+* front : TypeScript
+* back : Node 
 * framework : React
 
+### ブランチ命名規則
+* `feature/description`
+* `fix/description`
+* `hotfix/description`
 
+## ブランチ/参考URL
+* https://bioscryptome.t-ohashi.info/git/naming/
+
+## コミット命名規則
+* `fix`：バグ修正
+* `hotfix`：クリティカルなバグ修正
+* `add`：新規（ファイル）機能追加
+* `update`：機能修正（バグではない）
+* `change`：仕様変更
+* `clean`：整理（リファクタリング等）
+* `disable`：無効化（コメントアウト等）
+* `remove`：削除（ファイル）
+* `upgrade`：バージョンアップ
+* `revert`：変更取り消し
+
+## コミット/参考URL
+* https://qiita.com/itosho/items/9565c6ad2ffc24c09364
 
 
 ## 要件定義
