@@ -1,4 +1,4 @@
-<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="781px" height="461px" viewBox="-0.5 -0.5 781 461" content="&lt;mxfile&gt;&lt;diagram id=&quot;smoZUgDG2pRrJ4sBBBRf&quot; name=&quot;ページ1&quot;&gt;zZWxboMwEEC/xjv2hUDGQNN06ZShs4VdsAQYOU4g/fqacAQQRI2qSs3E8e6M754REIiLZm94lb1rIXPCPNEQeCGMUQYbd2nJpSM+rDuQGiWwaAAH9SURekhPSsjjpNBqnVtVTWGiy1ImdsK4Mbqeln3qfLprxVM5A4eE53P6oYTNOhqyYOBvUqVZvzNd48AF74txkmPGha5HCHYEYqO17aKiiWXeyuu9dOte72RvjRlZ2kcWsG7BmecnnA37spd+WKNPpZBtPSUQ1Zmy8lDxpM3W7ngdy2yRY3q+P7Z0lsbKZoSwn73UhbTm4kowC6gG340Ab+tBdBAiy0aSV2uEHA83vT15mN8FqGBZB8x17ICEjETeNQCy3WCw8f/fFJuqAjp3tVotuKLBH7jy77naRr2rGIMIMAh7jVH8dPao96i98A/sBcv2nDTau7pp9J9HWvCzM7rkDH7hzN0OH8JrbvQ7gd03&lt;/diagram&gt;&lt;/mxfile&gt;">
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="781px" height="461px" viewBox="-0.5 -0.5 781 461" content="&lt;mxfile&gt;&lt;diagram id=&quot;smoZUgDG2pRrJ4sBBBRf&quot; name=&quot;ページ1&quot;&gt;zZU9b4MwEEB/jXeMIcAYaJIunTJ0tsDFSAYjxwmkv74Qn/kQpIqqSM2CjndnfPeMAJGkbA+K1vxDZkwg18laRN6Q63qR1117cDXAJxsDclVkBuERHItvBtABei4ydpoVaimFLuo5TGVVsVTPGFVKNvOyLynmu9Y0ZwtwTKlY0s8i09zQ0A1G/s6KnNud8SYymZLaYpjkxGkmmwkiO0QSJaU2UdkmTPTurBezbn8nOzSmWKUfWeCaBRcqzjAb9KWvdlglz1XG+nqMSNzwQrNjTdM+23Sn2zGuSwHp5f7Q0oUpzdoJgn4OTJZMq2tXAlkCauDdCOC2GUUHITA+kextAFI43Hx48jh/F4CCdR1kqWNHUOii2LkFBG0jCCL//025c1UEL1153oorHDzBlX/P1Ta2rhIIYgJBaDXGycvZw86j9sIn2AvW7XXSsHU1aPRfR9og6RdpeE0a+YO07nb8Et5yk98J2f0A&lt;/diagram&gt;&lt;/mxfile&gt;">
     <defs/>
     <g>
         <rect x="0" y="0" width="780" height="460" rx="69" ry="69" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
@@ -36,11 +36,11 @@
                 </text>
             </switch>
         </g>
-        <rect x="40" y="30" width="140" height="380" rx="21" ry="21" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <rect x="70" y="30" width="140" height="380" rx="21" ry="21" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
                 <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
-                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 220px; margin-left: 41px;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 220px; margin-left: 71px;">
                         <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
                             <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 メニュー
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="110" y="224" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="140" y="224" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
                     メニュー
                 </text>
             </switch>
