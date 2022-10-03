@@ -1,0 +1,54 @@
+#Browser (all form is modal)
+localhost:3000 -> top page {
+    login form -> post to :8081/login?account= password=
+    signup form -> post to :8081/signup?account= password= email=
+}
+/account/{account} -> user page {
+    only top user {
+        create new course form -> post to :8081/createCourse?course= memo?=
+    }
+    json :8081/api/account?account= {
+        is course account -> /course{course}
+    }
+}
+/account/{account}/course/{course}/ -> show course page -> json :8081/api/course?account= course= {
+    createEvent form -> post to :8081/createEvent?account= course= event= quanlity= weight=
+}
+/course/{course} -> show course account page -> json :8081/api/course?account= course=
+
+*/course/{course}/event/{eventid} -> json :8081/api/event?account= eventid=
+
+#Browser query
+modal = modal.id display block
+errormessage = render message to id = errormessage of modal
+
+#Router (all post, all true request will renew cookie)
+localhost:8081 -> cannot get
+/login?account= password= -> check account password >{
+    true: redirect to :3000/account/{account}
+    false: redirect :3000?modal=login&errormessage=<>
+}
+/signup?account= password= email= -> check unique account, create new account {
+    true: redirect :3000?modal=login
+    false: redirect :3000?modal=singup&errormessage=<>
+}
+/createCourse?account= course= memo?= -> check course unique of account {
+    true: create new course, redirect :3000/account/{account}
+    false: redirect :3000/account/{account}?modal=createCourse&errormessage=<>
+}
+/createEvent?account= course= event= quanlity= weight= {
+    true: create new course redirect :3000/account/{account}/course{course}
+    false: redirect :3000/account/{account}/course/{course}?modal=createEvent&errormessage=<>
+}
+
+#JSON API(all post, all true request wll renew cookie)
+Root localhost:8081/jsons/
+/account?account= -> check cookie {
+    true: return account, course list if exist... (things that show on user page view)
+}
+/course/?account= course= year= month= day=  -> {
+    true: return event list ( of year month day)
+}
+/event?account= eventid= {
+    true: return event data
+}
