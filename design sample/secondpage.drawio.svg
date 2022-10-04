@@ -1,4 +1,4 @@
-<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="781px" height="461px" viewBox="-0.5 -0.5 781 461" content="&lt;mxfile&gt;&lt;diagram id=&quot;smoZUgDG2pRrJ4sBBBRf&quot; name=&quot;ページ1&quot;&gt;zZU9b4MwEEB/jXeMIcAYaJIunTJ0tsDFSAYjxwmkv74Qn/kQpIqqSM2CjndnfPeMAJGkbA+K1vxDZkwg18laRN6Q63qR1117cDXAJxsDclVkBuERHItvBtABei4ydpoVaimFLuo5TGVVsVTPGFVKNvOyLynmu9Y0ZwtwTKlY0s8i09zQ0A1G/s6KnNud8SYymZLaYpjkxGkmmwkiO0QSJaU2UdkmTPTurBezbn8nOzSmWKUfWeCaBRcqzjAb9KWvdlglz1XG+nqMSNzwQrNjTdM+23Sn2zGuSwHp5f7Q0oUpzdoJgn4OTJZMq2tXAlkCauDdCOC2GUUHITA+kextAFI43Hx48jh/F4CCdR1kqWNHUOii2LkFBG0jCCL//025c1UEL1153oorHDzBlX/P1Ta2rhIIYgJBaDXGycvZw86j9sIn2AvW7XXSsHU1aPRfR9og6RdpeE0a+YO07nb8Et5yk98J2f0A&lt;/diagram&gt;&lt;/mxfile&gt;">
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="781px" height="461px" viewBox="-0.5 -0.5 781 461" content="&lt;mxfile&gt;&lt;diagram id=&quot;smoZUgDG2pRrJ4sBBBRf&quot; name=&quot;ページ1&quot;&gt;zZY9b4MwEEB/jXfsg0DGQNN06ZShswUuIAFGjhNIf30hnPkQtKISUjNxvDtj3wMMBIK8PileJu8yEhlhVlQTeCGMUQb75tCSe0cc2HUgVmmERQM4p18CoYX0mkbiMinUUmY6LacwlEUhQj1hXClZTcs+ZTadteSxmIFzyLM5/UgjnXTUY+7A30QaJ2ZmusOGc26KsZNLwiNZjRAcCQRKSt1FeR2IrJVnvHTjXn/I9gtTotBrBrBuwI1nV+wN16Xvplklr0Uk2npKwK+SVItzycM2WzW3t2GJzjNMz+fHJd2E0qIeIVzPSchcaHVvSjALqAafDRdPq0G06yFLRpLtHUKONzfurzz03wSoYFkHzHUcgXiM+NYjAHLYY7B3/t8Um6oCOndl2wuuqLuBK+cnVwffuAow8AEDz2j0g6ezR6219rwN7LnL9hpp1LjqNTrPI62X9Is0uiQNtpDm/WW3stYKmXW/4Gi9EFgpxN7Ah3nfn1kIW9iUthLSnA6fykdu9MMBx28=&lt;/diagram&gt;&lt;/mxfile&gt;">
     <defs/>
     <g>
         <rect x="0" y="0" width="780" height="460" rx="69" ry="69" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
@@ -53,6 +53,8 @@
                 </text>
             </switch>
         </g>
+        <rect x="70" y="60" width="140" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <rect x="70" y="140" width="140" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
     </g>
     <switch>
         <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
