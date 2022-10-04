@@ -1,0 +1,17 @@
+account
+アカウントのidとパスワードと　先生か生徒か
+
+accountInformation
+アカウントの情報（名前、性別、連絡先など）
+
+bodyParameter
+アカウントの体の状態（体重、身長など）
+
+nutrion
+先生が生徒にどんな栄養がよいかを記録
+
+shumoku
+先生が生徒にどんな種目をやらせるか
+
+shumokuNaiyou
+種目類の内容と名前
