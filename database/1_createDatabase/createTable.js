@@ -24,7 +24,7 @@ function createTable(sql, tableName){
     })
 }
 
-// account table
+// accountテーブル
 tableName = "account"
 sql = "CREATE TABLE account("               +
         "id VARCHAR PRIMARY KEY,"           +
@@ -32,7 +32,7 @@ sql = "CREATE TABLE account("               +
         "senseito VARCHAR(6))"
 createTable(sql, tableName)
 
-// accountInformation table
+// accountInformationテーブル
 tableName = "accountInformation"
 sql = "CREATE TABLE accountInformation("    +
         "id VARCHAR PRIMARY KEY,"           +
@@ -44,7 +44,7 @@ sql = "CREATE TABLE accountInformation("    +
         "FOREIGN KEY fk_id (id) REFERENCES account(id) ON DELETE CASCADE)"
 createTable(sql, tableName)
 
-// bodyParameter table
+// bodyParameterテーブル
 tableName = "bodyParameter"
 sql = "CREATE TABLE bodyParameter("         +
         "id VARCHAR PRIMARY KEY,"           +
@@ -54,7 +54,7 @@ sql = "CREATE TABLE bodyParameter("         +
         "FOREIGN KEY fk_id (id) REFERENCES account(id) ON DELETE CASCADE)"
 createTable(sql, tableName)
 
-// nutrition table
+// nutritionテーブル
 tableName = "nutrition"
 sql = "CREATE TABLE nutrition("                                 +
         "id_sensei VARCHAR,"                                    +
@@ -65,7 +65,7 @@ sql = "CREATE TABLE nutrition("                                 +
         "FOREIGN KEY fk_id (id_sensei, id_seito) REFERENCES account(id) ON DELETE CASCADE)"
 createTable(sql, tableName)
 
-// shumokuNaiyou table
+// shumokuNaiyouテーブル
 tableName = "shumokuNaiyou"
 sql = "CREATE TABLE shumokuNaiyou("         +
         "id_sensei VARCHAR PRIMARY KEY,"    +
@@ -75,7 +75,7 @@ sql = "CREATE TABLE shumokuNaiyou("         +
         "FOREIGN KEY fk_id (id_sensei) REFERENCES account(id) ON DELETE CASCADE)"
 createTable(sql, tableName)
 
-// shumoku table
+// shumokuテーブル
 tableName = "shumoku"
 sql = "CREATE TABLE shummoku("              +
         "id_sensei VARCHAR,"                +

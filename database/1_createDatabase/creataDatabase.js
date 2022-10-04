@@ -1,7 +1,7 @@
 // 1
 
 // database name : customerdb
-// host :
+// host : localhost
 // user : 
 // password : 
 
