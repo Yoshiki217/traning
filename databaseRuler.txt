@@ -7,18 +7,26 @@ Address : string
 PhoneNumber : string
 Sex : string
 isMain : boolean
+
+
 # Access
 AccessId : number
 Sign : string.length = 50
 AccountId : number (Account)
+
+
 # Course
 CourseId : number
 CourseName : string
 SubAccountId : number (Acount)
 SubAccountName : string (Account)
+
+
 # EventType
 EventTypeId : number
 EventTypeName : string
+
+
 # Event
 EventId : number
 EventName : string
@@ -30,6 +38,8 @@ EventTimesAmount : number
 EventTimesUnit : string
 CourseId : number (Course)
 Date : datetime
+
+
 # EventHistory
 EventId : number (Event)
 Date : datetime
