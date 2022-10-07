@@ -1,0 +1,177 @@
+# login
+1. acountName: string, password: string
+2. {
+    status: boolean
+    errormessage: string
+    accessId: number
+    sign: string(50)
+    accountId: number
+    accountName: string
+    isMain: boolean
+    accountInfo: {
+        userName: string
+        birthday: datetime
+        address: string
+        phone: string
+        email: string
+        sex: string
+    }
+    courses: [
+        courseId: number
+        courseName: string
+        subAccountId: number
+        subAccountUserName: string
+    ]
+}
+
+
+# signup (main only)
+1. accountName: string, password: string
+2. {
+    status: boolean
+    errormesage: string
+}
+
+
+# eventList
+1. accountId: number, accessId: number, sign: string(50), courseId: number, date: datetime
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    accountInfo: {
+        ...
+    }
+    courses: [
+        ...
+    ]
+    events: [
+        {
+            eventId: number
+            eventName: string
+            eventInfo: {
+                eventType: {
+                    id: number
+                    name: string
+                }
+                eventWeight: {
+                    amount: number
+                    unit: string
+                }
+                eventTimes: {
+                    amount: number
+                    unit: string
+                }
+            }
+        }
+    ]
+}
+
+
+# event
+1. accountId: number, accessId: number, sign: string(50), eventId:number
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    accountInfo: {
+        ...
+    }
+    courses: [
+        ...
+    ]
+    eventId: number
+    eventName: string
+    eventInfo: {
+        ...
+    }
+    eventHistory: [
+        {
+            logAccountId: number
+            logAccountName: string
+            logAccountUserName: string
+            logText: text|string
+        }
+    ]
+}
+
+
+# createCourse(main only)
+1. accountId: number, accessId: number, sign: string(50), courseName: string, subAccountName: string
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    courseId: number
+    courseName: string
+    subAccountId: number
+    subAccountName: string
+}
+
+
+# updateAccount
+1. accountId; number, accessId: number, sign: string(50), (updateInfo): {...}
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign : string(50)
+    accountInfo: {
+        ...
+    }
+}
+
+
+# updateCourse (main only)
+1. accountId: number, acccessId: number, sign: string(50), courseId: number, courseName: string
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    courseName: string
+}
+
+
+# createEvent (main only)
+1. accountId: number, accessId: number, sign: string(50), courseId: number, date: datetime, eventName: string, (eventInfo): {...}
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    eventId: number
+    eventName: string
+    eventInfo: {
+        ...
+    }
+}
+
+
+# updateEvent (main only)
+1. accountId: number, accessId: number, sign: string(50), eventId: number, eventName: string, (eventInfo): {...}
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    eventId: number
+    eventName: string
+    eventInfo: {
+        ...
+    }
+}
+
+
+# logEvent
+1. accountId: number, accessId: number, sign: string(50), eventId: number, logText: text|string
+2. {
+    status: boolean
+    errormessage: string
+    auth: boolean
+    sign: string(50)
+    logId: number
+}
