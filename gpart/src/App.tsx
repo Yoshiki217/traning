@@ -14,27 +14,17 @@ function App() {
             <li><a href='https://yahoo.co.jp'className='shadow-sm'>sample</a></li>
             <li><a href='https://cisco.com' className='shadow-sm btn m1'>sample</a></li>
             <li><a href='https://github.com'className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.com' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
+            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
           </ul>
         </div>
       </div>
-      <div className="card w-96 bg-base-100 shadow-xl">
-      <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
-      <div className="card-body">
-        <h2 className="card-title">Shoes!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
-        </div>
-      </div>
-    </div>
     </body>
   );
 }
