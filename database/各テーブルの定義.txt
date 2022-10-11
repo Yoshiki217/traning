@@ -1,17 +1,20 @@
-account
-アカウントのidとパスワードと　先生か生徒か
+1/ account
+アカウントのidとパスワードとidSensei(生徒なら先生のidも含む、先生ならnull)
 
-accountInformation
-アカウントの情報（名前、性別、連絡先など）
+2/ information
+アカウントの個人情報
 
-bodyParameter
+3/ bodyParameter
 アカウントの体の状態（体重、身長など）
 
-nutrion
-先生が生徒にどんな栄養がよいかを記録
+4/ access
+これは俺がわからない、ヤインにやられさせた　:ｐ
 
-shumoku
-先生が生徒にどんな種目をやらせるか
+5/ course
+コースについての先生や生徒やコース名など
 
-shumokuNaiyou
-種目類の内容と名前
+6/ event
+種目のidと名前
+
+7/ eventInfo
+種目の内容
