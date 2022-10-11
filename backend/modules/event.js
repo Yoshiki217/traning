@@ -1,6 +1,6 @@
 const checkAuth = require('./account').checkAuth;
 
-exports.createEventType = (accessId, sign, ...info) => {
+exports.createEventType = (accessId, sign, info) => {
     let json = {
         status: false, 
         errormessage: '',
