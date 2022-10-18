@@ -1,28 +1,27 @@
 export interface checkAuth {
-    auth: Boolean,
+    auth: boolean,
     sign: string
 }
 
 export interface register {
-    status: Boolean,
+    status: boolean,
     erromessage: string
 }
 
 export interface login {
-    status: Boolean,
+    status: boolean,
     errormessage: string,
     accessId: number,
-    sign: string,
-    isMain: Boolean
+    sign: string
 }
 
 export interface logout {
-    status: Boolean,
+    status: boolean,
     errormessage: string
 }
 
 export interface account {
-    status: Boolean,
+    status: boolean,
     errormessage: string,
     accountInfo: {
         accountName: string,
@@ -32,6 +31,7 @@ export interface account {
         phone: string,
         sex: number,
         address: string,
+        isMain: boolean,
         courses: {
             courseName: string,
             subAccountInfo: {
@@ -48,6 +48,6 @@ export interface account {
 }
 
 export interface updateInfo {
-    status: Boolean,
+    status: boolean,
     errormessage: string
 }
