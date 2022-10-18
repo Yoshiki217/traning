@@ -24,8 +24,7 @@ exports.login = (accountName, password) => {
         status: false,
         erromessage: '',
         accessId: 0,
-        sign: '',
-        isMain: false
+        sign: ''
     }
     //accountNameとpasswordの存在チェック
     //存在したら新しいaccessレコード作成し、accessIdとsignに該当の値を入れて、アカウント検索、isMainの値を入れてstatus: trueにして返す
@@ -56,6 +55,7 @@ exports.account = (accessId, sign) => {
             phone: '',
             sex: 0,
             address: '',
+            isMain: false,
             couses: [
                 {
                     courseName: '',
