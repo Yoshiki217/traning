@@ -1,5 +1,5 @@
 export interface createCourse {
-    status: Boolean,
+    status: boolean,
     errormessage: string
     subaccount: {
         accountName: string,
