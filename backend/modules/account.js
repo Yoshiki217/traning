@@ -1,4 +1,4 @@
-exports.checkAuth = (accessId, sign) => {
+const checkAuth = (accessId, sign) => {
     let json = {
         auth: false,
         sign: ''
@@ -7,6 +7,8 @@ exports.checkAuth = (accessId, sign) => {
     //一つだけレコード存在したらauth: trueにし、signを更新して返す
     return json
 }
+
+exports.checkAuth=checkAuth
 
 exports.register = (accountName, password) => {
     let json = {
