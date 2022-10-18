@@ -51,7 +51,7 @@ app.post('/createCourse', (req, res)=>{
     cors(res)
     let post = req.body
     res.json(account.removeCourse(post.accessId, post.sign,
-        post.courseName, post.subAccountUserName))
+        post.courseName, post.subAccountName))
 })
 
 app.post('/removeCourse', (req, res)=>{
@@ -79,7 +79,7 @@ app.post('/createEventType', (req, res)=>{
 app.post('/eventType', (req, res)=>{
     cors(res)
     let post = req.body
-    res.json(account.eventType(post.accessId, post.sign))
+    res.json(account.eventTypes(post.accessId, post.sign))
 })
 
 app.post('/changeEventTypeName', (req, res)=>{
