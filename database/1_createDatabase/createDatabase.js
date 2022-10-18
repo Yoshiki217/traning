@@ -6,7 +6,7 @@
 // password : fitness
 
 // mysqlを呼び出す
-mysql = require("mysql")
+mysql = require("mysql2")
 
 // コネクションを作成
 con = mysql.createConnection({
@@ -22,38 +22,42 @@ con.connect(function(err){
     console.log("Connected!")
 
     // 前のユーザを消す
-    con.query("DROP USER projectg", function(err, result){
-        if(err) throw err
-        // 実行が成功を知らせ
-        console.log("User deleted.")
-    })
+    // 始めの実行なら　コメントにする
+    // 2回目の実行から　コメントを外れる
+    // con.query("DROP USER projectg", function(err, result){
+    //     if(err) throw err
+    //     // 実行が成功を知らせ
+    //     console.log("ユーザー   ー>   削除")
+    // })
 
     // ユーザを作成
     con.query("CREATE USER projectg IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'fitness'", function(err, result){
         if(err) throw err
         // 実行が成功を知らせ
-        console.log("User created.")
+        console.log("ユーザー   ー>   作成")
     })
 
     // 前のデータベースを削除
-    con.query("DROP DATABASE customerdb", function(err, result){
-        if(err) throw err
-        // 実行が成功を知らせ
-        console.log("Database dropped.")
-    })
+    // 始めの実行なら　コメントにする
+    // 2回目の実行から　コメントを外れる
+    // con.query("DROP DATABASE customerdb", function(err, result){
+    //     if(err) throw err
+    //     // 実行が成功を知らせ
+    //     console.log("データベース   ー>   削除")
+    // })
 
     // mysql命令を実行
     con.query("CREATE DATABASE customerdb", function(err, result){
         if(err) throw err
         // 実行が成功を知らせ
-        console.log("Database created.")
+        console.log("データベース   ー>   作成")
     })
 
     // ユーザにデータベース権限付与
     con.query("GRANT ALL ON customerdb.* TO projectg", function(err, result){
         if(err) throw err
         // 実行が成功を知らせ
-        console.log("Permission granted.")
+        console.log("ユーザーの許可   ー>   承諾")
     })
 })
 
