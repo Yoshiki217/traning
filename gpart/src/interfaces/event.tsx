@@ -6,6 +6,7 @@ export interface createEventType{
         eventTypeName: string 
     }
 }
+
 export interface eventTypes{
     status: boolean,
     errormessage: string,
@@ -14,6 +15,7 @@ export interface eventTypes{
         eventTypeName: string
     }[]
 }
+
 export interface changeEventTypeName{
     status: boolean,
     errormessage: string,
@@ -22,10 +24,12 @@ export interface changeEventTypeName{
         eventTypeName: string
     }
 }
+
 export interface removeEventType{
     status: boolean,
     errormessage: string
 }
+
 export interface createEvent{
     status: boolean,
     errormessage: string,
@@ -47,6 +51,7 @@ export interface createEvent{
         date: string
     }
 }
+
 export interface updateEvent{
     status: boolean,
     errormessage: string,
@@ -68,6 +73,7 @@ export interface updateEvent{
         date: string
     }
 }
+
 export interface events{
     status: boolean,
     errormessage: string,
@@ -88,14 +94,17 @@ export interface events{
         date: string
     }[]
 }
+
 export interface removeEvent{
     status: boolean,
     errormessage: string
 }
+
 export interface logEvent{
     status: boolean,
     errormessage: string
 }
+
 export interface event{
     status: boolean,
     errormessage: string,

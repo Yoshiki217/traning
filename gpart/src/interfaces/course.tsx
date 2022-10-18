@@ -11,10 +11,12 @@ export interface createCourse {
         address: string,
     }
 }
+
 export interface removeCourse {
     status: boolean,
     errormessage: string
 }
+
 export interface changeCourseName {
     status: boolean,
     errormessage: string,

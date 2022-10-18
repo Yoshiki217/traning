@@ -2,10 +2,12 @@ export interface checkAuth {
     auth: Boolean,
     sign: string
 }
+
 export interface register {
     status: Boolean,
     erromessage: string
 }
+
 export interface login {
     status: Boolean,
     errormessage: string,
@@ -13,11 +15,12 @@ export interface login {
     sign: string,
     isMain: Boolean
 }
+
 export interface logout {
     status: Boolean,
     errormessage: string
 }
-//
+
 export interface account {
     status: Boolean,
     errormessage: string,
@@ -43,6 +46,7 @@ export interface account {
         }[]
     }
 }
+
 export interface updateInfo {
     status: Boolean,
     errormessage: string
