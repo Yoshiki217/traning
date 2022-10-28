@@ -1,5 +1,5 @@
 const checkAuth = require('./account').checkAuth;
-exports.createCourse = (accessId, sign, courseName, subAccountName) => {
+exports.createCourse = (accessId, sign, courseName, subAccountName, subAccountPassword) => {
     let json = {
         status: false,
         errormessage: '',

@@ -21,10 +21,10 @@ exports.eventTypes = (accessId, sign) => {
         status: false,
         errormessage: '',
         eventTypes: [
-            {
-                eventTypeId: 0,
-                eventTypeName: ''
-            }
+            // {
+            //     eventTypeId: 0,
+            //     eventTypeName: ''
+            // }
         ]
     }
     let auth = checkAuth(accessId, sign)
@@ -159,23 +159,23 @@ exports.events = (accessId, sign, courseName, date) => {
         status: false,
         errormessage: '',
         events: [
-            {
-                eventId: 0,
-                eventName: '',
-                eventType: {
-                    eventTypeId: 0,
-                    eventTypeName: ''
-                },
-                eventWeight: {
-                    amount: 0,
-                    unit: ''
-                },
-                eventTimes: {
-                    amount: 0,
-                    unit: ''
-                },
-                date: ''
-            }
+            // {
+            //     eventId: 0,
+            //     eventName: '',
+            //     eventType: {
+            //         eventTypeId: 0,
+            //         eventTypeName: ''
+            //     },
+            //     eventWeight: {
+            //         amount: 0,
+            //         unit: ''
+            //     },
+            //     eventTimes: {
+            //         amount: 0,
+            //         unit: ''
+            //     },
+            //     date: ''
+            // }
         ]
     }
     let auth = checkAuth(accessId, sign)
@@ -230,12 +230,12 @@ exports.event = (accessId, sign, eventId) =>{
             },
             date: ''
         },
-        eventLog: [
-            {
-                logAccountName: '',
-                logAccountUserName: '',
-                logText: ''
-            }
+        eventLogs: [
+            // {
+            //     logAccountName: '',
+            //     logAccountUserName: '',
+            //     logText: ''
+            // }
         ]
     }
     let auth = checkAuth(accessId, sign)
