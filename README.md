@@ -42,3 +42,7 @@
   
 2. 栄養管理
    * プロテイン摂取量
+
+追加Libraly
+DaisyUI : https://daisyui.com/docs/install/
+Chart.js : https://dev.classmethod.jp/articles/react-chartjs-2/
