@@ -13,7 +13,7 @@ exports.createCourse = (accessId, sign, courseName, subAccountName, subAccountPa
             address: '',
         }
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //新しい生徒アカウント作成、コース作成、生徒情報(デフォールト)を入れてstatus: trueにして返す
@@ -21,7 +21,7 @@ exports.createCourse = (accessId, sign, courseName, subAccountName, subAccountPa
         let r_coureseName = con.query(`SELECT courseName FROM course 
                 WHERE coureName = "${courseName}" 
                 AND idSensei = ${auth.id}`)
-        if(r_coureseName!=0){
+        if(r_coureseName.length!=0){
             json.errormessage = `${courseName}のコース名は既に登録されました。`
         }
         else{
@@ -41,7 +41,7 @@ exports.removeCourse = (accessId, sign, courseName, con) => {
         status: false,
         errormessage: ''
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //該当のコースおよび生徒アカウント削除、status: trueにして返す
@@ -60,7 +60,8 @@ exports.removeCourse = (accessId, sign, courseName, con) => {
                 con.query("COMMIT")
                 json.status = true
             }
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
         
@@ -74,7 +75,7 @@ exports.changeCourseName = (accessId, sign, beforeCourseName, afterCourseName, c
         errormessage: '',
         courseName: ''
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //該当コース名を更新、新しいコース名を入れて、status: trueにして返す
@@ -83,13 +84,14 @@ exports.changeCourseName = (accessId, sign, beforeCourseName, afterCourseName, c
         if(auth.isMain){
             if(beforeCourseName==afterCourseName){
                 json.errormessage = "元のコース名と新コース名は同じです"
-            }else{
-                let r_coureseName = con.query(`SELECT courseName FROM course 
+            }
+            else{
+                let r_courseName = con.query(`SELECT courseName FROM course 
                         WHERE idSensei = ${auth.id}
                         AND courseName NOT IN (${beforeCourseName})`)
                 let flag = true
-                for(i=0; i<r_coureseName.length; i++){
-                    if(afterCourseName==r_coureseName[i].courseName){
+                for(i=0; i<r_courseName.length; i++){
+                    if(afterCourseName==r_courseName[i].courseName){
                         flag = false
                         json.errormessage = `${afterCourseName}のコース名は既に登録されています。`
                         break
@@ -102,7 +104,8 @@ exports.changeCourseName = (accessId, sign, beforeCourseName, afterCourseName, c
                     json.status = true
                 }
             }
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }

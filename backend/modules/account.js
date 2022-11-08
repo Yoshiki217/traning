@@ -31,7 +31,7 @@ exports.register = (accountName, password, con) => {
     //新しアカウント作成、この時isMainの値はtrue
     //成功したらstatus: trueにして返す
     //失敗したらerrormessageにメッセジー入れて返す
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     if(auth.isMain){
         let r_accountName = con.query(`SELECT accountName FROM account WHERE accountName="${accountName}" FOR UPDATE`)
         if(r_accountName!=0){
@@ -87,7 +87,7 @@ exports.logout = (accessId, sign, con) => {
         status: false,
         erromessage: ''
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //該当のaccessレコードを削除status: true  
     if(auth.auth){
         con.query(`SELECT 1 FROM access LIMIT 1 FOR UPDATE`)
@@ -128,7 +128,7 @@ exports.account = (accessId, sign, con) => {
             ],
         }
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら実行中断
     //アカウント情報入れてstatus: trueにして返す
     if(auth.auth){
@@ -296,7 +296,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
         status: false,
         erromessage: ''
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら実行中断
     //accessアカウントによって目標のaccountNameにアクセス権限があるかどうか調べる
     //権限があれば該当情報アップデート、status: trueにして返す

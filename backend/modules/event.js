@@ -37,7 +37,8 @@ exports.createEventType = (accessId, sign, info, con) => {
                 json.eventTypeInfo.eventTypeName = info.eventTypeName
                 json.status = true
             }
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -75,7 +76,8 @@ exports.eventTypes = (accessId, sign, con) => {
                 })
                 json.status = true
             }
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -114,7 +116,8 @@ exports.changeEventTypeName = (accessId, sign, eventTypeId, afterEventTypeName, 
                 json.eventTypeInfo.eventTypeId = eventTypeId
                 json.eventTypeInfo.eventTypeName = afterEventTypeName
             }
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -139,7 +142,8 @@ exports.removeEventType = (accessId, sign, eventTypeId, con) => {
                     AND idSensei = ${auth.id}`)
             con.query("COMMIT")
             json.status = true
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -221,7 +225,8 @@ exports.createEvent = (accessId, sign, info, con) => {
                 date: info.date
             }
             json.status = true
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -303,7 +308,8 @@ exports.updateEvent = (accessId, sign, eventId, info, con) => {
                 date: info.date
             }
             json.status = true
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -343,7 +349,8 @@ exports.events = (accessId, sign, courseName, date, con) => {
             idSeito = con.query(`SELECT idSeito FROM accountView 
                                 WHERE courseName = "${courseName}" 
                                 AND idSensei = ${auth.id}`)[0].idSeito
-        }else{
+        }
+        else{
             idSeito = auth.id
         }
         let r_events = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId, 
@@ -396,7 +403,8 @@ exports.removeEvent = (accessId, sign, eventId, con) => {
             con.query(`DELETE FROM event WHERE eventId = ${eventId}`)
             con.query("COMMIT")
             json.status = true
-        }else{
+        }
+        else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
     }
@@ -451,7 +459,7 @@ exports.event = (accessId, sign, eventId, con) =>{
             // }
         ]
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントはeventIdにアクセス権限を調べる、なければ中断
     //イベントの情報を入れてstatus: trueにして返す
