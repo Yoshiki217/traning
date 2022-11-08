@@ -5,7 +5,7 @@ export interface checkAuth {
 
 export interface register {
     status: boolean,
-    erromessage: string
+    errormessage: string
 }
 
 export interface login {
@@ -21,6 +21,8 @@ export interface logout {
 }
 
 export interface account {
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     accountInfo: {
@@ -48,6 +50,8 @@ export interface account {
 }
 
 export interface updateInfo {
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string
 }
