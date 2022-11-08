@@ -1,70 +1,64 @@
-import React from 'react';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import './App.css';
+import { Account } from './comp/Account';
+import { AccountIndex } from './comp/AccountIndex';
+import { CourseNameIndex } from './comp/CourseNameIndex';
+import { CreateCourse } from './comp/CreateCourse';
+import { Info } from './comp/Info';
+import { Login } from './comp/Login';
+import { Register } from './comp/Register';
+import { Slash } from './comp/Slash';
+import { Top } from './comp/Top';
+import { TopIndex } from './comp/TopIndex';
+import { Update } from './comp/Update';
+import { YMD } from './comp/YMD';
+import { YMDIndex } from './comp/YMDIndex';
+import { CreateEvent } from './comp/CreateEvent';
+import { CreateEventIndex } from './comp/CreateEventIndex';
+import { EventId } from './comp/EventId';
+import { EventIdIndex } from './comp/EventIdIndex';
+import { EventUpdate } from './comp/EventUpdate';
+import { CourseName } from './comp/CourseName';
+
 
 function App() {
   return (
-    <body className='bg-gray-200'>
-      <div className=''>
-        <div className='bg-blue-500 font-bold text-white rounded p-4'>Gpart</div>
-        <button className="bg-indigo-700 font-semibold text-white py-2 px-4 ">aa</button>
-        <button className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Message</button>
-        <div className=' rounded '>
-          <ul className='relative bg-sakura-50 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 ml-5 sm:max-w-lg sm:rounded-sm sm:px-10 space-y-6'>
-            <li><a href='https://google.com' className='w-10 text-3xl text-blue-500 hover:bg-blue-100 hover:text-gray-500' >sample</a></li>
-            <li><a href='https://yahoo.co.jp'className='shadow-sm'>sample</a></li>
-            <li><a href='https://cisco.com' className='shadow-sm btn m1'>sample</a></li>
-            <li><a href='https://github.com'className='shadow-sm avatar'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-            <li><a href='https://zenn.dev' className='shadow-sm'>sample</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="avatar">
-      <div className="w-14 rounded-full">
-        <img alt="" src="https://placeimg.com/192/192/people" />
-      </div>
+    <div className="App">
+      <header className="App-header">
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Slash/>}> {/* forceUpdate function context, redirect to top */}
+              <Route path='top' element={<Top/>}> {/* check accessId sign to auto to account */}
+                <Route index element={<TopIndex/>}></Route>
+                <Route path='login' element={<Login/>}></Route>
+                <Route path='register' element={<Register/>}></Route>
+              </Route>
+              <Route path='account' element={<Account/>}> {/* post account to get data */}  
+                <Route index element={<AccountIndex/>}></Route>
+                <Route path='info' element={<Info/>}></Route>
+                <Route path='update' element={<Update/>}></Route>
+                <Route path='createCourse' element={<CreateCourse/>}></Route>
+                <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
+                  <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
+                  <Route path=':year/:month/:date' element={<YMD/>}>
+                    <Route index element={<YMDIndex/>}></Route>
+                  </Route>
+                  <Route path='createEvent' element={<CreateEvent/>}>
+                    <Route index element={<CreateEventIndex/>}></Route>
+                  </Route>
+                  <Route path='event/:eventId' element={<EventId/>}>
+                    <Route index element={<EventIdIndex/>}></Route>
+                    <Route path='update' element={<EventUpdate/>}>
+                      <Route index element={<></>}></Route>
+                    </Route>
+                  </Route>
+                </Route>
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </header>
     </div>
-    <input type="text" placeholder="Type here" className="input input-bordered input-info w-full max-w-xs" />
-    <div className="form-control">
-      <label className="label cursor-pointer">
-        <input type="checkbox" checked className="checkbox " />
-      </label>
-    </div>
-    <div className="navbar bg-base-100">
-  <div className="flex-1">
-    <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
-  </div>
-  <div className="flex-none gap-2">
-    <div className="form-control">
-      <input type="text" placeholder="Search" className="input input-bordered" />
-    </div>
-    <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img alt=""src="https://placeimg.com/80/80/people" />
-        </div>
-      </label>
-      <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-        <li>
-          <a className="justify-between">
-            Profile
-            <span className="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-    </body>
-    
   );
 }
 

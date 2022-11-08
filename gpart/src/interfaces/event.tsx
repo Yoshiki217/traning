@@ -1,4 +1,6 @@
 export interface createEventType{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     eventTypeInfo: {
@@ -8,6 +10,8 @@ export interface createEventType{
 }
 
 export interface eventTypes{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     eventTypes: {
@@ -17,6 +21,8 @@ export interface eventTypes{
 }
 
 export interface changeEventTypeName{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     eventTypeinfo: {
@@ -26,11 +32,15 @@ export interface changeEventTypeName{
 }
 
 export interface removeEventType{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string
 }
 
 export interface createEvent{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     eventInfo: {
@@ -53,6 +63,8 @@ export interface createEvent{
 }
 
 export interface updateEvent{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     eventInfo: {
@@ -75,6 +87,8 @@ export interface updateEvent{
 }
 
 export interface events{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     events: {
@@ -96,16 +110,22 @@ export interface events{
 }
 
 export interface removeEvent{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string
 }
 
 export interface logEvent{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string
 }
 
 export interface event{
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     eventInfo: {

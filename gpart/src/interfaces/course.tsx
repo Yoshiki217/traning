@@ -1,4 +1,6 @@
 export interface createCourse {
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string
     subaccount: {
@@ -13,11 +15,15 @@ export interface createCourse {
 }
 
 export interface removeCourse {
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string
 }
 
 export interface changeCourseName {
+    auth: boolean,
+    sign: string
     status: boolean,
     errormessage: string,
     courseName: string
