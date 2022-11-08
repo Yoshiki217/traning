@@ -20,38 +20,27 @@ con = mysql.createConnection({
 function dropTable(tableName){
     sql = `DROP TABLE IF EXISTS ${tableName}`
     // mysql命令を実行
-    con.query(sql, function(err){
-        if(err) throw err
-        console.log("テーブル : " + tableName + " -> 削除")
-    })
+    con.query(sql)
+    console.log("テーブル : " + tableName + " -> 削除")
 }
 
 function dropView(viewName){
     sql = `DROP VIEW IF EXISTS ${viewName}`
-    con.query(sql, function(err){
-        if(err) throw err
-        console.log("ビュー : " + viewName + " -> 削除")
-    })
+    con.query(sql)
+    console.log("ビュー : " + viewName + " -> 削除")
 }
 
 function createTable(sql, tableName){
     // mysql命令を実行
-    con.query(sql, function(err){
-        if(err) throw err;
-        console.log("テーブル : " + tableName + " -> 作成")
-    })
+    con.query(sql)
+    console.log("テーブル : " + tableName + " -> 作成")
 }
 
 function createView(sql, viewName){
      // mysql命令を実行
-    con.query(sql, function(err){
-        if(err) throw err;
-        console.log("ビュー : " + viewName + " -> 作成")
-    })   
+    con.query(sql)
+    console.log("ビュー : " + viewName + " -> 作成")
 }
-
-// コネクションを始まる
-con.connect()
 
 //////////////////////////// drop table, view
 dropView("accountView")
@@ -118,7 +107,7 @@ sql = `CREATE TABLE course(
         courseName VARCHAR(20),
         idSeito INT,
         idSensei INT,
-        CONSTRAINT fk_acc1 FOREIGN KEY (idSensei) REFERENCES account(idSensei) ON DELETE CASCADE)
+        CONSTRAINT fk_acc1 FOREIGN KEY (idSensei) REFERENCES account(idSensei) ON DELETE CASCADE,
         CONSTRAINT fk_acc2 FOREIGN KEY (idSeito) REFERENCES account(id) ON DELETE CASCADE)`
 createTable(sql, tableName)
 
@@ -141,7 +130,7 @@ sql = `CREATE TABLE event(
         eventWeightAmount INT,
         eventWeightUnit VARCHAR(20),
         eventTimesAmount INT,
-        eventTimeUnit VARCHAR(20),
+        eventTimesUnit VARCHAR(20),
         date DATE,
 	CONSTRAINT fk_idsei2 FOREIGN KEY (idSeito) REFERENCES account(id) ON DELETE CASCADE,
         CONSTRAINT fk_eventT FOREIGN KEY (eventTypeId) REFERENCES eventType(eventTypeId) ON DELETE CASCADE)`

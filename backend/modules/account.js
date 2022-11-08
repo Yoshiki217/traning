@@ -1,23 +1,4 @@
-const connectDatabase = () => {
-    mysql = require("mysql2")
-    con = mysql.createConnection({
-        host: "localhost",
-        user: "projectg",
-        password: "fitness",
-        database: "customerdb"
-    })
-    return con
-}
-
-exports.connectDatabase
-
-// [
-//     {field: value, field: value},
-//     {},
-//     {}
-// ]
-
-const checkAuth = (accessId, sign) => {
+const checkAuth = (accessId, sign, con) => {
     let json = {
         auth: false,
         sign: '',
@@ -26,77 +7,51 @@ const checkAuth = (accessId, sign) => {
     }
     //accessIdとsignの存在チェック
     //一つだけレコード存在したらauth: trueにし、返す
-    con = connectDatabase()
-    con.connect()
+    let result = con.query(`SELECT accessId, sign, id FROM access WHERE accessId = ${accessId} AND sign = "${sign}`)
+    if(result.length != 0){
+        json.auth = true
+        json.sign = result[0].sign
+        json.id = result[0].id
+        let result_isMain = con.query(`SELECT idSensei FROM account WHERE id = ${result[0].id}`)
+        if(result_isMain==0){
+            json.isMain = true
+        }
+    }
 
-    sql = `SELECT accessId, sign, id FROM access WHERE accessId = ${accessId}`
-    con.query(sql, (err, result)=>{
-        if(err) throw err
-        // accessIdは見つからない
-        if(result.length==0){
-            json.erromessage = "accessIdは見つからない"
-            con.end()
-        }
-        // signは合わない
-        else if(result[0].sign!=sign){
-            json.erromessage = "signは合わない"
-            con.end()
-        }
-        // accessId, sign は合う
-        else{
-            json.sign = sign
-            json.id = result[0].id
-            sql = `SELECT idSensei FROM account WHERE id = ${result[0].id}`
-            con.query(sql, (err, result)=>{
-                if(err) throw err
-                if(result.length==0){
-                    json.isMain = true
-                    json.auth = true
-                    con.end()
-                }
-            })
-        }
-    })    
     return json
 }
 
 exports.checkAuth
 
-exports.register = (accountName, password) => {
+exports.register = (accountName, password, con) => {
     let json = {
         status: false,
-        erromessage: ''
+        errormessage: ''
     }
     //新しアカウント作成、この時isMainの値はtrue
     //成功したらstatus: trueにして返す
     //失敗したらerrormessageにメッセジー入れて返す
-    sql = `SELECT accountName FROM account WHERE accountName="${accountName}"`
-    con = connectDatabase()
-    con.connect()
-    con.query(sql, (err, result)=>{
-        if(err) throw err
-        if(result.length!=0){
-            json.erromessage = "このaccountNameはすでに登録された"
-            con.end()
+    let auth = checkAuth(accessId, sign)
+    if(auth.isMain){
+        let r_accountName = con.query(`SELECT accountName FROM account WHERE accountName="${accountName}" FOR UPDATE`)
+        if(r_accountName!=0){
+            json.errormessage = "このaccountNameはすでに登録された。"
         }else{
-            sql = `INSERT INTO account(accountName, password) 
-                    VALUES("${accountName}","${password}")`
-            con.query(sql, (err)=>{
-                if(err) throw err
-                con.query("COMMIT", ()=>{
-                    json.status = true
-                    con.end()
-                })
-            })
+            con.query(`INSERT INTO account(accountName, password) VALUES("${accountName}","${password}")`)
+            con.query("COMMIT")
+            json.status = true
         }
-    })
+    }else{
+        json.errormessage = "アカウントが先生以外は操作できません。"
+    }
+    
     return json
 }
 
-exports.login = (accountName, password) => {
+exports.login = (accountName, password, con) => {
     let json = {
         status: false,
-        erromessage: '',
+        errormessage: '',
         accessId: 0,
         sign: ''
         //isMainいらない
@@ -104,77 +59,46 @@ exports.login = (accountName, password) => {
     //accountNameとpasswordの存在チェック
     //存在したら新しいaccessレコード作成し、accessIdとsignに該当の値を入れて、アカウント検索、isMainの値を入れてstatus: trueにして返す
     //存在しなければerrormessageにメッセジー入れて返す
-    con = connectDatabase()
-    con.connect()
+    let r_check = con.query(`SELECT id, accountName, password, idSensei FROM account WHERE accountName ="${accountName}" FOR UPDATE`)
+    if(r_check==0){
+        json.errormessage = "accountNameは間違う又はまだ登録していません。"
+        con.query("ROLLBACK")
+    }else if(password!=r_check[0].password){
+        json.errormessage = "passwordは間違います。"
+        con.query("ROLLBACK")
+    }else{
+        let id = r_check[0].id
+        // signを作成
+        let crypto = require("crypto")
+        let sign = crypto.randomBytes(25).toString('hex')
+        
+        let r_insert_sign = con.query(`INSERT INTO access(sign, id) VALUES("${sign}","${id}")`)
+        con.query("COMMIT")
 
-    sql = `SELECT id, accountName, password, idSensei FROM account 
-             WHERE accountName ="${accountName}"`
-    con.query(sql, (err, result)=>{
-        if(err) throw err
-        // acountName見つからない
-        if(result.length==0){
-            json.erromessage = "accountNameは間違う又はまだ登録してない"
-            con.end()
-        }
-        // passwordが違う
-        else if(password!=result[0].password){
-            json.erromessage = "passwordは間違う"
-            con.end()
-        }
-        // acountName, passwordが合う
-        else {
-            id = result[0].id
-
-            // signを作成
-            crypto = require("crypto")
-            sign = crypto.randomBytes(25).toString('hex')
-
-            sql = `INSERT INTO access(sign, id) VALUES("${sign}","${id}")`
-            con.query(sql, (err)=>{
-                if(err) throw err
-                sql = `SELECT accessId FROM access WHERE sign = "${sign}" AND id = ${id}`
-                con.query(sql, (err, result)=>{
-                    if(err) throw err
-                    json.accessId = result[0].accessId
-                    json.sign = sign
-                    con.query("COMMIT", ()=>{
-                        json.status = true
-                        con.end()
-                    })
-                })
-                
-            })
-        }
-    })
+        json.accessId = r_insert_sign.insertId
+        json.sign = sign
+        json.status = true
+    }
     return json
 }
 
-exports.logout = (accessId, sign) => {
+exports.logout = (accessId, sign, con) => {
     let json = {
         status: false,
         erromessage: ''
     }
     let auth = checkAuth(accessId, sign)
-
-    //該当のaccessレコードを削除status: true
+    //該当のaccessレコードを削除status: true  
     if(auth.auth){
-        con = connectDatabase()
-        con.connect()
-
-        sql = `DELETE FROM access WHERE accessId = ${accessId}`
-        con.query(sql, (err)=>{
-            if(err) throw err
-            con.query("COMMIT", ()=>{
-                json.status = true
-                con.end()
-            })
-        })
+        con.query(`SELECT 1 FROM access LIMIT 1 FOR UPDATE`)
+        con.query(`DELETE FROM access WHERE accessId = ${accessId}`)
+        con.query("COMMIT")
+        json.status = true
     }
-    
     return {...json, ...auth}
 }
 
-exports.account = (accessId, sign) => {
+exports.account = (accessId, sign, con) => {
     let json = {
         status: false,
         erromessage: '',
@@ -208,126 +132,157 @@ exports.account = (accessId, sign) => {
     //auth.auth==falseしたら実行中断
     //アカウント情報入れてstatus: trueにして返す
     if(auth.auth){
-        con = connectDatabase()
-        con.connect()
-    
-        id = auth.id
-        sql = `SELECT id, idSensei, accountName, courseName FROM accountView WHERE id = "${id}"`
-        con.query(sql, (err, result_accountView)=>{
-            if(err) throw err
-            json.accountInfo.isMain = auth.isMain
-            // idの情報を取得
-            sql = `SELECT name, email, birthday, telNum, sex, address FROM information WHERE id = "${id}"`
-            con.query(sql, (err, result_information)=>{
-                if(err) throw err
-                course = {
-                    courseName: '',
-                    subAccountInfo: {
-                        accountName: '',
+        let id = auth.id
+        let r_accountView = con.query(`SELECT id, idSensei, accountName, courseName FROM accountView WHERE id = "${id}"`)
+        let r_information = con.query(`SELECT name, email, DATE_FORMATE(birthday, '%Y-%m-%d') AS birthday, telNum, sex, address FROM information WHERE id = "${id}"`)
+
+        // isMain == true -> idは先生　->　idの情報を取得　-> idSensei = id の各idの情報を取得
+        if(auth.isMain){  
+            // 個人情報がない
+            if(r_information.length==0){
+                json = {
+                    status: false,
+                    erromessage: '',
+                    accountInfo: {
+                        accountName: r_accountView[0].accountName,
                         userName: '',
                         email: '',
                         birthday: '',
                         phone: '',
                         sex: 0,
                         address: '',
+                        isMain: auth.isMain,
+                        courses: [],
                     }
                 }
-                if(result_information.length == 0){
-                    json.accountInfo.accountName    = result_accountView[0].accountName
-                    // isMain == false -> idは生徒  -> idの情報を取得
-                    if(!json.accountInfo.isMain){
-                        course.courseName = result_accountView[0].courseName
-                        course.subAccountInfo.accountName = result_accountView[0].accountName
-                        json.accountInfo.courses.push(course)
-                        con.end()
+            }
+            // 個人情報がある
+            else{
+                json = {
+                    status: true,
+                    erromessage: '',
+                    accountInfo: {
+                        accountName: r_accountView[0].accountName,
+                        userName: r_information[0].name,
+                        email: r_information[0].email,
+                        birthday: r_information[0].birthday,
+                        phone: r_information[0].telNum,
+                        sex: r_information[0].sex,
+                        address: r_information[0].address,
+                        isMain: auth.isMain,
+                        courses: [],
                     }
-                }else{
-                    json.accountInfo.accountName    = result_accountView[0].accountName
-                    json.accountInfo.userName       = result_information[0].name
-                    json.accountInfo.email          = result_information[0].email
-                    json.accountInfo.birthday       = result_information[0].birthday
-                    json.accountInfo.phone          = result_information[0].telNum
-                    json.accountInfo.sex            = result_information[0].sex
-                    json.accountInfo.address        = result_information[0].address
-                    // isMain == false -> idは生徒  -> idの情報を取得
-                    if(!json.accountInfo.isMain){
-                        course = {
-                            courseName: result_accountView[0].courseName,
-                            subAccountInfo: {
-                                accountName: result_accountView[0].accountName,
-                                userName: result_information[0].name,
-                                email: result_information[0].email,
-                                birthday: result_information[0].birthday,
-                                phone: result_information[0].telNum,
-                                sex: result_information[0].sex,
-                                address: result_information[0].address,
-                            }
+                }
+            }
+            // idSensei = id の各idの情報を取得
+            let r_idSeito = con.query(`SELECT  a1.accountName, a1.courseName, 
+                                            i2.name, i2.email, DATE_FORMATE(i2.birthday, '%Y-%m-%d') AS birthday, i2.telNum, i2.sex, i2.address 
+                                    FROM accountView a1 
+                                    LEFT JOIN information i2 
+                                    ON a1.id = i2.id 
+                                    WHERE idSensei = ${id}
+                                    ORDER BY a1.id`)
+            r_idSeito.foreach(i=>{
+                if(i.name!=null){
+                    json.accountInfo.courses.push({
+                        courseName: i.courseName,
+                        subAccountInfo: {
+                            accountName: i.accountName,
+                            userName: i.name,
+                            email: i.email,
+                            birthday: i.birthday,
+                            phone: i.telNum,
+                            sex: i.sex,
+                            address: i.address,
                         }
-                        json.accountInfo.courses.push(course)
-                        con.end()
-                    }
-                    json.status = true
-                }
-                // isMain == true -> idは先生　->　idの情報を取得　-> idSensei = id の各idの情報を取得
-                if(json.accountInfo.isMain){
-                    sql = `SELECT id, courseName, accountName FROM accountView WHERE idSensei = "${id}" ORDER BY id`
-                    con.query(sql, (err, result_idSeito)=>{
-                        if(err) throw err
-                        idSeito = []
-                        result_idSeito.forEach(idS => {
-                            idSeito.push(idS.id)
-                        })
-                        sql = `SELECT  a1.id, a1.accountName, a1.courseName, 
-                                        i2.name, i2.email, i2.birthday, i2.telNum, i2.sex, i2.address 
-                                FROM accountView a1 
-                                LEFT JOIN information i2 
-                                ON a1.id = i2.id 
-                                WHERE id IN (?) ORDER BY id`
-                        con.query(sql, idSeito,(err, result_idSeito_information)=>{
-                            if(err) throw err
-                            result_idSeito_information.forEach(info=>{
-                                if(info==null){
-                                    course = {
-                                        courseName: '',
-                                        subAccountInfo: {
-                                            accountName: '',
-                                            userName: '',
-                                            email: '',
-                                            birthday: '',
-                                            phone: '',
-                                            sex: 0,
-                                            address: '',
-                                        }
-                                    }
-                                    json.accountInfo.courses.push(course)
-                                }else{
-                                    course = {
-                                        courseName: info.courseName,
-                                        subAccountInfo: {
-                                            accountName: info.accountName,
-                                            userName: info.name,
-                                            email: info.email,
-                                            birthday: info.birthday,
-                                            phone: info.telNum,
-                                            sex: info.sex,
-                                            address: info.address,
-                                        }
-                                    }
-                                    json.accountInfo.courses.push(course)
-                                }
-                            })
-                        })
+                    })
+                }else{
+                    json.accountInfo.courses.push({
+                        courseName: i.courseName,
+                        subAccountInfo: {
+                            accountName: i.accountName,
+                            userName: '',
+                            email: '',
+                            birthday: '',
+                            phone: '',
+                            sex: 0,
+                            address: '',
+                        }
                     })
                 }
             })
-        })
-    
+        }
+        // isMain == false -> idは生徒  -> idの情報を取得
+        else{ 
+            // 個人情報がない
+            if(r_information.length==0){
+                json = {
+                    status: false,
+                    erromessage: '',
+                    accountInfo: {
+                        accountName: r_accountView[0].accountName,
+                        userName: '',
+                        email: '',
+                        birthday: '',
+                        phone: '',
+                        sex: 0,
+                        address: '',
+                        isMain: auth.isMain,
+                        courses: [
+                            {
+                                courseName: r_accountName[0].courseName,
+                                subAccountInfo: {
+                                    accountName: r_accountView[0].accountName,
+                                    userName: '',
+                                    email: '',
+                                    birthday: '',
+                                    phone: '',
+                                    sex: 0,
+                                    address: '',
+                                }
+                            }
+                        ],
+                    }
+                }
+            }
+            // 個人情報がある
+            else{
+                json = {
+                    status: true,
+                    erromessage: '',
+                    accountInfo: {
+                        accountName: r_accountView[0].accountName,
+                        userName: r_information[0].name,
+                        email: r_information[0].email,
+                        birthday: r_information[0].birthday,
+                        phone: r_information[0].telNum,
+                        sex: r_information[0].sex,
+                        address: r_information[0].address,
+                        isMain: auth.isMain,
+                        courses: [
+                            {
+                                courseName: r_accountName[0].courseName,
+                                subAccountInfo: {
+                                    accountName: r_accountView[0].accountName,
+                                    userName: r_information[0].name,
+                                    email: r_information[0].email,
+                                    birthday: r_information[0].birthday,
+                                    phone: r_information[0].telNum,
+                                    sex: r_information[0].sex,
+                                    address: r_information[0].address,
+                                }
+                            }
+                        ],
+                    }
+                }
+            }
+        }
 
+        return {...json, ...auth}
     }
-    return {...json, ...auth}
 }
 
-exports.updateInfo = (accessId, sign, accountName, info) => {
+exports.updateInfo = (accessId, sign, info, con) => {
     // infoの中味
     // info = {
     //     userName: '',
@@ -347,30 +302,20 @@ exports.updateInfo = (accessId, sign, accountName, info) => {
     //権限があれば該当情報アップデート、status: trueにして返す
     //権限がなければerrormessageにメッセジーを入れる
     if(auth.auth){
-        con = connectDatabase()
-        con.connect()
-
-        id = auth.id
-        sql = `UPDATE account SET accountName = "${accountName}" WHERE id = "${id}"`
-        con.query(sql, (err)=>{
-            if(err) throw err
-        })
-
-        sql = `UPDATE information 
-                SET name = "${info.userName}",
-                    birthday = "${info.birthday}",
-                    address = "${info.address}",
-                    telNum = "${info.phone}",
-                    email = "${info.email}",
-                    sex = ${info.sex},
-                WHERE id = "${id}"`
-        con.query(sql, (err)=>{
-            if(err) throw err
-            con.query("COMMIT", ()=>{
-                json.status = true
-                con.end()
-            })
-        })
+        let id = auth.id
+        con.query('SELECT 1 FROM information LIMIT 1 FOR UPDATE')
+        con.query(`INSERT INTO information(id, name, email, birthday, telNum, sex, address) VALUES (
+            ${id}, ?, ?, ?, ?, ?, ?
+        ) ON DUPLICATE KEY UPDATE
+            name = ${info.userName},
+            email = ${info.email},
+            birthday = ${info.birthday},
+            telNum = ${info.phone},
+            sex = ${info.sex},
+            address = ${info.address}
+        `, info)
+        con.query("COMMIT")
+        json.status = true
     }
     return {...json, ...auth}
 }

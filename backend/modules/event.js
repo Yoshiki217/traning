@@ -1,6 +1,6 @@
 const checkAuth = require('./account').checkAuth;
 
-exports.createEventType = (accessId, sign, info) => {
+exports.createEventType = (accessId, sign, info, con) => {
     // infoの中味
     // info = {
     //      eventTypeName: ''
@@ -13,46 +13,30 @@ exports.createEventType = (accessId, sign, info) => {
             eventTypeName: ''
         }
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //eventTypeを作成して、情報を入れてstaus: trueにして返す
     if(auth.auth){
         if(auth.isMain){
-            con = connectDatabase()
-            con.connect()
-            sql = `SELECT eventTypeName FROM eventType WHERE idSensei = ${auth.id}`
-            con.query(sql, (err, result)=>{
-                if(err) throw err
-                flag = true
-                for(i=0 ; i<result.length ; i++){
-                    if(result[i].eventTypeName == info.eventTypeName){
-                        json.errormessage = `${info.eventTypeName}の種目類名は既に登録されています。`
-                        flag = false
-                        con.end()
-                        break
-                    }
+            let r_eventTypeName = con.query(`SELECT eventTypeName FROM eventType WHERE idSensei = ${auth.id}`)
+            let flag = true
+            for(i=0 ; i<r_eventTypeName.length ; i++){
+                if(r_eventTypeName[i].eventTypeName == info.eventTypeName){
+                    json.errormessage = `${info.eventTypeName}の種目類名は既に登録されています。`
+                    flag = false
+                    break
                 }
-                if(flag){
-                    sql = `INSERT INTO eventType(idSensei, eventTypeName) 
-                            VALUES (${auth.id},"${info.eventTypeName}")`
-                    con.query(sql, (err)=>{
-                        if(err) throw err
-                        sql = `SELECT eventTypeId FROM eventType 
-                                WHERE idSensei = ${auth.id} 
-                                AND eventTypeName = "${info.eventTypeName}"`
-                        con.query(sql, (err,result)=>{
-                            if(err) throw err
-                            json.eventTypeInfo.eventTypeId = result[0].eventTypeId
-                            json.eventTypeInfo.eventTypeName = info.eventTypeName
-                            con.query("COMMIT",()=>{
-                                json.status = true
-                                con.end()
-                            })
-                        })
-                    })
-                }
-            })
+            }
+            if(flag){
+                con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
+                let r_insert_into_eventType = con.query(`INSERT INTO eventType(idSensei, eventTypeName) 
+                                                        VALUES (${auth.id},"${info.eventTypeName}")`)
+                con.query("COMMIT")
+                json.eventTypeInfo.eventTypeId = r_insert_into_eventType.insertId
+                json.eventTypeInfo.eventTypeName = info.eventTypeName
+                json.status = true
+            }
         }else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
@@ -60,7 +44,7 @@ exports.createEventType = (accessId, sign, info) => {
     return {...json, ...auth}
 }
 
-exports.eventTypes = (accessId, sign) => {
+exports.eventTypes = (accessId, sign, con) => {
     let json = {
         status: false,
         errormessage: '',
@@ -71,82 +55,25 @@ exports.eventTypes = (accessId, sign) => {
             // }
         ]
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //eventTypeリストを入れてstatus: trueにして返す
     if(auth.auth){
         if(auth.isMain){
-            con = connectDatabase()
-            con.connect()
-            sql = `SELECT eventTypeId, eventTypeName FROM eventType 
-                    WHERE idSensei = ${auth.id}`
-            con.query(sql, (err, result)=>{
-                if(err) throw err
-                if(result.length==0){
-                    json.errormessage = "このアカウントは種目類まだ作成していません。"
-                }else if(result.length!=0){
-                    eventType = {
-                        eventTypeId: 0,
-                        eventTypeName: ''
-                    }
-                    result.foreach(et =>{
-                        eventType.eventTypeId = et.eventTypeId
-                        eventType.eventTypeName = et.eventTypeName
-                        json.eventTypes.push(eventType)
+            let r_eventType = con.query(`SELECT eventTypeId, eventTypeName FROM eventType 
+                    WHERE idSensei = ${auth.id}`)
+            if(r_eventType.length==0){
+                json.errormessage = "このアカウントは種目類まだ作成していません。"
+            }
+            else{
+                r_eventType.foreach(et =>{
+                    json.eventTypes.push({
+                        eventTypeId: et.eventTypeId,
+                        eventTypeName: et.eventTypeName
                     })
-                    json.status = true
-                    con.end()
-                }
-            })
-        }else{
-            json.errormessage = "アカウントが先生以外は操作できません。"
-        }
-    }
-    return {...json, ...auth}
-}
-
-exports.changeEventTypeName = (accessId, sign, eventTypeId, afterEventTypeName) => {
-    let json = {
-        status: false, 
-        errormessage: '',
-        eventTypeInfo: {
-            eventTypeId: 0,
-            eventTypeName: ''
-        }
-    }
-    let auth = checkAuth(accessId, sign)
-    //auth.auth==falseしたら中断
-    //accessアカウントは先生チェック、そうでなければ中断
-    //accessアカウントはeventTypeIdにアクセス権限を調べる、なければ中断
-    //該当のeventType名を更新、新しい情報を入れて返す
-    if(auth.auth){
-        if(auth.isMain){
-            eventTypes = eventTypes(accessId, sign)
-            if(eventTypes.status){
-                sql = `SELECT eventTypeName FROM eventType 
-                        WHERE idSensei = ${auth.id} 
-                        AND eventTypeId = ${eventTypeId}`
-                con.query(sql, (err, result)=>{
-                    if(err) throw err
-                    if(afterEventTypeName == result[0].eventTypeName){
-                        json.errormessage = "新の種目類名は元の種目類名と同じです。"
-                        con.end()
-                    }else{
-                        sql = `UPDATE eventType SET eventTypeName = "${afterEventTypeName}" 
-                                WHERE idSensei = ${auth.id} 
-                                AND eventTypeId = ${eventTypeId}`
-                        con.query(sql, (err)=>{
-                            if(err) throw err
-                            con.query("COMMIT", ()=>{
-                                json.status = true
-                                json.eventTypeInfo.eventTypeId = eventTypeId
-                                json.eventTypeInfo.eventTypeName = afterEventTypeName
-                                con.end()
-                            })
-                        })
-                    }
                 })
+                json.status = true
             }
         }else{
             json.errormessage = "アカウントが先生以外は操作できません。"
@@ -155,30 +82,38 @@ exports.changeEventTypeName = (accessId, sign, eventTypeId, afterEventTypeName) 
     return {...json, ...auth}
 }
 
-exports.removeEventType = (accessId, sign, eventTypeId) => {
+exports.changeEventTypeName = (accessId, sign, eventTypeId, afterEventTypeName, con) => {
     let json = {
-        status: false,
-        errormessage: ''
+        status: false, 
+        errormessage: '',
+        eventTypeInfo: {
+            eventTypeId: 0,
+            eventTypeName: ''
+        }
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //accessアカウントはeventTypeIdにアクセス権限を調べる、なければ中断
-    //該当のeventTypeを削除、status: trueにして返す
+    //該当のeventType名を更新、新しい情報を入れて返す
     if(auth.auth){
         if(auth.isMain){
-            con = connectDatabase()
-            con.connect()
-            sql = `DELETE FROM eventType 
-                    WHERE eventTypeId = ${eventTypeId} 
-                    AND idSensei = ${auth.id}`
-            con.query(sql, (err)=>{
-                if(err) throw err
-                con.query("COMMIT", ()=>{
-                    json.status = true
-                    con.end()
-                })
-            })
+            let r_eventTypeName = con.query(`SELECT eventTypeName FROM eventType 
+                    WHERE idSensei = ${auth.id} 
+                    AND eventTypeId = ${eventTypeId}`)
+            if(afterEventTypeName == r_eventTypeName[0].eventTypeName){
+                json.errormessage = "新の種目類名は元の種目類名と同じです。"
+            }
+            else{
+                con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
+                con.query(`UPDATE eventType SET eventTypeName = "${afterEventTypeName}" 
+                        WHERE idSensei = ${auth.id} 
+                        AND eventTypeId = ${eventTypeId}`)
+                con.query("COMMIT")
+                json.status = true
+                json.eventTypeInfo.eventTypeId = eventTypeId
+                json.eventTypeInfo.eventTypeName = afterEventTypeName
+            }
         }else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
@@ -186,7 +121,32 @@ exports.removeEventType = (accessId, sign, eventTypeId) => {
     return {...json, ...auth}
 }
 
-exports.createEvent = (accessId, sign, info) => {
+exports.removeEventType = (accessId, sign, eventTypeId, con) => {
+    let json = {
+        status: false,
+        errormessage: ''
+    }
+    let auth = checkAuth(accessId, sign, con)
+    //auth.auth==falseしたら中断
+    //accessアカウントは先生チェック、そうでなければ中断
+    //accessアカウントはeventTypeIdにアクセス権限を調べる、なければ中断
+    //該当のeventTypeを削除、status: trueにして返す
+    if(auth.auth){
+        if(auth.isMain){
+            con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
+            con.query(`DELETE FROM eventType 
+                    WHERE eventTypeId = ${eventTypeId} 
+                    AND idSensei = ${auth.id}`)
+            con.query("COMMIT")
+            json.status = true
+        }else{
+            json.errormessage = "アカウントが先生以外は操作できません。"
+        }
+    }
+    return {...json, ...auth}
+}
+
+exports.createEvent = (accessId, sign, info, con) => {
     /*
     typeof info = {
         courseName: string,
@@ -207,71 +167,60 @@ exports.createEvent = (accessId, sign, info) => {
         status: false,
         errormessage: '',
         eventInfo: {
-            eventId: 0,
-            eventName: '',
-            eventType: {
-                eventTypeId: 0,
-                eventTypeName: ''
-            },
-            eventWeight: {
-                amount: 0,
-                unit: ''
-            },
-            eventTimes: {
-                amount: 0,
-                unit: ''
-            },
-            date: ''
+            // eventId: 0,
+            // eventName: '',
+            // eventType: {
+            //     eventTypeId: 0,
+            //     eventTypeName: ''
+            // },
+            // eventWeight: {
+            //     amount: 0,
+            //     unit: ''
+            // },
+            // eventTimes: {
+            //     amount: 0,
+            //     unit: ''
+            // },
+            // date: ''
         }
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //新しいイベントを作成、該当情報を入れてstatus: trueにして返す
     if(auth.auth){
         if(auth.isMain){
-            con = connectDatabase()
-            con.connect()
-            sql = `SELECT id FROM accountView WHERE idSensei = ${auth.id} AND courseName = "${info.courseName}"`
-            con.query(sql, (err, result_id_seito)=>{
-                if(err) throw err
-                sql = `INSERT INTO event (idSeito, eventTypeId, eventName, 
-                            eventWeightAmount, eventWeightUnit, 
-                            eventTimesAmount, eventTimeUnit, date) 
-                        VALUES(
-                            ${result_id_seito[0].id}, "${info.eventTypeId}", "${info.eventName}", 
-                            "${info.eventWeight.amount}", "${info.eventWeight.unit}", 
-                            "${info.eventTimes.amount}", "${info.eventTimes.unit}", "${info.date}"
-                        )`
-                con.query(sql, (err)=>{
-                    if(err) throw err
-                    sql = `SELECT eventTypeName FROM eventType WHERE eventTypeId = ${info.eventTypeId}`
-                    con.query(sql, (err, result)=>{
-                        if(err) throw err
-                        con.query("COMMIT",()=>{
-                            json.eventInfo = {
-                                eventId: 0,
-                                eventName: info.eventName,
-                                eventType: {
-                                    eventTypeId: info.eventTypeId,
-                                    eventTypeName: result[0].eventTypeName
-                                },
-                                eventWeight: {
-                                    amount: info.eventWeight.amount,
-                                    unit: info.eventWeight.unit
-                                },
-                                eventTimes: {
-                                    amount: info.eventTimes.amount,
-                                    unit: info.eventTimes.unit
-                                },
-                                date: info.date
-                            }
-                            json.status = true
-                            con.end()
-                        })
-                    })
-                })
-            })
+            let r_id_seito = `SELECT id FROM accountView WHERE idSensei = ${auth.id} AND courseName = "${info.courseName}"`
+            con.query("SELECT 1 FROM event LIMIT FOR UPDATE")
+            let r_insert_into_event = con.query(`INSERT INTO event (idSeito, eventTypeId, eventName, 
+                eventWeightAmount, eventWeightUnit, 
+                eventTimesAmount, eventTimeUnit, date) 
+            VALUES(
+                ${r_id_seito[0].id}, "${info.eventTypeId}", "${info.eventName}", 
+                "${info.eventWeight.amount}", "${info.eventWeight.unit}", 
+                "${info.eventTimes.amount}", "${info.eventTimes.unit}", "${info.date}"
+            )`)
+            con.query("COMMIT")
+
+            let r_eventTypeName = con.query(`SELECT eventTypeName FROM eventType WHERE eventTypeId = ${info.eventTypeId}`)
+            json.eventInfo = {
+                eventId: r_insert_into_event.insertId,
+                eventName: info.eventName,
+                eventType: {
+                    eventTypeId: info.eventTypeId,
+                    eventTypeName: r_eventTypeName[0].eventTypeName
+                },
+                eventWeight: {
+                    amount: info.eventWeight.amount,
+                    unit: info.eventWeight.unit
+                },
+                eventTimes: {
+                    amount: info.eventTimes.amount,
+                    unit: info.eventTimes.unit
+                },
+                date: info.date
+            }
+            json.status = true
         }else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
@@ -279,7 +228,7 @@ exports.createEvent = (accessId, sign, info) => {
     return {...json, ...auth}
 }
 
-exports.updateEvent = (accessId, sign, eventId, info) => {
+exports.updateEvent = (accessId, sign, eventId, info, con) => {
     /*
     typeof info = {
         eventName: string,
@@ -299,33 +248,32 @@ exports.updateEvent = (accessId, sign, eventId, info) => {
         status: false,
         errormessage: '',
         eventInfo: {
-            eventId: 0,
-            eventName: '',
-            eventType: {
-                eventTypeId: 0,
-                eventTypeName: ''
-            },
-            eventWeight: {
-                amount: 0,
-                unit: ''
-            },
-            eventTimes: {
-                amount: 0,
-                unit: ''
-            },
-            date: ''
+            // eventId: 0,
+            // eventName: '',
+            // eventType: {
+            //     eventTypeId: 0,
+            //     eventTypeName: ''
+            // },
+            // eventWeight: {
+            //     amount: 0,
+            //     unit: ''
+            // },
+            // eventTimes: {
+            //     amount: 0,
+            //     unit: ''
+            // },
+            // date: ''
         }
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //accessアカウントはeventIdにアクセス権限を調べる、なければ中断
     //イベントの情報を更新、該当情報を入れてstatus: trueにして返す
     if(auth.auth){
         if(auth.isMain){
-            con = connectDatabase()
-            con.connect()
-            sql = `UPDATE event 
+            con.query("SELECT 1 FROM event LIMIT 1 FOR UPDATE")
+            con.query(`UPDATE event 
                     SET eventTypeId = ${info.eventTypeId},
                         eventName = "${info.eventName}",
                         eventWeightAmount = ${info.eventWeight.amount},
@@ -333,35 +281,28 @@ exports.updateEvent = (accessId, sign, eventId, info) => {
                         eventTimesAmount = ${info.eventTimes.amount},
                         eventTimesUnit = "${info.eventTimes.unit}"
                         date = "${info.date}"
-                    WHERE eventId = ${eventId}`
-            con.query(sql, (err)=>{
-                if(err) throw err
-                sql = `SELECT eventTypeName FROM eventType WHERE eventTypeId = ${info.eventTypeId}`
-                con.query(sql, (err, result)=>{
-                    if(err) throw err
-                    con.query("COMMIT", ()=>{
-                        json.eventInfo = {
-                            eventId: eventId,
-                            eventName: info.eventName,
-                            eventType: {
-                                eventTypeId: info.eventTypeId,
-                                eventTypeName: result[0].eventTypeName
-                            },
-                            eventWeight: {
-                                amount: info.eventWeight.amount,
-                                unit: info.eventWeight.unit
-                            },
-                            eventTimes: {
-                                amount: info.eventTimes.amount,
-                                unit: info.eventTimes.unti
-                            },
-                            date: info.date
-                        }
-                        json.status = true
-                        con.end()
-                    })
-                })
-            })
+                    WHERE eventId = ${eventId}`)
+            con.query("COMMIT")
+
+            let result = con.query(`SELECT eventTypeName FROM eventType WHERE eventTypeId = ${info.eventTypeId}`)
+            json.eventInfo = {
+                eventId: eventId,
+                eventName: info.eventName,
+                eventType: {
+                    eventTypeId: info.eventTypeId,
+                    eventTypeName: result[0].eventTypeName
+                },
+                eventWeight: {
+                    amount: info.eventWeight.amount,
+                    unit: info.eventWeight.unit
+                },
+                eventTimes: {
+                    amount: info.eventTimes.amount,
+                    unit: info.eventTimes.unti
+                },
+                date: info.date
+            }
+            json.status = true
         }else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
@@ -369,7 +310,7 @@ exports.updateEvent = (accessId, sign, eventId, info) => {
     return {...json, ...auth}
 }
 
-exports.events = (accessId, sign, courseName, date) => {
+exports.events = (accessId, sign, courseName, date, con) => {
     let json = {
         status: false,
         errormessage: '',
@@ -393,60 +334,68 @@ exports.events = (accessId, sign, courseName, date) => {
             // }
         ]
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //イベントリストの情報を入れてstatus: trueにして返す
     if(auth.auth){
-        con = connectDatabase()
-        con.connect()
-        idSeito = -1
+        let idSeito = -1
         if(auth.isMain){
-            sql = `SELECT idSeito FROM accountView 
-                    WHERE courseName = "${courseName}" 
-                    AND idSensei = ${auth.id}`
-            con.query(sql, (err, result)=>{
-                if(err) throw err
-                idSeito = result[0].idSeito
-            })
+            idSeito = con.query(`SELECT idSeito FROM accountView 
+                                WHERE courseName = "${courseName}" 
+                                AND idSensei = ${auth.id}`)[0].idSeito
         }else{
             idSeito = auth.id
         }
-        sql = `SELECT * FROM event WHERE idSeito = ${idSeito} AND date = "${date}"`
-        con.query(sql, (err, result_events)=>{
-            if(err) throw err
-            if(result_events.length==0){
-                json.status = true
-                con.end()
-            }else{
-                sql = `SELECT eventTypeId, eventTypeName FROM eventType WHERE `
-            }
-        })
+        let r_events = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId, 
+                                         et2.eventTypeName, e1.eventWeightAmount, 
+                                         e1.eventWeightUnit, e1.eventTimesAmount, 
+                                         e1.eventTimesUnit, DATE_FORMATE(e1.date, '%Y-%m-%d') as date 
+                                  FROM event e1, eventType et2  
+                                  WHERE e1.eventTypeId = et2.eventTypeId 
+                                  AND e1.idSeito = ${idSeito} 
+                                  AND e1.date = "${date}"`)
+        if(r_events.length!=0){
+            r_events.foreach(e=>{
+                json.events.push({
+                        eventId: e.eventId,
+                        eventName: e.eventName,
+                        eventType: {
+                            eventTypeId: e.eventTypeId,
+                            eventTypeName: e.eventTypeName
+                        },
+                        eventWeight: {
+                            amount: e.eventWeightAmount,
+                            unit: e.eventWeightUnit
+                        },
+                        eventTimes: {
+                            amount: e.eventTimesAmount,
+                            unit: e.eventTimesUnit
+                        },
+                        date: e.date
+                })
+            })
+        }
+        json.status = true
     }
     return {...json, ...auth}
 }
 
-exports.removeEvent = (accessId, sign, eventId) => {
+exports.removeEvent = (accessId, sign, eventId, con) => {
     let json = {
         status: false,
         errormessage: ''
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントは先生チェック、そうでなければ中断
     //accessアカウントはeventIdにアクセス権限を調べる、なければ中断
     //該当のイベントを削除、status: trueにして返す
     if(auth.auth){
         if(auth.isMain){
-            con = connectDatabase()
-            con.connect()
-            sql = `DELETE FROM event WHERE eventId = ${eventId}`
-            con.query(sql, (err)=>{
-                if(err) throw err
-                con.query("COMMIT", ()=>{
-                    json.status = true
-                    con.end()
-                })
-            })
+            con.query("SELECT 1 FROM event LIMIT 1 FOR UPDATE")
+            con.query(`DELETE FROM event WHERE eventId = ${eventId}`)
+            con.query("COMMIT")
+            json.status = true
         }else{
             json.errormessage = "アカウントが先生以外は操作できません。"
         }
@@ -454,32 +403,26 @@ exports.removeEvent = (accessId, sign, eventId) => {
     return {...json, ...auth}
 }
 
-exports.logEvent = (accessId, sign, eventId, logText) => {
+exports.logEvent = (accessId, sign, eventId, logText, con) => {
     let json = {
         status: false,
         errormessage: ''
     }
-    let auth = checkAuth(accessId, sign)
+    let auth = checkAuth(accessId, sign, con)
     //auth.auth==falseしたら中断
     //accessアカウントはeventIdにアクセス権限を調べる、なければ中断
     //イベントにログしてstatus: trueにして返す
     if(auth.auth){
-        con = connectDatabase()
-        con.connect()
-        sql = `INSERT INTO logText(eventId, id, logText) 
-                VALUES (${eventId}, ${auth.id}, "${logText}")`
-        con.query(sql, (err)=>{
-            if(err) throw err
-            con.query("COMMIT", ()=>{
-                json.status = true
-                con.end()
-            })
-        })
+        con.query("SELECT 1 FROM logText LIMIT 1 FOR UPDATE")
+        con.query(`INSERT INTO logText(eventId, id, logText) 
+                VALUES (${eventId}, ${auth.id}, "${logText}")`)
+        con.query("COMMIT")
+        json.status = true
     }
     return {...json, ...auth}
 }
 
-exports.event = (accessId, sign, eventId) =>{
+exports.event = (accessId, sign, eventId, con) =>{
     let json = {
         status: false,
         errormessage: '',
@@ -513,61 +456,51 @@ exports.event = (accessId, sign, eventId) =>{
     //accessアカウントはeventIdにアクセス権限を調べる、なければ中断
     //イベントの情報を入れてstatus: trueにして返す
     if(auth.auth){
-        con = connectDatabase()
-        con.connect()
-        sql = `SELECT * FROM event WHERE eventId = ${eventId}`
-        con.query(sql, (err, result_event)=>{
-            if(err) throw err
-            if(result_event.length==0){
-                json.errormessage = `${eventId}での種目は見つかりません。`
-                con.end()
-            }else{
-                sql = `SELECT eventTypeName FROM eventType WHERE eventTypeId = ${result_event.eventTypeId}`
-                con.query(sql, (err, result_eventType)=>{
-                    if(err) throw err
-                    json.eventInfo = {
-                        eventId: eventId,
-                        eventName: result_event.eventName,
-                        eventType: {
-                            eventTypeId: 0,
-                            eventTypeName: result_eventType.eventTypeName
-                        },
-                        eventWeight: {
-                            amount: result_event.eventWeightAmount,
-                            unit: result_event.eventWeightUnit
-                        },
-                        eventTimes: {
-                            amount: result_event.eventTimesAmount,
-                            unit: result_event.eventTimesUnit
-                        },
-                        date: result_event.date
-                    }
-                    sql = `SELECT logText, accountName, name FROM logText, account 
-                            WHERE logText.id = account.id 
-                            AND eventId = ${eventId} 
-                            LEFT JOIN information USING (id) 
-                            ORDER BY logTextId DESC`
-                    con.query(sql, (err, result_logText)=>{
-                        if(err) throw err
-                        if(result_logText.length==0){
-                            con.end()
-                            json.status = true
-                        }else{
-                            result_logText.foreach(logText =>{
-                                eventLog =  {
-                                    logAccountName: logText.accountName,
-                                    logAccountUserName: logText.name,
-                                    logText: logText.logText
-                                }
-                                json.eventLogs.push(eventLog)
-                            })
-                            json.status = true
-                            con.end()
-                        }
+        let r_event = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId, 
+                                        et2.eventTypeName, e1.eventWeightAmount, 
+                                        e1.eventWeightUnit, e1.eventTimesAmount, 
+                                        e1.eventTimesUnit, DATE_FORMATE(e1.date, '%Y-%m-%d') as date 
+                                FROM event e1, eventType et2  
+                                WHERE e1.eventTypeId = et2.eventTypeId 
+                                AND e1.eventId = ${eventId}`)
+        if(r_event.length==0){
+            json.errormessage = `${eventId}での種目は見つかりません。`
+        }
+        else{
+            json.eventInfo = {
+                eventId: r_event[0].eventId,
+                eventName: r_event[0].eventName,
+                eventType: {
+                    eventTypeId: r_event[0].eventTypeId,
+                    eventTypeName: r_event[0].eventTypeName
+                },
+                eventWeight: {
+                    amount: r_event[0].eventWeightAmount,
+                    unit: r_event[0].eventWeightUnit
+                },
+                eventTimes: {
+                    amount: r_event[0].eventTimesAmount,
+                    unit: r_event[0].eventTimesUnit
+                },
+                date: r_event[0].date
+            }
+            let r_eventLogs = con.query(`SELECT logText, accountName, name 
+                    FROM logText, account 
+                    WHERE logText.id = account.id 
+                    AND eventId = ${r_event[0].eventId} 
+                    LEFT JOIN information USING (id) 
+                    ORDER BY logTextId DESC`)
+            if(r_eventLogs.length!=0){
+                r_eventLogs.foreach(logText =>{
+                    json.eventLogs.push({
+                        logAccountName: logText.accountName,
+                        logAccountUserName: logText.name,
+                        logText: logText.logText
                     })
                 })
             }
-        })
+            json.status = true
+        }
     }
     return {...json, ...auth}
 }

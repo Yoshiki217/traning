@@ -14,9 +14,6 @@ con = mysql.createConnection({
     user: "root",
     password: "root"
 })
-
-// コネクションを始まる
-con.connect()
 // コネクション成功を知らせ
 console.log("Connected!")
 
