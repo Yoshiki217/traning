@@ -58,7 +58,17 @@ export const CreateCourse : FC = () => {
     }
     return (
         <>
-
+            <button onClick={toAccount}>戻る</button>
+            <form onSubmit={onSubmit}>
+                <input type="text" name={inputs.courseName.name} value={inputs.courseName.value} onChange={setInputs} />
+                <input type="text" name={inputs.subAccountName.name} value={inputs.subAccountName.value} onChange={setInputs} />
+                <input type="password" name={inputs.subAccountPassword.name} value={inputs.subAccountPassword.value} onChange={setInputs} />
+                <input type="password" name={inputs.subAccountPasswordConfirm.name} value={inputs.subAccountPasswordConfirm.value} onChange={setInputs} />
+                {
+                    message
+                }
+                <input type="submit" value="作成" />
+            </form>
         </>
     )
 }

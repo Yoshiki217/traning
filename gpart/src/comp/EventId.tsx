@@ -24,7 +24,7 @@ export const EventContext = createContext<{
         },
         date: string
     },
-    eventLog: {
+    eventLogs: {
         logAccountName: string,
         logAccountUserName: string,
         logText: string
@@ -47,7 +47,7 @@ export const EventContext = createContext<{
         },
         date: ''
     },
-    eventLog: []
+    eventLogs: []
 })
 
 export const EventRefreshContext = createContext({
@@ -78,7 +78,7 @@ export const EventId : FC = () => {
             }
             setValue({
                 eventInfo: json.eventInfo,
-                eventLog: json.eventLog
+                eventLogs: json.eventLogs
             })
             setLoad(true)
         })

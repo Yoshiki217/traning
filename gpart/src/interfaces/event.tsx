@@ -93,6 +93,7 @@ export interface events{
     errormessage: string,
     events: {
         eventId: number,
+        eventName: string
         eventType: {
             eventTypeId: number,
             eventTypeName: string
@@ -145,7 +146,7 @@ export interface event{
         },
         date: string
     },
-    eventLog: {
+    eventLogs: {
         logAccountName: string,
         logAccountUserName: string,
         logText: string

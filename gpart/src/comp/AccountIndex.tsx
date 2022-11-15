@@ -5,6 +5,7 @@ import { useLogout } from "../api/logout";
 import { getStorage } from "../api/storage";
 import { AccountContext } from "./Account";
 import { useNavigate } from "react-router-dom";
+import { CourseName } from "./CourseName";
 
 export const AccountIndex : FC = () => {
     const context = useContext(AccountContext)
@@ -13,12 +14,27 @@ export const AccountIndex : FC = () => {
     const toInfo = () => {
         gate('info')
     }
+    const toCreateCourse = () => {
+        gate('createCourse')
+    }
+    const onCourseclick = (courseName: string) => {
+        gate(`course/${courseName}`)
+    }
     return (
         <>  
             <h1>{context.userName}</h1>
             <h2>{context.accountName}</h2>
+            {
+                context.isMain ?
+                <button onClick={toCreateCourse}>コース作成</button>
+                :
+                <></>
+            }
             <button onClick={logout}>ログアウト</button>
             <button onClick={toInfo}>情報</button>
+            {
+                context.courses.map(course=><h1 key={course.courseName} onClick={()=>onCourseclick(course.courseName)}>{course.courseName}</h1>)
+            }
         </>
     )
 }

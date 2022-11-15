@@ -18,6 +18,9 @@ export const Info : FC = () => {
             <button onClick={logout}>ログアウト</button>
             <button onClick={toAccount}>戻る</button>
             <button onClick={toUpdate}>アップデート</button>
+            {context.userName}<br/>
+            {context.address}<br/>
+            {context.birthday}<br/>
         </>
     )
 }

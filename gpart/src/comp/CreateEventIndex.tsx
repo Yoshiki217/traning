@@ -8,7 +8,6 @@ import { getForm, useInputs } from "../api/useInputs";
 import { createEvent, createEventType } from "../interfaces/event";
 import { CourseContext } from "./CourseName";
 import { EventTypeRefreshContext, EventTypesContext } from "./CreateEvent";
-import { EventContext } from "./EventId";
 import { RefreshContext } from "./Slash";
 
 export const CreateEventIndex : FC = () => {
@@ -25,7 +24,7 @@ export const CreateEventIndex : FC = () => {
         },
         eventTypeId: {
             name: 'eventTypeId',
-            value: ''
+            value: eventTypes.length > 0 ? eventTypes[0].eventTypeId : -1
         },
         eventWeightAmount: {
             name: 'eventWeightAmount',
@@ -58,7 +57,9 @@ export const CreateEventIndex : FC = () => {
     const onCreateEventTypeClick = () => {
         postg('createEventType', {
             ...getStorage(),
-            eventTypeName: eventTypeName
+            info: {
+                eventTypeName: eventTypeName
+            }
         }).then((json: createEventType)=>{
             console.log(json)
             if(!auth(json)) return
@@ -67,6 +68,7 @@ export const CreateEventIndex : FC = () => {
                 return
             }
             eventTypeRefresh.setState()
+            setEventTypeName("")
         })
     }
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -78,7 +80,7 @@ export const CreateEventIndex : FC = () => {
                 courseName: course.courseName,
                 eventWeight: {
                     amount: inputs.eventWeightAmount.value,
-                    unit: inputs.eventWeigthUni
+                    unit: inputs.eventWeightUnit.value
                 },
                 eventTimes: {
                     amount: inputs.eventTimesAmount.value,
@@ -97,8 +99,33 @@ export const CreateEventIndex : FC = () => {
         })
     }
     return (
-        <>  
-
+        <>
+            <button onClick={logout}>ログアウト</button>
+            <button onClick={toAccount}>戻る</button>
+            <form onSubmit={onSubmit}>
+                <input type="text" name={inputs.eventName.name} value={inputs.eventName.value} onChange={setInputs} />
+                <div>
+                    <input type="text" name="eventType" value={eventTypeName} onChange={(e)=>setEventTypeName(e.target.value)}/>
+                    {
+                        createEventTypeMessage
+                    }
+                    <button onClick={onCreateEventTypeClick}>挿入</button>
+                    <select name={inputs.eventTypeId.name} value={inputs.eventTypeId.value} onChange={setInputs}>
+                        {
+                            eventTypes.map(eventType=><option key={eventType.eventTypeId} value={eventType.eventTypeId}>{eventType.eventTypeName}</option>)
+                        }
+                    </select>
+                </div>
+                <input type="number" name={inputs.eventWeightAmount.name} value={inputs.eventWeightAmount.value} onChange={setInputs} />
+                <input type="text" name={inputs.eventWeightUnit.name} value={inputs.eventWeightUnit.value} onChange={setInputs} />
+                <input type="number" name={inputs.eventTimesAmount.name} value={inputs.eventTimesAmount.value} onChange={setInputs} />
+                <input type="text" name={inputs.eventTimesUnit.name} value={inputs.eventTimesUnit.value} onChange={setInputs} />
+                <input type="date" name={inputs.date.name} value={inputs.date.value} onChange={setInputs} />
+                {
+                    message
+                }
+                <input type="submit" value="作成" />
+            </form>
         </>
     )
 }
