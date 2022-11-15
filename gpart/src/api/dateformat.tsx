@@ -14,5 +14,6 @@ export const dateUrl = (year: number, month: number, date: number) => {
 }
 export const formatToUrl = (format: string) => {
     const splitted = format.split("-")
-    return dateUrl(Number(splitted[0]), Number(splitted[1]), Number(splitted[2]))
+    const obj = dateUrl(Number(splitted[0]), Number(splitted[1]), Number(splitted[2]))
+    return `${obj.year}/${obj.month}/${obj.date}`
 }

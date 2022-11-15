@@ -18,19 +18,23 @@ exports.createCourse = (accessId, sign, courseName, subAccountName, subAccountPa
     //accessアカウントは先生チェック、そうでなければ中断
     //新しい生徒アカウント作成、コース作成、生徒情報(デフォールト)を入れてstatus: trueにして返す
     if(auth.auth){
-        let r_coureseName = con.query(`SELECT courseName FROM course 
-                WHERE coureName = "${courseName}" 
-                AND idSensei = ${auth.id}`)
-        if(r_coureseName.length!=0){
-            json.errormessage = `${courseName}のコース名は既に登録されました。`
-        }
-        else{
-            let r_insert_into_account = con.query(`INSERT INTO account(accountName, password, idSensei) VALUES ("${subAccountName}", "${subAccountPassword}", ${auth.id})`)
-            let idSeito = r_insert_into_account.insertId
-            con.query(`INSERT INTO course(courseName, idSeito) VALUES ("${courseName}",${idSeito})`)
-            con.query("COMMIT")
-            json.subAccountInfo.accountName = subAccountName
-            json.status = true
+        if(auth.isMain){
+            let r_coureseName = con.query(`SELECT courseName FROM course 
+                    WHERE courseName = "${courseName}" 
+                    AND idSensei = ${auth.id}`)
+            if(r_coureseName.length!=0){
+                json.errormessage = `${courseName}のコース名は既に登録されました。`
+            }
+            else{
+                let r_insert_into_account = con.query(`INSERT INTO account(accountName, password, idSensei) VALUES ("${subAccountName}", "${subAccountPassword}", ${auth.id})`)
+                let idSeito = r_insert_into_account.insertId
+                con.query(`INSERT INTO course(courseName, idSeito, idSensei) VALUES ("${courseName}",${idSeito}, ${auth.id})`)
+                con.query("COMMIT")
+                json.subAccountInfo.accountName = subAccountName
+                json.status = true
+            }
+        } else {
+            auth.auth=false
         }
     }
     return {...json, ...auth}

@@ -51,16 +51,16 @@ app.post('/account', (req, res)=>{
 
 app.post('/updateInfo', (req, res)=>{
     let post = req.body
-    let info = JSON.parse(post.info)
+    // let info = JSON.parse(post.info)
     res.json(account.updateInfo(post.accessId, post.sign,
-        post.accountName, info, con))
+        post.info, con))
 })
 
 // cource
 app.post('/createCourse', (req, res)=>{
     let post = req.body
     res.json(course.createCourse(post.accessId, post.sign,
-        post.courseName, post.subAccountName, con))
+        post.courseName, post.subAccountName, post.subAccountPassword, con))
 })
 
 app.post('/removeCourse', (req, res)=>{
@@ -78,11 +78,11 @@ app.post('/changeCourseName', (req, res)=>{
 //event
 app.post('/createEventType', (req, res)=>{
     let post = req.body
-    let info = JSON.parse(post.info)
-    res.json(event.createEventType(post.accessId, post.sign, info, con))
+    // let info = JSON.parse(post.info)
+    res.json(event.createEventType(post.accessId, post.sign, post.info, con))
 })
 
-app.post('/eventType', (req, res)=>{
+app.post('/eventTypes', (req, res)=>{
     let post = req.body
     res.json(event.eventTypes(post.accessId, post.sign, con))
 })
@@ -101,8 +101,9 @@ app.post('/removeEventType', (req, res)=>{
 
 app.post('/createEvent', (req, res)=>{
     let post = req.body
-    let info = JSON.parse(post.info)
-    res.json(event.createEvent(post.accessId, post.sign, info, con))
+    // let info = JSON.parse(post.info)
+    res.json(event.createEvent(post.accessId, post.sign, post.info, con))
+    // res.json(post)
 })
 
 app.post('/updateEvent', (req, res)=>{
@@ -115,7 +116,7 @@ app.post('/updateEvent', (req, res)=>{
 app.post('/events', (req, res)=>{
     let post = req.body
     res.json(event.events(post.accessId, post.sign,
-        post.coursename, post.date, con))
+        post.courseName, post.date, con))
 })
 
 app.post('/removeEvent', (req, res)=>{
@@ -127,7 +128,7 @@ app.post('/removeEvent', (req, res)=>{
 app.post('/logEvent', (req, res)=>{
     let post = req.body
     res.json(event.logEvent(post.accessId, post.sign,
-        post.eventId, logText, con))
+        post.eventId, post.logText, con))
 })
 
 app.post('/event', (req, res)=>{

@@ -9,6 +9,7 @@ import { RefreshContext } from "./Slash";
 
 export const EventsContext = createContext<{
     eventId: number,
+    eventName: string
     eventType: {
         eventTypeId: number,
         eventTypeName: string

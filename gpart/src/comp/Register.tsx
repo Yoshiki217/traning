@@ -36,6 +36,8 @@ export const Register : FC = () => {
             setMessage(<>パスワード一致していません</>)
             return
         }
+        // console.log(getForm(inputs))
+        // return
         postg('register', getForm(inputs))
         .then((json: register)=>{
             console.log(json)

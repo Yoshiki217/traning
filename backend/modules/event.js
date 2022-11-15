@@ -64,18 +64,18 @@ exports.eventTypes = (accessId, sign, con) => {
         if(auth.isMain){
             let r_eventType = con.query(`SELECT eventTypeId, eventTypeName FROM eventType 
                     WHERE idSensei = ${auth.id}`)
-            if(r_eventType.length==0){
-                json.errormessage = "このアカウントは種目類まだ作成していません。"
-            }
-            else{
-                r_eventType.foreach(et =>{
+            // if(r_eventType.length==0){
+            //     json.errormessage = "このアカウントは種目類まだ作成していません。"
+            // }
+            // else{
+                r_eventType.forEach(et =>{
                     json.eventTypes.push({
                         eventTypeId: et.eventTypeId,
                         eventTypeName: et.eventTypeName
                     })
                 })
                 json.status = true
-            }
+            // }
         }
         else{
             json.errormessage = "アカウントが先生以外は操作できません。"
@@ -194,11 +194,11 @@ exports.createEvent = (accessId, sign, info, con) => {
     //新しいイベントを作成、該当情報を入れてstatus: trueにして返す
     if(auth.auth){
         if(auth.isMain){
-            let r_id_seito = `SELECT id FROM accountView WHERE idSensei = ${auth.id} AND courseName = "${info.courseName}"`
-            con.query("SELECT 1 FROM event LIMIT FOR UPDATE")
+            let r_id_seito = con.query(`SELECT id FROM accountView WHERE idSensei = ${auth.id} AND courseName = "${info.courseName}"`)
+            con.query("SELECT 1 FROM event LIMIT 1 FOR UPDATE")
             let r_insert_into_event = con.query(`INSERT INTO event (idSeito, eventTypeId, eventName, 
                 eventWeightAmount, eventWeightUnit, 
-                eventTimesAmount, eventTimeUnit, date) 
+                eventTimesAmount, eventTimesUnit, date) 
             VALUES(
                 ${r_id_seito[0].id}, "${info.eventTypeId}", "${info.eventName}", 
                 "${info.eventWeight.amount}", "${info.eventWeight.unit}", 
@@ -346,9 +346,9 @@ exports.events = (accessId, sign, courseName, date, con) => {
     if(auth.auth){
         let idSeito = -1
         if(auth.isMain){
-            idSeito = con.query(`SELECT idSeito FROM accountView 
+            idSeito = con.query(`SELECT id FROM accountView 
                                 WHERE courseName = "${courseName}" 
-                                AND idSensei = ${auth.id}`)[0].idSeito
+                                AND idSensei = ${auth.id}`)[0].id
         }
         else{
             idSeito = auth.id
@@ -356,13 +356,13 @@ exports.events = (accessId, sign, courseName, date, con) => {
         let r_events = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId, 
                                          et2.eventTypeName, e1.eventWeightAmount, 
                                          e1.eventWeightUnit, e1.eventTimesAmount, 
-                                         e1.eventTimesUnit, DATE_FORMATE(e1.date, '%Y-%m-%d') as date 
+                                         e1.eventTimesUnit, DATE_FORMAT(e1.date, '%Y-%m-%d') as date 
                                   FROM event e1, eventType et2  
                                   WHERE e1.eventTypeId = et2.eventTypeId 
                                   AND e1.idSeito = ${idSeito} 
                                   AND e1.date = "${date}"`)
         if(r_events.length!=0){
-            r_events.foreach(e=>{
+            r_events.forEach(e=>{
                 json.events.push({
                         eventId: e.eventId,
                         eventName: e.eventName,
@@ -467,7 +467,7 @@ exports.event = (accessId, sign, eventId, con) =>{
         let r_event = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId, 
                                         et2.eventTypeName, e1.eventWeightAmount, 
                                         e1.eventWeightUnit, e1.eventTimesAmount, 
-                                        e1.eventTimesUnit, DATE_FORMATE(e1.date, '%Y-%m-%d') as date 
+                                        e1.eventTimesUnit, DATE_FORMAT(e1.date, '%Y-%m-%d') as date 
                                 FROM event e1, eventType et2  
                                 WHERE e1.eventTypeId = et2.eventTypeId 
                                 AND e1.eventId = ${eventId}`)
@@ -493,13 +493,13 @@ exports.event = (accessId, sign, eventId, con) =>{
                 date: r_event[0].date
             }
             let r_eventLogs = con.query(`SELECT logText, accountName, name 
-                    FROM logText, account 
-                    WHERE logText.id = account.id 
-                    AND eventId = ${r_event[0].eventId} 
+                    FROM logText, account  
                     LEFT JOIN information USING (id) 
+                    WHERE logText.id = account.id 
+                    AND eventId = ${r_event[0].eventId}
                     ORDER BY logTextId DESC`)
             if(r_eventLogs.length!=0){
-                r_eventLogs.foreach(logText =>{
+                r_eventLogs.forEach(logText =>{
                     json.eventLogs.push({
                         logAccountName: logText.accountName,
                         logAccountUserName: logText.name,

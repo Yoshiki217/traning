@@ -7,13 +7,13 @@ const checkAuth = (accessId, sign, con) => {
     }
     //accessIdとsignの存在チェック
     //一つだけレコード存在したらauth: trueにし、返す
-    let result = con.query(`SELECT accessId, sign, id FROM access WHERE accessId = ${accessId} AND sign = "${sign}`)
+    let result = con.query(`SELECT accessId, sign, id FROM access WHERE accessId = ${accessId} AND sign = "${sign}"`)
     if(result.length != 0){
         json.auth = true
         json.sign = result[0].sign
         json.id = result[0].id
         let result_isMain = con.query(`SELECT idSensei FROM account WHERE id = ${result[0].id}`)
-        if(result_isMain==0){
+        if(result_isMain[0].isSensei==null){
             json.isMain = true
         }
     }
@@ -21,7 +21,7 @@ const checkAuth = (accessId, sign, con) => {
     return json
 }
 
-exports.checkAuth
+exports.checkAuth=checkAuth
 
 exports.register = (accountName, password, con) => {
     let json = {
@@ -31,8 +31,8 @@ exports.register = (accountName, password, con) => {
     //新しアカウント作成、この時isMainの値はtrue
     //成功したらstatus: trueにして返す
     //失敗したらerrormessageにメッセジー入れて返す
-    let auth = checkAuth(accessId, sign, con)
-    if(auth.isMain){
+    // let auth = checkAuth(accessId, sign, con)
+    // if(auth.isMain){
         let r_accountName = con.query(`SELECT accountName FROM account WHERE accountName="${accountName}" FOR UPDATE`)
         if(r_accountName!=0){
             json.errormessage = "このaccountNameはすでに登録された。"
@@ -41,9 +41,9 @@ exports.register = (accountName, password, con) => {
             con.query("COMMIT")
             json.status = true
         }
-    }else{
-        json.errormessage = "アカウントが先生以外は操作できません。"
-    }
+    // }else{
+        // json.errormessage = "アカウントが先生以外は操作できません。"
+    // }
     
     return json
 }
@@ -134,7 +134,7 @@ exports.account = (accessId, sign, con) => {
     if(auth.auth){
         let id = auth.id
         let r_accountView = con.query(`SELECT id, idSensei, accountName, courseName FROM accountView WHERE id = "${id}"`)
-        let r_information = con.query(`SELECT name, email, DATE_FORMATE(birthday, '%Y-%m-%d') AS birthday, telNum, sex, address FROM information WHERE id = "${id}"`)
+        let r_information = con.query(`SELECT name, email, DATE_FORMAT(birthday, '%Y-%m-%d') AS birthday, telNum, sex, address FROM information WHERE id = "${id}"`)
 
         // isMain == true -> idは先生　->　idの情報を取得　-> idSensei = id の各idの情報を取得
         if(auth.isMain){  
@@ -176,13 +176,13 @@ exports.account = (accessId, sign, con) => {
             }
             // idSensei = id の各idの情報を取得
             let r_idSeito = con.query(`SELECT  a1.accountName, a1.courseName, 
-                                            i2.name, i2.email, DATE_FORMATE(i2.birthday, '%Y-%m-%d') AS birthday, i2.telNum, i2.sex, i2.address 
+                                            i2.name, i2.email, DATE_FORMAT(i2.birthday, '%Y-%m-%d') AS birthday, i2.telNum, i2.sex, i2.address 
                                     FROM accountView a1 
                                     LEFT JOIN information i2 
                                     ON a1.id = i2.id 
                                     WHERE idSensei = ${id}
                                     ORDER BY a1.id`)
-            r_idSeito.foreach(i=>{
+            r_idSeito.forEach(i=>{
                 if(i.name!=null){
                     json.accountInfo.courses.push({
                         courseName: i.courseName,
@@ -230,7 +230,7 @@ exports.account = (accessId, sign, con) => {
                         isMain: auth.isMain,
                         courses: [
                             {
-                                courseName: r_accountName[0].courseName,
+                                courseName: r_accountView[0].courseName,
                                 subAccountInfo: {
                                     accountName: r_accountView[0].accountName,
                                     userName: '',
@@ -261,7 +261,7 @@ exports.account = (accessId, sign, con) => {
                         isMain: auth.isMain,
                         courses: [
                             {
-                                courseName: r_accountName[0].courseName,
+                                courseName: r_accountView[0].courseName,
                                 subAccountInfo: {
                                     accountName: r_accountView[0].accountName,
                                     userName: r_information[0].name,
@@ -305,15 +305,15 @@ exports.updateInfo = (accessId, sign, info, con) => {
         let id = auth.id
         con.query('SELECT 1 FROM information LIMIT 1 FOR UPDATE')
         con.query(`INSERT INTO information(id, name, email, birthday, telNum, sex, address) VALUES (
-            ${id}, ?, ?, ?, ?, ?, ?
+            ${id}, "${info.userName}", "${info.email}", "${info.birthday}", ${info.phone}, ${info.sex}, "${info.address}"
         ) ON DUPLICATE KEY UPDATE
-            name = ${info.userName},
-            email = ${info.email},
-            birthday = ${info.birthday},
+            name = "${info.userName}",
+            email = "${info.email}",
+            birthday = "${info.birthday}",
             telNum = ${info.phone},
             sex = ${info.sex},
-            address = ${info.address}
-        `, info)
+            address = "${info.address}"
+        `)
         con.query("COMMIT")
         json.status = true
     }
