@@ -19,6 +19,7 @@ import { EventId } from './comp/EventId';
 import { EventIdIndex } from './comp/EventIdIndex';
 import { EventUpdate } from './comp/EventUpdate';
 import { CourseName } from './comp/CourseName';
+import { Error404 } from './comp/Error404';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
                   </Route>
                 </Route>
               </Route>
+              <Route path='*' element={<Error404/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>
