@@ -9,6 +9,10 @@ module.exports = {
         sakura:{
           50: '#fff8f8',
         }
+      },
+      orange: {
+        50: '#fff880',
+        100: '#ffa500'
       }
     },
   },
