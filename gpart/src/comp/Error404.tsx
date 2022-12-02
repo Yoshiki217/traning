@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export const Error404 : FC = () => {
-    const gate = useNavigate()
+    const gate = useNavigate() 
     const toSlash = () => {
         gate('/')
     }
@@ -16,7 +16,7 @@ export const Error404 : FC = () => {
                         <path d="M96 0V47L48 94H0V47L48 0H96Z" />
                         </svg>
 
-                            Flowrift
+                            <span className="text-gray-800">GPart</span>
                         </a>
 
                         <p className="text-indigo-500 text-sm md:text-base font-semibold uppercase mb-4">That’s a 404</p>
