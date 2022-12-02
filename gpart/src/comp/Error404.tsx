@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export const Error404 : FC = () => {
-    const gate = useNavigate()
+    const gate = useNavigate() 
     const toSlash = () => {
         gate('/')
     }
