@@ -38,10 +38,10 @@ con.query(sql)
 
 // 2/information
 sql = `insert into information
-        values  (1, "TTT", "1999/5/28", "address", "123456789", "email@gmail.com", true),
-                (3, "HAYA", "1996/3/8", "address", "123456789", "email@gmail.com", false),
-                (6, "DSeito", "1989/2/12", "address", "123456789", "email@gmail.com", true),
-                (8, "FUJI", "2001/8/17", "address", "123456789", "email@gmail.com", false)`
+        values  (1, "TTT", "1999/5/28", "address", "123456789", "email@gmail.com", true, null),
+                (3, "HAYA", "1996/3/8", "address", "123456789", "email@gmail.com", false, null),
+                (6, "DSeito", "1989/2/12", "address", "123456789", "email@gmail.com", true, null),
+                (8, "FUJI", "2001/8/17", "address", "123456789", "email@gmail.com", false, null)`
 con.query(sql)
 
 // 3/ bodyParameter

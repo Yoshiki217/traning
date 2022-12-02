@@ -110,6 +110,7 @@ exports.account = (accessId, sign, con) => {
             phone: '',
             sex: 0,
             address: '',
+            avatar: '',
             //isMain 確定
             isMain: false,
             courses: [
@@ -123,6 +124,7 @@ exports.account = (accessId, sign, con) => {
                 //         phone: '',
                 //         sex: 0,
                 //         address: '',
+                //         avatar: '',
                 //     }
                 // }
             ],
@@ -134,7 +136,7 @@ exports.account = (accessId, sign, con) => {
     if(auth.auth){
         let id = auth.id
         let r_accountView = con.query(`SELECT id, idSensei, accountName, courseName FROM accountView WHERE id = "${id}"`)
-        let r_information = con.query(`SELECT name, email, DATE_FORMAT(birthday, '%Y-%m-%d') AS birthday, telNum, sex, address FROM information WHERE id = "${id}"`)
+        let r_information = con.query(`SELECT name, email, DATE_FORMAT(birthday, '%Y-%m-%d') AS birthday, telNum, sex, address, avatar FROM information WHERE id = "${id}"`)
 
         // isMain == true -> idは先生　->　idの情報を取得　-> idSensei = id の各idの情報を取得
         if(auth.isMain){  
@@ -151,6 +153,7 @@ exports.account = (accessId, sign, con) => {
                         phone: '',
                         sex: 0,
                         address: '',
+                        avatar: '',
                         isMain: auth.isMain,
                         courses: [],
                     }
@@ -169,6 +172,7 @@ exports.account = (accessId, sign, con) => {
                         phone: r_information[0].telNum,
                         sex: r_information[0].sex,
                         address: r_information[0].address,
+                        avatar: r_information[0].avatar,
                         isMain: auth.isMain,
                         courses: [],
                     }
@@ -176,7 +180,7 @@ exports.account = (accessId, sign, con) => {
             }
             // idSensei = id の各idの情報を取得
             let r_idSeito = con.query(`SELECT  a1.accountName, a1.courseName, 
-                                            i2.name, i2.email, DATE_FORMAT(i2.birthday, '%Y-%m-%d') AS birthday, i2.telNum, i2.sex, i2.address 
+                                            i2.name, i2.email, DATE_FORMAT(i2.birthday, '%Y-%m-%d') AS birthday, i2.telNum, i2.sex, i2.address , i2.avatar
                                     FROM accountView a1 
                                     LEFT JOIN information i2 
                                     ON a1.id = i2.id 
@@ -194,6 +198,7 @@ exports.account = (accessId, sign, con) => {
                             phone: i.telNum,
                             sex: i.sex,
                             address: i.address,
+                            avatar: i.avatar,
                         }
                     })
                 }else{
@@ -207,6 +212,7 @@ exports.account = (accessId, sign, con) => {
                             phone: '',
                             sex: 0,
                             address: '',
+                            avatar: '',
                         }
                     })
                 }
@@ -227,6 +233,7 @@ exports.account = (accessId, sign, con) => {
                         phone: '',
                         sex: 0,
                         address: '',
+                        avatar: '',
                         isMain: auth.isMain,
                         courses: [
                             {
@@ -239,6 +246,7 @@ exports.account = (accessId, sign, con) => {
                                     phone: '',
                                     sex: 0,
                                     address: '',
+                                    avatar: '',
                                 }
                             }
                         ],
@@ -258,6 +266,7 @@ exports.account = (accessId, sign, con) => {
                         phone: r_information[0].telNum,
                         sex: r_information[0].sex,
                         address: r_information[0].address,
+                        avatar: r_information[0].avatar,
                         isMain: auth.isMain,
                         courses: [
                             {
@@ -270,6 +279,7 @@ exports.account = (accessId, sign, con) => {
                                     phone: r_information[0].telNum,
                                     sex: r_information[0].sex,
                                     address: r_information[0].address,
+                                    avatar: r_information[0].avatar,
                                 }
                             }
                         ],
@@ -277,7 +287,6 @@ exports.account = (accessId, sign, con) => {
                 }
             }
         }
-
         return {...json, ...auth}
     }
 }
@@ -290,7 +299,8 @@ exports.updateInfo = (accessId, sign, info, con) => {
     //     birthday: '',
     //     phone: '',
     //     sex: 0,
-    //     address: ''
+    //     address: '',
+    //     avatar: 'ssdvs' || ''
     // }
     let json = {
         status: false,
@@ -304,15 +314,16 @@ exports.updateInfo = (accessId, sign, info, con) => {
     if(auth.auth){
         let id = auth.id
         con.query('SELECT 1 FROM information LIMIT 1 FOR UPDATE')
-        con.query(`INSERT INTO information(id, name, email, birthday, telNum, sex, address) VALUES (
-            ${id}, "${info.userName}", "${info.email}", "${info.birthday}", ${info.phone}, ${info.sex}, "${info.address}"
+        con.query(`INSERT INTO information(id, name, email, birthday, telNum, sex, address, avatar) VALUES (
+            ${id}, "${info.userName}", "${info.email}", "${info.birthday}", ${info.phone}, ${info.sex}, "${info.address}", "${avatar}"
         ) ON DUPLICATE KEY UPDATE
             name = "${info.userName}",
             email = "${info.email}",
             birthday = "${info.birthday}",
             telNum = ${info.phone},
             sex = ${info.sex},
-            address = "${info.address}"
+            address = "${info.address}",
+            avatar = "${avatar}"
         `)
         con.query("COMMIT")
         json.status = true

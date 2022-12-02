@@ -78,17 +78,19 @@ sql = `CREATE TABLE information(
         telNum VARCHAR(13),
         email VARCHAR(50),
         sex BOOLEAN,
+        avatar VARCHAR(50),
         CONSTRAINT fk_in FOREIGN KEY (id) REFERENCES account(id) ON DELETE CASCADE)`
 createTable(sql, tableName)
 
 // 3/ bodyParameter
 tableName = "bodyParameter"
 sql = `CREATE TABLE bodyParameter(
-        id INT PRIMARY KEY,
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        idUser INT,
         weight INT,
         height INT,
-        BMI INT,
-        CONSTRAINT fk_bdp FOREIGN KEY (id) REFERENCES account(id) ON DELETE CASCADE)`
+        date DATE DEFAULT (CURRENT_DATE),
+        CONSTRAINT fk_bdp FOREIGN KEY (idUser) REFERENCES account(id) ON DELETE CASCADE)`
 createTable(sql, tableName)
 
 // 4/ access
