@@ -110,6 +110,7 @@ exports.account = (accessId, sign, con) => {
             phone: '',
             sex: 0,
             address: '',
+            avatar: '',
             //isMain 確定
             isMain: false,
             courses: [
@@ -123,6 +124,7 @@ exports.account = (accessId, sign, con) => {
                 //         phone: '',
                 //         sex: 0,
                 //         address: '',
+                //         avatar: '',
                 //     }
                 // }
             ],
@@ -151,6 +153,7 @@ exports.account = (accessId, sign, con) => {
                         phone: '',
                         sex: 0,
                         address: '',
+                        avatar: '',
                         isMain: auth.isMain,
                         courses: [],
                     }
@@ -169,6 +172,7 @@ exports.account = (accessId, sign, con) => {
                         phone: r_information[0].telNum,
                         sex: r_information[0].sex,
                         address: r_information[0].address,
+                        avatar: r_information[0].avatar,
                         isMain: auth.isMain,
                         courses: [],
                     }
@@ -194,6 +198,7 @@ exports.account = (accessId, sign, con) => {
                             phone: i.telNum,
                             sex: i.sex,
                             address: i.address,
+                            avatar: i.avatar,
                         }
                     })
                 }else{
@@ -207,6 +212,7 @@ exports.account = (accessId, sign, con) => {
                             phone: '',
                             sex: 0,
                             address: '',
+                            avatar: '',
                         }
                     })
                 }
@@ -227,6 +233,7 @@ exports.account = (accessId, sign, con) => {
                         phone: '',
                         sex: 0,
                         address: '',
+                        avatar: '',
                         isMain: auth.isMain,
                         courses: [
                             {
@@ -239,6 +246,7 @@ exports.account = (accessId, sign, con) => {
                                     phone: '',
                                     sex: 0,
                                     address: '',
+                                    avatar: '',
                                 }
                             }
                         ],
@@ -258,6 +266,7 @@ exports.account = (accessId, sign, con) => {
                         phone: r_information[0].telNum,
                         sex: r_information[0].sex,
                         address: r_information[0].address,
+                        avatar: r_information[0].avatar,
                         isMain: auth.isMain,
                         courses: [
                             {
@@ -270,6 +279,7 @@ exports.account = (accessId, sign, con) => {
                                     phone: r_information[0].telNum,
                                     sex: r_information[0].sex,
                                     address: r_information[0].address,
+                                    avatar: r_information[0].avatar,
                                 }
                             }
                         ],

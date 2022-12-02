@@ -78,6 +78,7 @@ sql = `CREATE TABLE information(
         telNum VARCHAR(13),
         email VARCHAR(50),
         sex BOOLEAN,
+        avatar VARCHAR(50),
         CONSTRAINT fk_in FOREIGN KEY (id) REFERENCES account(id) ON DELETE CASCADE)`
 createTable(sql, tableName)
 
