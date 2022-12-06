@@ -31,6 +31,10 @@ app.post('/', (req, res)=>{
     )
 })
 
+const imageUp = (file, name) => {
+    file.mv(__dirname+'/public/'+name)
+}
+
 app.post('/register', (req, res)=>{
     // let post=req.body
     let post = JSON.parse(req.body.json)
@@ -55,89 +59,91 @@ app.post('/account', (req, res)=>{
 })
 
 app.post('/updateInfo', (req, res)=>{
-    let post = req.body
-    // let info = JSON.parse(post.info)
+    let post = JSON.parse(req.body.json)
+    const file = req.files.avatar
+    const userName = post.info.userName
+    const name = `${userName}_${Date.now()}.png`
     res.json(account.updateInfo(post.accessId, post.sign,
-        post.info, con))
+        {
+            ...post.info,
+            avatar: name
+        }, con))
+    imageUp(file, name)
 })
 
 // cource
 app.post('/createCourse', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(course.createCourse(post.accessId, post.sign,
         post.courseName, post.subAccountName, post.subAccountPassword, con))
 })
 
 app.post('/removeCourse', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(course.removeCourse(post.accessId, post.sign,
         post.courseName, con))
 })
 
 app.post('/changeCourseName', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(course.changeCourseName(post.accessId, post.sign,
         post.beforeCourseName, post.afterCourseName, con))
 })
 
 //event
 app.post('/createEventType', (req, res)=>{
-    let post = req.body
-    // let info = JSON.parse(post.info)
+    let post = JSON.parse(req.body.json)
     res.json(event.createEventType(post.accessId, post.sign, post.info, con))
 })
 
 app.post('/eventTypes', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.eventTypes(post.accessId, post.sign, con))
 })
 
 app.post('/changeEventTypeName', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.changeEventTypeName(post.accessId, post.sign,
         post.eventTypeId, post.afterEventTypeName, con))
 })
 
 app.post('/removeEventType', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.removeEventType(post.accessId, post.sign,
         post.eventTypeId, con))
 })
 
 app.post('/createEvent', (req, res)=>{
-    let post = req.body
-    // let info = JSON.parse(post.info)
+    let post = JSON.parse(req.body.json)
     res.json(event.createEvent(post.accessId, post.sign, post.info, con))
-    // res.json(post)
 })
 
 app.post('/updateEvent', (req, res)=>{
-    let post = req.body
-    let info = JSON.parse(post.info)
+    let post = JSON.parse(req.body.json)
     res.json(event.updateEvent(post.accessId, post.sign,
         post.eventId, info, con))
 })
 
 app.post('/events', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.events(post.accessId, post.sign,
         post.courseName, post.date, con))
 })
 
 app.post('/removeEvent', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.removeEvent(post.accessId, post.sign,
         post.eventId, con))
 })
 
 app.post('/logEvent', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.logEvent(post.accessId, post.sign,
         post.eventId, post.logText, con))
 })
 
 app.post('/event', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(event.event(post.accessId, post.sign,
         post.eventId, con))
 })

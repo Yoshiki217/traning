@@ -33,6 +33,7 @@ export interface account {
         phone: string,
         sex: number,
         address: string,
+        avatar: string,
         isMain: boolean,
         courses: {
             courseName: string,
@@ -44,6 +45,7 @@ export interface account {
                 phone: string,
                 sex: number,
                 address: string,
+                avatar: string,
             }
         }[]
     }
