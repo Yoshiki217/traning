@@ -14,5 +14,6 @@ export const TopIndex : FC = () => {
             <button onClick={toRegister}>登録</button>
             <button onClick={toLogin}>ログイン</button>
         </>
+
     )
 }

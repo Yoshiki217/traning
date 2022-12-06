@@ -7,6 +7,7 @@ import { login } from "../interfaces/account";
 import { RefreshContext } from "./Slash";
 
 export const loginForm = {
+
     accountName: {
         name: 'accountName',
         value: ''
@@ -58,7 +59,7 @@ export const Login : FC = () => {
                         <input type="password" name={inputs.password.name} value={inputs.password.value} onChange={setInputs} className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
                         </div>
                 
-                        <button className="block bg-gray-800 hover:bg-gray-700 active:bg-gray-600 focus-visible:ring ring-gray-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Log in</button>
+                        <button type="submit"  className="block bg-gray-800 hover:bg-gray-700 active:bg-gray-600 focus-visible:ring ring-gray-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Log in</button>
                 
                         <div className="flex justify-center items-center relative">
                         <span className="h-px bg-gray-300 absolute inset-x-0"></span>
