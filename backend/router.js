@@ -1,6 +1,7 @@
 const account = require('./modules/account')
 const course = require('./modules/course')
 const event = require('./modules/event')
+const fileupload = require('express-fileupload')
 const sync = require('sync-mysql')
 const express = require('express')
 const app = express()
@@ -14,11 +15,13 @@ const con = new sync({
     database: 'customerdb'
 })
 
-app.use(bodyparse.json())
-app.use(bodyparse.urlencoded({
-    extended: true
-}))
+// app.use(bodyparse.json())
+// app.use(bodyparse.urlencoded({
+//     extended: true
+// }))
 app.use(cors())
+app.use(fileupload())
+app.use(express.static('public'))
 
 app.post('/', (req, res)=>{
     res.json(
@@ -29,23 +32,25 @@ app.post('/', (req, res)=>{
 })
 
 app.post('/register', (req, res)=>{
-    let post=req.body
+    // let post=req.body
+    let post = JSON.parse(req.body.json)
+    console.log(post)
     res.json(account.register(post.accountName, post.password, con))
     // res.json(post)
 })
 app.post('/login', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(account.login(post.accountName, post.password, con))
     // res.json(post)
 })
 
 app.post('/logout', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(account.logout(post.accessId, post.sign, con))
 })
 
 app.post('/account', (req, res)=>{
-    let post = req.body
+    let post = JSON.parse(req.body.json)
     res.json(account.account(post.accessId, post.sign, con))
 })
 

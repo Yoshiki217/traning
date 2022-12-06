@@ -12,7 +12,7 @@ mysql = require("mysql2")
 con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "yoshiki217"
+    password: "root"
 })
 // コネクション成功を知らせ
 console.log("Connected!")

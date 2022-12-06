@@ -1,4 +1,5 @@
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, ReactNode, useCallback, useState } from "react"
+import { event } from "../interfaces/event"
 
 export const useInputs = (defaultValue?: {[name: string]: {
     name: string
@@ -40,4 +41,48 @@ export const getForm = (inputs: {
         a={...a, [inputs[i].name]: inputs[i].value}
     }
     return a
+}
+
+export const useUpload = (names: string[]): [
+    {
+        [name: string] : {
+            name: string,
+            file: any
+        }
+    },
+    (event: ChangeEvent<HTMLInputElement>)=>void
+] => {
+    const [state, setState] = useState<
+        {
+            [name: string]: {
+                name: string,
+                file: any,
+            }
+        }
+    >(
+        names.reduce((acc, value, index)=>{
+            return {
+                ...acc,
+                [value] :{
+                    name: value,
+                    file: null
+                }
+            }
+        }, {})
+    )
+    const setUpload = useCallback((event: ChangeEvent<HTMLInputElement>)=>{
+        setState(prev=>{
+            return {
+                ...prev,
+                [event.target.name]: {
+                    name: event.target.name,
+                    file: event.target.files? event.target.files[0]: null
+                }
+            }
+        })
+    }, [])
+    return [
+        state,
+        setUpload
+    ]
 }
