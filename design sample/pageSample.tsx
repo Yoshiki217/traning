@@ -51,7 +51,7 @@ function App() {
           <div className="relative  bg-sakura-50 px-6 py-5 rounded-box">
             <div className="avatar placeholder">
               <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-               <span>MX</span>
+                <span>MX</span>
               </div>
               <p className="pl-5 pt-1">ID:123456789</p>
             </div>

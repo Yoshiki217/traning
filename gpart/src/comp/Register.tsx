@@ -74,12 +74,13 @@ export const Register : FC = () => {
 
                     <div className="mb-10 md:mb-16">
                     <h2 className="text-blue-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">アカウント登録</h2>
+                    
 
                     </div>
                     <form className="max-w-screen-md grid sm:grid-cols-1 gap-4 mx-auto" onSubmit={onSubmit}>
                         <div className="sm:col-span-2">
                             <label htmlFor="userName" className="inline-block text-blue-800 text-sm sm:text-base mb-2">ニックネーム</label>
-                            <input name="userName" onChange={setInputs}  className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
+                            <input name={inputs.userName.name} onChange={setInputs}  className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
                         </div>
 
                         <div className="sm:col-span-2">
@@ -118,6 +119,7 @@ export const Register : FC = () => {
                         {
                             message
                         }
+
                         <div className="sm:col-span-2 flex justify-between items-center">
                             <button className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">登録</button>
 
