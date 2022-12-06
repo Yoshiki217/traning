@@ -44,5 +44,10 @@
    * プロテイン摂取量
 
 追加Libraly
-DaisyUI : https://daisyui.com/docs/install/
-Chart.js : https://dev.classmethod.jp/articles/react-chartjs-2/
+- DaisyUI : https://daisyui.com/docs/install/
+- Chart.js : https://dev.classmethod.jp/articles/react-chartjs-2/
+
+実装したい機能
+- googleアカウントログイン :  https://blog.sustenage.com/blog/0019-react-google-auth/
+- 絞り込み検索機能付きのプルダウンリスト : https://dev.classmethod.jp/articles/implement-a-pull-down-list-with-filter-search-function-at-mui-v5-and-react-hook-form/
+- (完了) アイコン画像アップロード : 
