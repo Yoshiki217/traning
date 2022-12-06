@@ -1,12 +1,11 @@
 export const postg = (url: string, obj: {}): Promise<any> => {
+    const form = new FormData()
+    form.append('json', JSON.stringify(obj))
     return fetch(
         'http://localhost:8081/'+url,
         {
             method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj)
+            body: form
         }
     ).then(res=>res.json())
 }
