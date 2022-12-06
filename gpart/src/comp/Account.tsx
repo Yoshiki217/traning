@@ -15,6 +15,7 @@ export type accountInfo = {
     phone: string,
     sex: number,
     address: string,
+    avatar: string,
     isMain: boolean,
     courses: {
         courseName: string,
@@ -26,6 +27,7 @@ export type accountInfo = {
             phone: string,
             sex: number,
             address: string,
+            avatar: string
         }
     }[]
 }
@@ -38,6 +40,7 @@ export const AccountContext = createContext<accountInfo>({
     phone: '',
     sex: 0,
     address: '',
+    avatar: '',
     isMain: false,
     courses: []
 })
@@ -63,6 +66,7 @@ export const Account : FC = () => {
                 return
             }
         })
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }, [refresh.state])
     return (
         <>

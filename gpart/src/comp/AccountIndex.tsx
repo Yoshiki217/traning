@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect } from "react";
 import { json } from "stream/consumers";
-import { postg } from "../api/postg";
+import { getPublic, postg } from "../api/postg";
 import { useLogout } from "../api/logout";
 import { getStorage } from "../api/storage";
 import { AccountContext } from "./Account";
@@ -21,7 +21,9 @@ export const AccountIndex : FC = () => {
         gate(`course/${courseName}`)
     }
     return (
+
         // <>  
+        //     <img src={getPublic(context.avatar)} alt="" className="mask mask-circle" />
         //     <h1>{context.userName}</h1>
         //     <h2>{context.accountName}</h2>
         //     {
@@ -104,6 +106,7 @@ export const AccountIndex : FC = () => {
 
         </div>
     </div>
+
 
     )
 }
