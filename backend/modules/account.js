@@ -302,6 +302,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
     //     address: '',
     //     avatar: 'ssdvs' || ''
     // }
+    console.log(info)
     let json = {
         status: false,
         erromessage: ''
@@ -315,7 +316,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
         let id = auth.id
         con.query('SELECT 1 FROM information LIMIT 1 FOR UPDATE')
         con.query(`INSERT INTO information(id, name, email, birthday, telNum, sex, address, avatar) VALUES (
-            ${id}, "${info.userName}", "${info.email}", "${info.birthday}", ${info.phone}, ${info.sex}, "${info.address}", "${avatar}"
+            ${id}, "${info.userName}", "${info.email}", "${info.birthday}", ${info.phone}, ${info.sex}, "${info.address}", "${info.avatar}"
         ) ON DUPLICATE KEY UPDATE
             name = "${info.userName}",
             email = "${info.email}",
@@ -323,7 +324,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
             telNum = ${info.phone},
             sex = ${info.sex},
             address = "${info.address}",
-            avatar = "${avatar}"
+            avatar = "${info.avatar}"
         `)
         con.query("COMMIT")
         json.status = true

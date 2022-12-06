@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getDateFormat } from "../api/dateformat";
 import { useAuth, useLogout } from "../api/logout";
 import { postg } from "../api/postg";
+import { imagePreview } from "../api/preview";
 import { getStorage } from "../api/storage";
 import { getForm, useInputs, useUpload } from "../api/useInputs";
 import { updateInfo } from "../interfaces/account";
@@ -69,6 +70,7 @@ export const Update : FC = () => {
     )
 
     const [image, setImage] = useUpload(['avatar'])
+    const avatarPreview = imagePreview('avatar', image)
     const gate = useNavigate()
     const [message, setMessage] = useState(<></>)
     const auth = useAuth()
@@ -80,12 +82,13 @@ export const Update : FC = () => {
         event.preventDefault()
         console.log({
             ...getStorage(),
-            info: getForm(inputs)
+            info: getForm(inputs),
+            image
         })
         postg('updateInfo', {
             ...getStorage(),
             info: getForm(inputs)
-        }).then((json: updateInfo)=>{
+        }, image).then((json: updateInfo)=>{
             console.log(json)
             if(!auth(json)) return
             if(!json.status){
@@ -104,12 +107,10 @@ export const Update : FC = () => {
             <button onClick={logout}>ログアウト</button>
             <button onClick={toInfo}>戻る</button>
             <form onSubmit={onSubmit}>
-                {/* {
-                    image.avatar.element
+                <input type="file" name={image.avatar.name} id={image.avatar.name} style={{display: 'none'}} onChange={setImage} />
+                {
+                    avatarPreview
                 }
-                <label htmlFor={image.avatar.name}>
-                    <img src={getImageUrl()} alt="AVATAR" />
-                </label> */}
                 <input type="text" name={inputs.userName.name} value={inputs.userName.value} onChange={setInputs}/>
                 <input type="text" name={inputs.email.name} value={inputs.email.value} onChange={setInputs}/>
                 <input type="date" name={inputs.birthday.name} value={inputs.birthday.value} onChange={setInputs}/>
