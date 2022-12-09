@@ -1,8 +1,9 @@
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { postg } from "../api/postg";
 import { getForm, useInputs } from "../api/useInputs";
 import { register } from "../interfaces/account";
+import { MessageContext } from "./Top";
 
 export const registerForm = {
     accountName: {
@@ -21,6 +22,7 @@ export const registerForm = {
 
 export const Register : FC = () => {
     const gate = useNavigate()
+    const messageContext = useContext(MessageContext)
     const [inputs, setInputs] = useInputs(registerForm)
     const [message, setMessage] = useState(<></>)
     const toReturn = () => {
@@ -49,14 +51,16 @@ export const Register : FC = () => {
         .then((json: register)=>{
             console.log(json)
             if(json.status){
-                setMessage(<>
-                    <div className="alert alert-error shadow-lg">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <span>登録完了<Link to='../login'>ログインへ</Link></span>
-                        </div>
-                    </div>
-                </>)
+                // setMessage(<>
+                //     <div className="alert alert-error shadow-lg">
+                //         <div>
+                //             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                //             <span>登録完了<Link to='../login'>ログインへ</Link></span>
+                //         </div>
+                //     </div>
+                // </>)
+                messageContext.setValue("登録完了しました！！！")
+                gate("../login")
             } else {
                 setMessage(<>
                     <div className="alert alert-error shadow-lg">
