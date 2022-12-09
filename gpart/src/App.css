@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
   background-color: antiquewhite;
 }
 
@@ -15,11 +14,11 @@
 }
 
 .App-header {
-  background-color: orange;
+  background-color: rgb(99, 102 , 241);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;

@@ -56,7 +56,7 @@ export const Register : FC = () => {
         })
     }
     return (
-        // <>
+        // <
         //     <button onClick={toReturn}>戻る</button>
         //     <button onClick={toLogin}>ログインへ</button>
         //     <form onSubmit={onSubmit}>
