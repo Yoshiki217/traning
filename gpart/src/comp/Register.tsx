@@ -49,9 +49,23 @@ export const Register : FC = () => {
         .then((json: register)=>{
             console.log(json)
             if(json.status){
-                setMessage(<>登録完了<Link to='../login'>ログインへ</Link></>)
+                setMessage(<>
+                    <div className="alert alert-error shadow-lg">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span>登録完了<Link to='../login'>ログインへ</Link></span>
+                        </div>
+                    </div>
+                </>)
             } else {
-                setMessage(<>{json.errormessage}</>)
+                setMessage(<>
+                    <div className="alert alert-error shadow-lg">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span>{json.errormessage}</span>
+                        </div>
+                    </div>
+                </>)
             }
         })
     }
@@ -79,11 +93,6 @@ export const Register : FC = () => {
                     </div>
                     <form className="max-w-screen-md grid sm:grid-cols-1 gap-4 mx-auto" onSubmit={onSubmit}>
                         <div className="sm:col-span-2">
-                            <label htmlFor="userName" className="inline-block text-blue-800 text-sm sm:text-base mb-2">ニックネーム</label>
-                            <input name={inputs.userName.name} onChange={setInputs}  className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
-                        </div>
-
-                        <div className="sm:col-span-2">
                             <label htmlFor="accountName" className="inline-block text-blue-800 text-sm sm:text-base mb-2">アカウント名</label>
                             <input name="accountName" onChange={setInputs} className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
                         </div>
@@ -101,12 +110,6 @@ export const Register : FC = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="sm:col-span-2">
-                            <label htmlFor="email" className="inline-block text-blue-800 text-sm sm:text-base mb-2">Eメール</label>
-                            <input name="email" className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
-                        </div>
-
                         <div className="sm:col-span-2">
                             <label htmlFor="password" className="inline-block text-blue-800 text-sm sm:text-base mb-2">パスワード</label>
                             <input type="password" name={inputs.password.name} onChange={setInputs} className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
