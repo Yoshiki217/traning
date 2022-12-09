@@ -331,3 +331,33 @@ exports.updateInfo = (accessId, sign, info, con) => {
     }
     return {...json, ...auth}
 }
+
+exports.setNewBodyParams = (accessId, sign, info, con) => {
+    // checkAuth
+    // info: {
+    //     weight: Number,
+    //     height: Number,
+    //     date: String
+    // }
+    let json = {
+        status: false,
+        paramsId: 0,
+        paramsInfo: {
+            weight: 0,
+            height: 0,
+            date: ""
+        }
+    }
+}
+
+exports.updateBodyParams = (accessId, sign, paramsId, info, con) => {
+
+}
+
+exports.removeBodyParams = (accessId, sign, paramsId, con) => {
+
+}
+
+exports.bodyParams = () => {
+    
+}
