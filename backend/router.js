@@ -71,6 +71,26 @@ app.post('/updateInfo', (req, res)=>{
     imageUp(file, name)
 })
 
+app.post('/setNewBodyParams', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.setNewBodyParams(post.accessId, post.sign, post.info, con))
+})
+
+app.post('/updateBodyParams', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.updateBodyParams(post.accessId, post.sign, post.paramsId, post.info, con))
+})
+
+app.post('/removeBodyParams', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.removeBodyParams(post.accessId, post.sign, post.paramsId, con))
+})
+
+app.post('/bodyParams', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.bodyParams(post.accessId, post.sign, post.year, post.month, con))
+})
+
 // cource
 app.post('/createCourse', (req, res)=>{
     let post = JSON.parse(req.body.json)
