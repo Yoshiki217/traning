@@ -91,6 +91,11 @@ app.post('/bodyParams', (req, res)=>{
     res.json(account.bodyParams(post.accessId, post.sign, post.year, post.month, con))
 })
 
+app.post('/passwordChange', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.passwordChange(post.accessId, post.sign, post.password, con))
+})
+
 // cource
 app.post('/createCourse', (req, res)=>{
     let post = JSON.parse(req.body.json)

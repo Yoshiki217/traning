@@ -401,3 +401,14 @@ exports.bodyParams = (accessId, sign, year, month, con) => {
 
     return {...json, ...auth}
 }
+
+exports.passwordChange = (accessId, sign, password, con) => {
+    let json = {
+        status: false,
+        errormessage: ""
+    }
+
+    let auth = checkAuth(accessId, sign, con)
+
+    return {...json, ...auth}
+}

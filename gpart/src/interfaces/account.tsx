@@ -57,3 +57,10 @@ export interface updateInfo {
     status: boolean,
     errormessage: string
 }
+
+export interface passwordChange {
+    auth: boolean,
+    sign: string
+    status: boolean,
+    errormessage: string
+}
