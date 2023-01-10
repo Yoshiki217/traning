@@ -86,3 +86,35 @@ export const useUpload = (names: string[]): [
         setUpload
     ]
 }
+
+export const noneEmpty = (checkObject: {
+    [name: string]: {
+        name: string
+        value: string | number
+    }
+}): boolean => {
+    const array = Object.keys(checkObject)
+    for(let key of array){
+        let which = checkObject[key].value
+        if(which == ""){
+            return false
+        }
+    }
+    return true
+}
+
+export const noneNull = (files: {
+    [name: string] : {
+        name: string,
+        file: any
+    }
+}) => {
+    const array = Object.keys(files)
+    for(let key of array){
+        let which = files[key].file
+        if(which == null){
+            return false
+        }
+    }
+    return true
+}
