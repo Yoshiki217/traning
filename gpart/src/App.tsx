@@ -20,6 +20,7 @@ import { EventIdIndex } from './comp/EventIdIndex';
 import { EventUpdate } from './comp/EventUpdate';
 import { CourseName } from './comp/CourseName';
 import { Error404 } from './comp/Error404';
+import { PasswordChange } from './comp/PasswordChange';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route index element={<AccountIndex/>}></Route>
                 <Route path='info' element={<Info/>}></Route>
                 <Route path='update' element={<Update/>}></Route>
+                <Route path='passwordChange' element={<PasswordChange/>}></Route>
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
                   <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
