@@ -1,4 +1,4 @@
-import { FC, FormEvent, useContext, useState } from "react";
+import { FC, FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postg } from "../api/postg";
 import { setStorage } from "../api/storage";
@@ -6,6 +6,7 @@ import { getForm, useInputs } from "../api/useInputs";
 import { login } from "../interfaces/account";
 import { RefreshContext } from "./Slash";
 import Header from "./Header";
+import { MessageContext } from "./Top";
 
 export const loginForm = {
 
@@ -21,6 +22,7 @@ export const loginForm = {
 
 export const Login : FC = () => {
     const gate = useNavigate()
+    const messageContext = useContext(MessageContext)
     const context = useContext(RefreshContext)
     const [inputs, setInputs] = useInputs(loginForm)
     const [message, setMessage] = useState(<></>)
@@ -52,6 +54,19 @@ export const Login : FC = () => {
                 
                     <form className="max-w-lg border rounded-lg mx-auto" onSubmit={onSubmit}>
                     <div className="flex flex-col gap-4 p-4 md:p-8">
+                        {
+                            messageContext.value!=""?
+                                <>
+                                    <div className="alert alert-error shadow-lg">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            <span>{messageContext.value}</span>
+                                        </div>
+                                    </div>
+                                </>
+                            :
+                            <></>
+                        }
                         <div>
                         <label form="email" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Name</label>
                         <input  name={inputs.accountName.name} value={inputs.accountName.value} onChange={setInputs}  className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />

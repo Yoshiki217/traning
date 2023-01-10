@@ -333,7 +333,6 @@ exports.updateInfo = (accessId, sign, info, con) => {
 }
 
 exports.setNewBodyParams = (accessId, sign, info, con) => {
-    // checkAuth
     // info: {
     //     weight: Number,
     //     height: Number,
@@ -341,6 +340,7 @@ exports.setNewBodyParams = (accessId, sign, info, con) => {
     // }
     let json = {
         status: false,
+        errormessage: "",
         paramsId: 0,
         paramsInfo: {
             weight: 0,
@@ -348,16 +348,56 @@ exports.setNewBodyParams = (accessId, sign, info, con) => {
             date: ""
         }
     }
+    let auth = checkAuth(accessId, sign, con)
+
+    return {...json, ...auth}
 }
 
 exports.updateBodyParams = (accessId, sign, paramsId, info, con) => {
+    let json = {
+        status: false,
+        errormessage: "",
+        paramsId: paramsId,
+        paramsInfo: {
+            weight: 0,
+            height: 0,
+            date: ""
+        }
+    }
+    let auth = checkAuth(accessId, sign, con)
 
+
+    return {...json, ...auth}
 }
 
 exports.removeBodyParams = (accessId, sign, paramsId, con) => {
+    let json = {
+        status: false,
+        errormessage: ""
+    }
+    let auth = checkAuth(accessId, sign, con)
 
+
+    return {...json, ...auth}
 }
 
-exports.bodyParams = () => {
-    
+exports.bodyParams = (accessId, sign, year, month, con) => {
+    let json = {
+        status: false,
+        errormessage: "",
+        params: [
+            {
+                paramsId: paramsId,
+                paramsInfo: {
+                    weight: 0,
+                    height: 0,
+                    date: ""
+                }
+            }
+        ]
+    }
+    let auth = checkAuth(accessId, sign, con)
+
+
+    return {...json, ...auth}
 }
