@@ -2,7 +2,7 @@ import { FC, FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postg } from "../api/postg";
 import { setStorage } from "../api/storage";
-import { getForm, useInputs } from "../api/useInputs";
+import { getForm, noneEmpty, useInputs } from "../api/useInputs";
 import { login } from "../interfaces/account";
 import { RefreshContext } from "./Slash";
 import Header from "./Header";
@@ -34,6 +34,11 @@ export const Login : FC = () => {
     }
     const onSubmit = (event: FormEvent<HTMLFormElement>)=>{
         event.preventDefault()
+        console.log(inputs)
+        if(!noneEmpty(inputs)){
+            setMessage(<>入れていない要素があります</>)
+            return
+        }
         postg('login', getForm(inputs))
         .then((json: login)=>{
             console.log(json)
@@ -61,6 +66,19 @@ export const Login : FC = () => {
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                             <span>{messageContext.value}</span>
+                                        </div>
+                                    </div>
+                                </>
+                            :
+                            <></>
+                        }
+                        {
+                            message!=<></>?
+                                <>
+                                    <div className="alert alert-error shadow-lg">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            <span>{message}</span>
                                         </div>
                                     </div>
                                 </>
