@@ -9,6 +9,7 @@ import { getForm, useInputs, useUpload } from "../api/useInputs";
 import { updateInfo } from "../interfaces/account";
 import { AccountContext } from "./Account";
 import { RefreshContext } from "./Slash";
+import RootUpdate from "./RootUpdate";
 
 export const updateForm = {
     userName: {
@@ -182,23 +183,28 @@ export const Update : FC = () => {
                                         </a>
                                     </li>
                                 </ul>
-                            </nav>
-                        </div>
-                        <div className="flex flex-shrink-0 p-4 px-4 bg-gray-50">
-                            <a href="https://google.com" className="flex-shrink-0 block w-full group">
-                                <div className="flex items-center">
-                                    <div>
-                                        <img className="inline-block rounded-full h-9 w-9" src="" alt=""></img>
+                                <div className="dropdown dropdown-hover p-2">
+                                    <div className="relative  bg-sakura-50 px-6 py-5 rounded-box">
+                                        <div className="avatar placeholder">
+                                            <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
+                                                <span>MX</span>
+                                            </div>
+                                            <p className="pl-5 pt-1">ID:123456789</p>
+                                        </div>
                                     </div>
-                                    <div className="ml-3">
-                                        <p className="text-sm font-medium text-gray-900">user</p>
-                                    </div>
+                                                
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li><a>Item 1</a></li>
+                                        <li><a>Item 2</a></li>
+                                    </ul>
                                 </div>
-                            </a>
+                            </nav>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+            {/* コンテンツの位置 */}
             <div className="flex flex-col flex-1 w-0 overflow-hidden">
                 <main className="relative flex-1 overflow-y-auto focus:outline-none">
                     <div className="py-6">
@@ -207,6 +213,7 @@ export const Update : FC = () => {
                             </h1>
                         </div>
                         <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">   
+                            <RootUpdate />
                         </div>
                     </div>
                 </main>
