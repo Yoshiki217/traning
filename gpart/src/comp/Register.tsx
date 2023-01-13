@@ -4,6 +4,7 @@ import { postg } from "../api/postg";
 import { getForm, useInputs } from "../api/useInputs";
 import { register } from "../interfaces/account";
 import { MessageContext } from "./Top";
+import Header from "./Header";
 
 export const registerForm = {
     accountName: {
@@ -74,19 +75,8 @@ export const Register : FC = () => {
         })
     }
     return (
-        // <
-        //     <button onClick={toReturn}>戻る</button>
-        //     <button onClick={toLogin}>ログインへ</button>
-        //     <form onSubmit={onSubmit}>
-        //         <input type="text" name={inputs.accountName.name} value={inputs.accountName.value} onChange={setInputs} />
-        //         <input type="password" name={inputs.password.name} value={inputs.password.value} onChange={setInputs} />
-        //         <input type="password" name={inputs.confirmPassword.name} value={inputs.confirmPassword.value} onChange={setInputs} />
-        //         {
-        //             message
-        //         }
-        //         <input type="submit" value="登録" />
-        //     </form>
-
+        <>
+        <Header />
             <div className="bg-white py-8 sm:py-8 lg:py-12">
                 <div className="max-w-screen-2xl px-8 md:px-20 mx-auto">
 
@@ -138,5 +128,6 @@ export const Register : FC = () => {
                     </form>
                 </div>
                 </div>
+        </>
     )
 }
