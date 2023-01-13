@@ -62,6 +62,16 @@ const RootForm = () => {
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>user name</label>
                                 <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required />
                             </div>
+                            <div className="flex items-center justify-between mt-4">
+                                <div className='w-full md:w-1/2 px-3 mb-6'>
+                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >birthday</label>
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required />
+                                </div>
+                            </div>
+                            <div className='w-full md:w-full px-3 mb-6'>
+                                <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>phone</label>
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required />
+                            </div>
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Bio</label>
                                 <textarea className='bg-gray-100 rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner  border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'  required></textarea>
