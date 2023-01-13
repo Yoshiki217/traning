@@ -62,10 +62,8 @@ exports.login = (accountName, password, con) => {
     let r_check = con.query(`SELECT id, accountName, password, idSensei FROM account WHERE accountName ="${accountName}" FOR UPDATE`)
     if(r_check==0){
         json.errormessage = "accountNameは間違う又はまだ登録していません。"
-        con.query("ROLLBACK")
     }else if(password!=r_check[0].password){
         json.errormessage = "passwordは間違います。"
-        con.query("ROLLBACK")
     }else{
         let id = r_check[0].id
         // signを作成
@@ -332,7 +330,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
     return {...json, ...auth}
 }
 
-exports.setNewBodyParams = (accessId, sign, info, con) => {
+exports.updateBodyParams = (accessId, sign, info, con) => {
     // info: {
     //     weight: Number,
     //     height: Number,
@@ -341,7 +339,6 @@ exports.setNewBodyParams = (accessId, sign, info, con) => {
     let json = {
         status: false,
         errormessage: "",
-        paramsId: 0,
         paramsInfo: {
             weight: 0,
             height: 0,
@@ -349,35 +346,71 @@ exports.setNewBodyParams = (accessId, sign, info, con) => {
         }
     }
     let auth = checkAuth(accessId, sign, con)
-
-    return {...json, ...auth}
-}
-
-exports.updateBodyParams = (accessId, sign, paramsId, info, con) => {
-    let json = {
-        status: false,
-        errormessage: "",
-        paramsId: paramsId,
-        paramsInfo: {
-            weight: 0,
-            height: 0,
-            date: ""
+    if(auth.auth){
+        let findAsDate = con.query(`SELECT id, weight, height FROM bodyParameter WHERE idUser=${auth.id} AND date="${info.date}" FOR UPDATE`)
+        if(findAsDate.length != 0){
+            if(findAsDate[0].weight != info.weight || findAsDate[0].height != info.height){
+                con.query(`UPDATE bodyParameter 
+                            SET weight = ${info.weight}, height = ${info.height} 
+                            WHERE idUser=${auth.id} AND date="${info.date}"`
+                )
+                con.query("COMMIT")
+                json.status = true
+                json.paramsInfo = {
+                    weight: info.weight,
+                    height: info.height,
+                    date: info.date
+                }
+            }else{
+                con.query("ROLLBACK")
+                json.status = true
+                json.paramsInfo = {
+                    weight: info.weight,
+                    height: info.height,
+                    date: info.date
+                }
+            }
+        }else{
+            con.query(`INSERT INTO bodyParameter(idUser, weight, height, date) 
+                           VALUES (
+                            ${auth.id},
+                            ${info.weight},
+                            ${info.height},
+                            "${info.date}"
+                            )`
+            )
+            con.query("COMMIT")
+            json.status = true
+            json.paramsInfo = {
+                weight: info.weight,
+                height: info.height,
+                date: info.date
+            }
         }
+
     }
-    let auth = checkAuth(accessId, sign, con)
-
-
     return {...json, ...auth}
 }
 
-exports.removeBodyParams = (accessId, sign, paramsId, con) => {
+exports.removeBodyParams = (accessId, sign, date, con) => {
+    //     date: String
     let json = {
         status: false,
         errormessage: ""
     }
     let auth = checkAuth(accessId, sign, con)
-
-
+    if(auth.auth){
+        findInfo = con.query(`SELECT id FROM bodyParameter WHERE idUser=${auth.id} AND date="${date}" FOR UPDATE`)
+        if(findInfo.length==1){
+            con.query(`DELETE FROM bodyParameter 
+                        WHERE id=${findInfo[0].id}`)
+            con.query("COMMIT")
+            json.status = true
+        }else if (findInfo.length==0){
+            con.query("ROLLBACK")
+            json.errormessage = `${date}は見つかりません!`
+        }
+    }
     return {...json, ...auth}
 }
 
@@ -385,20 +418,29 @@ exports.bodyParams = (accessId, sign, year, month, con) => {
     let json = {
         status: false,
         errormessage: "",
-        params: [
-            {
-                paramsId: paramsId,
-                paramsInfo: {
-                    weight: 0,
-                    height: 0,
-                    date: ""
-                }
-            }
+        paramInfos: [
+            // {
+            //     weight: 0,
+            //     height: 0,
+            //     date: ""
+            // }
         ]
     }
     let auth = checkAuth(accessId, sign, con)
-
-
+    if(auth.auth){
+        data = con.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d') as date, weight, height FROM bodyParameter 
+                        WHERE idUser=${auth.id} AND date like "${year}-${month}-%"`)
+        if (data.length != 0){
+            data.forEach(d=>{
+                json.paramInfos.push({
+                    weight : d.weight,
+                    height : d.height,
+                    date : d.date
+                })
+            })
+        }
+        json.status = true
+    }
     return {...json, ...auth}
 }
 
@@ -409,6 +451,13 @@ exports.passwordChange = (accessId, sign, password, con) => {
     }
 
     let auth = checkAuth(accessId, sign, con)
-
+    if(auth.auth){
+        con.query(`SELECT 1 FROM account LIMIT 1 FOR UPDATE`)
+        con.query(`UPDATE account 
+                    SET password = "${password}" 
+                    WHERE id = ${auth.id}`)
+        con.query("COMMIT")
+        json.status = true
+    }
     return {...json, ...auth}
 }
