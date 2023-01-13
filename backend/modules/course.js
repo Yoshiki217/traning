@@ -21,8 +21,9 @@ exports.createCourse = (accessId, sign, courseName, subAccountName, subAccountPa
         if(auth.isMain){
             let r_coureseName = con.query(`SELECT courseName FROM course 
                     WHERE courseName = "${courseName}" 
-                    AND idSensei = ${auth.id}`)
+                    AND idSensei = ${auth.id} FOR UPDATE`)
             if(r_coureseName.length!=0){
+                con.query("ROLLBACK")
                 json.errormessage = `${courseName}のコース名は既に登録されました。`
             }
             else{
