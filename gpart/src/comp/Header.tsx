@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom'
 
 
 
-const Header = () => {
+const Header = (links: {
+    label: string,
+    url: string
+}[]) => {
 
   const gate = useNavigate();
-  const toLogin = () => {
-    gate("login");
-  };
 
   return (
     <div>
@@ -27,7 +27,11 @@ const Header = () => {
                 <a href="https://google.com" className="mr-5 hover:text-gray-900">Third Link</a>
                 <a href="https://google.com" className="mr-5 hover:text-gray-900">Fourth Link</a>
                 </nav>
-                <a href="#" onClick={toLogin} className="hidden lg:inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Log in</a>
+                {
+                    links?.map(link=>
+                        <a href="#" onClick={()=>{gate(link.url)}} className="hidden lg:inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">{link.label}</a>
+                    )
+                }
             </div>
         </header>
     </div>

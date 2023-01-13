@@ -22,6 +22,14 @@ import { CourseName } from './comp/CourseName';
 import { Error404 } from './comp/Error404';
 import { PasswordChange } from './comp/PasswordChange';
 
+declare global{
+    interface Window{
+        utilDraw: (chart: HTMLCanvasElement, rawData: {
+            date: string,
+            weight: string | number
+        }[]) => void
+    }
+}
 
 function App() {
   return (
