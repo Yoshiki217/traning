@@ -18,7 +18,9 @@ export const TopIndex : FC = () => {
             <button onClick={toLogin}>ログイン</button> */}
             <div className="bg-white pb-6 sm:pb-8 lg:pb-12">
             <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
-                <Header />
+                {
+                    Header([])
+                }
                 
             
                 <section className="min-h-96 flex justify-center items-center flex-1 shrink-0 bg-gray-100 overflow-hidden shadow-lg rounded-lg relative py-16 md:py-20 xl:py-48">
