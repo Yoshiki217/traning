@@ -21,7 +21,6 @@ export const TopIndex : FC = () => {
                 {
                     Header([])
                 }
-                
             
                 <section className="min-h-96 flex justify-center items-center flex-1 shrink-0 bg-gray-100 overflow-hidden shadow-lg rounded-lg relative py-16 md:py-20 xl:py-48">
 
