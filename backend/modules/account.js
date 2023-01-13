@@ -35,6 +35,7 @@ exports.register = (accountName, password, con) => {
     // if(auth.isMain){
         let r_accountName = con.query(`SELECT accountName FROM account WHERE accountName="${accountName}" FOR UPDATE`)
         if(r_accountName!=0){
+            con.query("ROLLBACK")
             json.errormessage = "このaccountNameはすでに登録された。"
         }else{
             con.query(`INSERT INTO account(accountName, password) VALUES("${accountName}","${password}")`)
@@ -61,8 +62,10 @@ exports.login = (accountName, password, con) => {
     //存在しなければerrormessageにメッセジー入れて返す
     let r_check = con.query(`SELECT id, accountName, password, idSensei FROM account WHERE accountName ="${accountName}" FOR UPDATE`)
     if(r_check==0){
+        con.query("ROLLBACK")
         json.errormessage = "accountNameは間違う又はまだ登録していません。"
     }else if(password!=r_check[0].password){
+        con.query("ROLLBACK")
         json.errormessage = "passwordは間違います。"
     }else{
         let id = r_check[0].id
