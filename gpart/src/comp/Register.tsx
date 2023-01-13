@@ -76,7 +76,9 @@ export const Register : FC = () => {
     }
     return (
         <>
-        <Header />
+        {
+            Header([])
+        }
             <div className="bg-white py-8 sm:py-8 lg:py-12">
                 <div className="max-w-screen-2xl px-8 md:px-20 mx-auto">
 
