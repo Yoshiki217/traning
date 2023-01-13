@@ -63,10 +63,10 @@ exports.login = (accountName, password, con) => {
     let r_check = con.query(`SELECT id, accountName, password, idSensei FROM account WHERE accountName ="${accountName}" FOR UPDATE`)
     if(r_check==0){
         con.query("ROLLBACK")
-        json.errormessage = "アカウントは間違う又はまだ登録していません。"
+        json.errormessage = "アカウントは間違っています、又はまだ登録していません。"
     }else if(password!=r_check[0].password){
         con.query("ROLLBACK")
-        json.errormessage = "パスワードは間違います。"
+        json.errormessage = "パスワードは間違っています。"
     }else{
         let id = r_check[0].id
         // signを作成
