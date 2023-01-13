@@ -7,6 +7,7 @@ import { login } from "../interfaces/account";
 import { RefreshContext } from "./Slash";
 import Header from "./Header";
 import { MessageContext } from "./Top";
+import Fotter from "./Fotter";
 
 export const loginForm = {
 
@@ -123,6 +124,7 @@ export const Login : FC = () => {
                     </form>
                 </div>
             </div>
+            <Fotter/>
         </>
     )
 }
