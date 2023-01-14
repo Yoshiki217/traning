@@ -183,17 +183,19 @@ export const Update : FC = () => {
                                         </a>
                                     </li>
                                 </ul>
-                                <div className="dropdown dropdown-hover p-2">
-                                    <div className="relative  bg-sakura-50 px-6 py-5 rounded-box">
-                                        <div className="avatar placeholder">
-                                            <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-                                                <span>MX</span>
+                                
+                                <div className="dropdown flex flex-shrink-0 p-4 px-4 bg-white">
+                                    <a href="https://google.com" className="flex-shrink-0 block w-full group hover:bg-gray-50">
+                                        <div className="flex items-center">
+                                            <div>
+                                                <img className="inline-block rounded-full h-9 w-9" src="" alt=""></img>
                                             </div>
-                                            <p className="pl-5 pt-1">ID:123456789</p>
+                                            <div className="ml-3">
+                                                <p className="text-sm font-medium text-gray-900">{useState.name}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                                
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    </a>
+                                    <ul className="dropdown-content menu p-2 shadow bg-base-100 w-52">
                                         <li><a>Item 1</a></li>
                                         <li><a>Item 2</a></li>
                                     </ul>

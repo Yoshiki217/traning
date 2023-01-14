@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 
 const Header = (links: {
-    label: string,
-    url: string
+    label:string,
+    url:string
 }[]) => {
 
   const gate = useNavigate();
