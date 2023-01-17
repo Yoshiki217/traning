@@ -1,9 +1,11 @@
-import { FC, FormEvent, useContext } from "react"
+import { FC, FormEvent, useContext, useState } from "react"
 import { postg } from "../api/postg"
 import { getStorage } from "../api/storage"
 import { noneEmpty, useInputs } from "../api/useInputs"
 import { AccountContext } from "./Account"
 import {passwordChange} from "../interfaces/account"
+import { useAuth } from "../api/logout"
+import { useNavigate } from "react-router-dom"
 
 export const passwordChangeForm = {
     password: {
@@ -17,10 +19,13 @@ export const passwordChangeForm = {
 }
 
 export const PasswordChange: FC = () => {
+    const auth = useAuth()
     const accountInfo = useContext(AccountContext)
     const [inputs, setInputs] = useInputs(
         passwordChangeForm
     )
+    const [message, setMessage] = useState('')
+    const gate = useNavigate()
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(!noneEmpty(inputs)){
@@ -39,6 +44,12 @@ export const PasswordChange: FC = () => {
             }
         ).then((json: passwordChange)=>{
             console.log(json)
+            if(!auth(json)) return
+            if(!json.status){
+                setMessage(json.errormessage)
+                return
+            }
+            gate("/account")
         })
     }
     return (

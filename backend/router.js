@@ -113,6 +113,7 @@ app.post('/changeCourseName', (req, res)=>{
 //event
 app.post('/createEventType', (req, res)=>{
     let post = JSON.parse(req.body.json)
+    console.log(post.info)
     res.json(event.createEventType(post.accessId, post.sign, post.info, con))
 })
 

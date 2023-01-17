@@ -11,10 +11,10 @@ export const useInputs = (defaultValue?: {[name: string]: {
             value: string | number
         }
     },
-    (event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>)=>void
+    (event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>|{target: {name: string, value: string | number}})=>void
 ] => {
     const [inputs, setInputs] = useState(defaultValue || {})
-    const setInputsExtend = useCallback((event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>) => {
+    const setInputsExtend = useCallback((event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>|{target: {name: string, value: string | number}}) => {
         setInputs(prev=>{
             return {
                 ...prev,
