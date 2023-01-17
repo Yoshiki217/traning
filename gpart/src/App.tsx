@@ -53,6 +53,7 @@ function App() {
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
                 <Route path="user" element={<Users/>} ></Route>
+                <Route path="chat" element={<Chat/>} ></Route>
                   <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
                   <Route path=':year/:month/:date' element={<YMD/>}>
                     <Route index element={<YMDIndex/>}></Route>
