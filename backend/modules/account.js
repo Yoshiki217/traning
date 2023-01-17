@@ -322,7 +322,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
             name = "${info.userName}",
             email = "${info.email}",
             birthday = "${info.birthday}",
-            telNum = ${info.phone},
+            telNum = "${info.phone}",
             sex = ${info.sex},
             address = "${info.address}",
             avatar = "${info.avatar}"
