@@ -49,11 +49,11 @@ function App() {
                 <Route index element={<AccountIndex/>}></Route>
                 <Route path='info' element={<Info/>}></Route>
                 <Route path='update' element={<Update/>}></Route>
+                <Route path="user" element={<Users/>} ></Route>
+                <Route path="chat" element={<Chat/>} ></Route>
                 <Route path='passwordChange' element={<PasswordChange/>}></Route>
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
-                <Route path="user" element={<Users/>} ></Route>
-                <Route path="chat" element={<Chat/>} ></Route>
                   <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
                   <Route path=':year/:month/:date' element={<YMD/>}>
                     <Route index element={<YMDIndex/>}></Route>
