@@ -23,6 +23,7 @@ import { Error404 } from './comp/Error404';
 import { PasswordChange } from './comp/PasswordChange';
 import { Users } from "./comp/Users"
 import { Chat } from "./comp/Chat"
+import { Settings } from "./comp/Settings"
 
 declare global{
     interface Window{
@@ -51,6 +52,7 @@ function App() {
                 <Route path='update' element={<Update/>}></Route>
                 <Route path="user" element={<Users/>} ></Route>
                 <Route path="chat" element={<Chat/>} ></Route>
+                <Route path="settings" element={<Settings/>}></Route>
                 <Route path='passwordChange' element={<PasswordChange/>}></Route>
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
