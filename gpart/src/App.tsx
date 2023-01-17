@@ -21,6 +21,8 @@ import { EventUpdate } from './comp/EventUpdate';
 import { CourseName } from './comp/CourseName';
 import { Error404 } from './comp/Error404';
 import { PasswordChange } from './comp/PasswordChange';
+import { Users } from "./comp/Users"
+import { Chat } from "./comp/Chat"
 
 declare global{
     interface Window{
@@ -50,6 +52,7 @@ function App() {
                 <Route path='passwordChange' element={<PasswordChange/>}></Route>
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
+                <Route path="user" element={<Users/>} ></Route>
                   <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
                   <Route path=':year/:month/:date' element={<YMD/>}>
                     <Route index element={<YMDIndex/>}></Route>
