@@ -1,5 +1,3 @@
-import React from "react"
-
 export const Users = () =>{
   return (
     <section className="text-gray-600 body-font">
