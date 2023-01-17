@@ -67,26 +67,8 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
             }
         })
         setMInputs(type)
+        setCInputs(name)
         
-    }
-    const onFirstAddButtonClick = () => {
-        console.log(mInputs)
-        postg('createEventType', {
-            ...getStorage(),
-            info: {
-                eventTypeName: cInputs
-            }
-        }).then((json: createEventType)=>{
-            console.log(json)
-            if(!auth(json)) return
-            if(!json.status){
-                console.log(json.errormessage)
-                return
-            }
-            refresh.setState()
-            setCInputs("")
-            setMInputs(getFirst())
-        })
     }
     const onAddButtonClick = () => {
         console.log(mInputs)
