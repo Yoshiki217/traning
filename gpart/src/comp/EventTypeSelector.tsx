@@ -1,6 +1,5 @@
 import { json } from "body-parser";
 import React, { ChangeEvent, createContext, FC, useContext, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
 import { useAuth } from "../api/logout";
 import { postg } from "../api/postg";
 import { getStorage } from "../api/storage";
