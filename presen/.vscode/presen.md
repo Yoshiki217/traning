@@ -10,7 +10,6 @@ _paginate: false
 
 # 世界は俺らが守ったる
 
-
 ----
 <!-- 
 _class: title-and-body

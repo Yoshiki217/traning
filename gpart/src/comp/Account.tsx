@@ -144,7 +144,7 @@ export const Account : FC = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a className="inline-flex items-center w-full px-4 py-2 mt-1 text-base text-gray-900 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-50" href="https://google.com">
+                                        <a className="inline-flex items-center w-full px-4 py-2 mt-1 text-base text-gray-900 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-50" onClick={() => {gate("/user")}}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                             </svg>
@@ -190,18 +190,22 @@ export const Account : FC = () => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className="flex flex-shrink-0 p-4 px-4 bg-gray-50">
-                            <a href="https://google.com" className="flex-shrink-0 block w-full group">
-                                <div className="flex items-center">
-                                    <div>
-                                        <img className="inline-block rounded-full h-9 w-9" src="" alt=""></img>
-                                    </div>
-                                    <div className="ml-3">
-                                        <p className="text-sm font-medium text-gray-900">user</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                        <div className="dropdown flex flex-shrink-0 p-4 px-4 bg-white">
+                                    <a href="https://google.com" className="flex-shrink-0 block w-full group hover:bg-gray-50">
+                                        <div className="flex items-center">
+                                            <div>
+                                                <img className="inline-block rounded-full h-9 w-9" src="" alt=""></img>
+                                            </div>
+                                            <div className="ml-3">
+                                                <p className="text-sm font-medium text-gray-900">{useState.name}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <ul className="dropdown-content menu p-2 shadow bg-base-100 w-52">
+                                        <li><a>Item 1</a></li>
+                                        <li><a>Item 2</a></li>
+                                </ul>
+                            </div>
                     </div>
                 </div>
             </div>
