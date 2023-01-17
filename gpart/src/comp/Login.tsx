@@ -26,7 +26,7 @@ export const Login : FC = () => {
     const messageContext = useContext(MessageContext)
     const context = useContext(RefreshContext)
     const [inputs, setInputs] = useInputs(loginForm)
-    const [message, setMessage] = useState(<></>)
+    const [message, setMessage] = useState("")
     const toReturn = () => {
         gate('../')
     }
@@ -37,7 +37,7 @@ export const Login : FC = () => {
         event.preventDefault()
         console.log(inputs)
         if(!noneEmpty(inputs)){
-            setMessage(<>入れていない要素があります</>)
+            setMessage("入れていない要素があります")
             return
         }
         postg('login', getForm(inputs))
@@ -47,7 +47,7 @@ export const Login : FC = () => {
                 setStorage(json)
                 context.setState()
             } else {
-                setMessage(<>{json.errormessage}</>)
+                setMessage(json.errormessage)
             }
         })
     }
@@ -76,7 +76,7 @@ export const Login : FC = () => {
                             <></>
                         }
                         {
-                            message!=<></>?
+                            message!=""?
                                 <>
                                     <div className="alert alert-error shadow-lg">
                                         <div>
