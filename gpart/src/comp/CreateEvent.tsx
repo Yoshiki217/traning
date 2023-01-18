@@ -15,6 +15,7 @@ export const CreateEvent : FC = () => {
     
     return (
         <>
+            <h1>イベント作成</h1>
             {
                 
                     <Outlet/>

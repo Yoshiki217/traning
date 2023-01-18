@@ -58,7 +58,7 @@ export const CreateCourse : FC = () => {
     }
     return (
         <>
-            <button onClick={toAccount}>戻る</button>
+            {/* <button onClick={toAccount}>戻る</button>
             <form onSubmit={onSubmit}>
                 <input type="text" name={inputs.courseName.name} value={inputs.courseName.value} onChange={setInputs} />
                 <input type="text" name={inputs.subAccountName.name} value={inputs.subAccountName.value} onChange={setInputs} />
@@ -68,7 +68,20 @@ export const CreateCourse : FC = () => {
                     message
                 }
                 <input type="submit" value="作成" />
-            </form>
+            </form> */}
+            <div className="px-10 py-4">
+                <div className="h-10 w-10">
+                    <div></div>
+                        <form onSubmit={onSubmit}>
+                            <section className="py-5 text-blue-50">
+                                <div>
+                                    <input type="text" name={inputs.course.name} className="text">a</input>
+                                </div>
+                            </section>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }
