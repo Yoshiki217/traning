@@ -81,7 +81,6 @@ export const CreateCourse : FC = () => {
                         </form>
                     </div>
                 </div>
-            </div>
         </>
     )
 }
