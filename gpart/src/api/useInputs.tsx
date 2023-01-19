@@ -43,11 +43,12 @@ export const getForm = (inputs: {
     return a
 }
 
-export const useUpload = (names: string[]): [
+export const useUpload = (names: {name: string, link: string}[]): [
     {
         [name: string] : {
             name: string,
-            file: any
+            file: any,
+            link: string
         }
     },
     (event: ChangeEvent<HTMLInputElement>)=>void
@@ -57,15 +58,17 @@ export const useUpload = (names: string[]): [
             [name: string]: {
                 name: string,
                 file: any,
+                link: string
             }
         }
     >(
         names.reduce((acc, value, index)=>{
             return {
                 ...acc,
-                [value] :{
-                    name: value,
-                    file: null
+                [value.name] :{
+                    name: value.name,
+                    file: null,
+                    link: value.link
                 }
             }
         }, {})
@@ -76,7 +79,8 @@ export const useUpload = (names: string[]): [
                 ...prev,
                 [event.target.name]: {
                     name: event.target.name,
-                    file: event.target.files? event.target.files[0]: null
+                    file: event.target.files? event.target.files[0]: null,
+                    link: prev[event.target.name].link
                 }
             }
         })
@@ -97,6 +101,7 @@ export const noneEmpty = (checkObject: {
     for(let key of array){
         let which = checkObject[key].value
         if(which == ""){
+            console.log(key)
             return false
         }
     }
@@ -106,7 +111,8 @@ export const noneEmpty = (checkObject: {
 export const noneNull = (files: {
     [name: string] : {
         name: string,
-        file: any
+        file: any,
+        link?: string
     }
 }) => {
     const array = Object.keys(files)

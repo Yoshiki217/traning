@@ -5,7 +5,7 @@ import { useAuth, useLogout } from "../api/logout";
 import { postg } from "../api/postg";
 import { imagePreview } from "../api/preview";
 import { getStorage } from "../api/storage";
-import { getForm, useInputs, useUpload } from "../api/useInputs";
+import { getForm, noneEmpty, useInputs, useUpload } from "../api/useInputs";
 import { updateInfo } from "../interfaces/account";
 import { AccountContext } from "./Account";
 import { RefreshContext } from "./Slash";
@@ -29,11 +29,15 @@ export const updateForm = {
     },
     sex: {
         name: 'sex',
-        value: 0
+        value: "0"
     },
     address: {
         name: 'address',
         value: ''
+    },
+    avatar: {
+        name: "avatar",
+        value: ""
     }
 }   
 
@@ -61,16 +65,20 @@ export const Update : FC = () => {
             },
             sex: {
                 name: 'sex',
-                value: accountInfo.sex
+                value: `${accountInfo.sex}`
             },
             address: {
                 name: 'address',
                 value: accountInfo.address
+            },
+            avatar: {
+                name: "avatar",
+                value: accountInfo.avatar
             }
         }
     )
 
-    const [image, setImage] = useUpload(['avatar'])
+    const [image, setImage] = useUpload([{name: 'avatar', link: accountInfo.avatar}])
     const avatarPreview = imagePreview('avatar', image)
     const gate = useNavigate()
     const [message, setMessage] = useState(<></>)
@@ -86,6 +94,9 @@ export const Update : FC = () => {
             info: getForm(inputs),
             image
         })
+        if(!noneEmpty(inputs)){
+            return
+        }
         postg('updateInfo', {
             ...getStorage(),
             info: getForm(inputs)
