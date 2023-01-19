@@ -60,15 +60,22 @@ app.post('/account', (req, res)=>{
 
 app.post('/updateInfo', (req, res)=>{
     let post = JSON.parse(req.body.json)
-    const file = req.files.avatar
-    const userName = post.info.userName
-    const name = `${userName}_${Date.now()}.png`
-    res.json(account.updateInfo(post.accessId, post.sign,
-        {
-            ...post.info,
-            avatar: name
-        }, con))
-    imageUp(file, name)
+    if(req.files){
+        const file = req.files.avatar
+        const userName = post.info.userName
+        const name = `${userName}_${Date.now()}.png`
+        res.json(account.updateInfo(post.accessId, post.sign,
+            {
+                ...post.info,
+                avatar: name
+            }, con))
+        imageUp(file, name)
+    } else {
+        res.json(account.updateInfo(post.accessId, post.sign,
+            {
+                ...post.info
+            }, con))
+    }
 })
 
 app.post('/updateBodyParams', (req, res)=>{

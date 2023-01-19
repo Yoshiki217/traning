@@ -1,7 +1,8 @@
 export const postg = (url: string, obj: {}, files?: {
     [name: string]: {
         name: string,
-        file: any
+        file: any,
+        link: string
     }
 }): Promise<any> => {
     const form = new FormData()
