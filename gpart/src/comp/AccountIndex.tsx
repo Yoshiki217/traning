@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { CourseName } from "./CourseName";
 import { EventTypesContext, EventTypeSelector } from "./EventTypeSelector";
 import { useInputs } from "../api/useInputs";
+import { monthData } from "../api/dateformat";
 
 export const AccountIndex : FC = () => {
     const context = useContext(AccountContext)
@@ -29,12 +30,12 @@ export const AccountIndex : FC = () => {
             value: eventTypes.length > 0? eventTypes[0].eventTypeId : -1
         }
     })
+    const onCC = () => {
+        console.log(monthData(2023, 2))
+    }
     return (
         <>
-            <EventTypeSelector id="123" inputs={inputs} setInputs={setInputs}/>
-            <button onClick={()=>{
-                console.log(inputs)
-            }}>YORA</button>
+            <button onClick={onCC}>YORA</button>
         </>
     )
 }

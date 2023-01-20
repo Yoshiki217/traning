@@ -17,14 +17,14 @@ export const EventTypeRefreshContext = createContext({
 })
 
 export interface eventTypeSelectorProps {
-    id?: string,
     inputs: {
         [name: string]: {
             name: string,
             value: string | number
         }
     },
-    setInputs: (event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>|{target: {name: string, value: string | number}})=>void
+    setInputs: (event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>|{target: {name: string, value: string | number}})=>void,
+    id?: string
 }
 
 export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSelectorProps) => {

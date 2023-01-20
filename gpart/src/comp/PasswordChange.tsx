@@ -40,7 +40,7 @@ export const PasswordChange: FC = () => {
             "passwordChange",
             {
                 ...getStorage(),
-                ...inputs
+                password: inputs.password.value
             }
         ).then((json: passwordChange)=>{
             console.log(json)
@@ -48,13 +48,21 @@ export const PasswordChange: FC = () => {
             if(!json.status){
                 setMessage(json.errormessage)
                 return
+
             }
             gate("/account")
         })
     }
     return (
         <>
-
+            <form onSubmit={onSubmit}>
+                {
+                    message
+                }
+                <input type="password" name={inputs.password.name} value={inputs.password.value} onChange={setInputs} />
+                <input type="password" name={inputs.confirmPassword.name} value={inputs.confirmPassword.value} onChange={setInputs} />
+                <input type="submit" value={"更新"}/>
+            </form>
         </>
     )
 }
