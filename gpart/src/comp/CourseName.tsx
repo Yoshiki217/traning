@@ -14,6 +14,7 @@ export const CourseContext = createContext({
         phone: '',
         sex: 0,
         address: '',
+        avatar: ''
     }
 })
 

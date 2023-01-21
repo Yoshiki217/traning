@@ -24,6 +24,8 @@ import { PasswordChange } from './comp/PasswordChange';
 import { Users } from "./comp/Users"
 import { Chat } from "./comp/Chat"
 import { Settings } from "./comp/Settings"
+import { YM } from './comp/YM';
+import { EventUpdateIndex } from './comp/EventUpdateIndex';
 
 declare global{
     interface Window{
@@ -57,6 +59,7 @@ function App() {
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
                   <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
+                  <Route path=':year/:month' element={<YM/>}></Route>
                   <Route path=':year/:month/:date' element={<YMD/>}>
                     <Route index element={<YMDIndex/>}></Route>
                   </Route>
@@ -66,7 +69,7 @@ function App() {
                   <Route path='event/:eventId' element={<EventId/>}>
                     <Route index element={<EventIdIndex/>}></Route>
                     <Route path='update' element={<EventUpdate/>}>
-                      <Route index element={<></>}></Route>
+                      <Route index element={<EventUpdateIndex/>}></Route>
                     </Route>
                   </Route>
                 </Route>

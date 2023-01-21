@@ -111,6 +111,9 @@ export const Update : FC = () => {
             refresh.setState()
         })
     }
+    const toPasswordChange = ()=> {
+        gate("/account/passwordChange")
+    }
 
     const getImageUrl = () => {
         return image.avatar.file? URL.createObjectURL(image.avatar.file) : ''
@@ -131,7 +134,7 @@ export const Update : FC = () => {
                                 </div>
                                 <div className='w-full md:w-full px-3 mb-6 '>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>password</label>
-                                    <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change your password</button>
+                                    <button onClick={toPasswordChange} className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change your password</button>
                                 </div>
                                 <div className="personal w-full border-t border-gray-400 pt-4">
                                     <h2 className="text-2xl text-gray-900">Personal info:</h2>

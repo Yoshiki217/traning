@@ -73,20 +73,11 @@ export const Account : FC = () => {
             setValue(json.accountInfo)
             setLoaded(true)
             if(!json.status){
-                setState(false)
                 gate("update")
-            } else {
-                setState(true)
-                gate(".")
             }
         })
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }, [refresh.state])
-    useEffect(()=>{
-        if(!state){
-            gate("update")
-        }
-    }, [location.pathname])
     // EventTypes
     useEffect(()=>{
         postg('eventTypes', {

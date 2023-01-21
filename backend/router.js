@@ -149,7 +149,12 @@ app.post('/createEvent', (req, res)=>{
 app.post('/updateEvent', (req, res)=>{
     let post = JSON.parse(req.body.json)
     res.json(event.updateEvent(post.accessId, post.sign,
-        post.eventId, info, con))
+        post.eventId, post.info, con))
+})
+
+app.post('/eventsByMonth', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(event.eventsByMonth(post.accessId, post.sign, post.courseName, post.year, post.month, con))
 })
 
 app.post('/events', (req, res)=>{

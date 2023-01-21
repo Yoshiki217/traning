@@ -109,9 +109,9 @@ exports.account = (accessId, sign, con) => {
             email: '',
             birthday: '',
             phone: '',
-            sex: 0,
+            sex: 2,
             address: '',
-            avatar: '',
+            avatar: 'default_avatar.png',
             //isMain 確定
             isMain: false,
             courses: [
@@ -152,9 +152,9 @@ exports.account = (accessId, sign, con) => {
                         email: '',
                         birthday: '',
                         phone: '',
-                        sex: 0,
+                        sex: 2,
                         address: '',
-                        avatar: '',
+                        avatar: 'default_avatar.png',
                         isMain: auth.isMain,
                         courses: [],
                     }
@@ -211,9 +211,9 @@ exports.account = (accessId, sign, con) => {
                             email: '',
                             birthday: '',
                             phone: '',
-                            sex: 0,
+                            sex: 2,
                             address: '',
-                            avatar: '',
+                            avatar: 'default_avatar.png',
                         }
                     })
                 }
@@ -232,9 +232,9 @@ exports.account = (accessId, sign, con) => {
                         email: '',
                         birthday: '',
                         phone: '',
-                        sex: 0,
+                        sex: 2,
                         address: '',
-                        avatar: '',
+                        avatar: 'default_avatar.png',
                         isMain: auth.isMain,
                         courses: [
                             {
@@ -245,9 +245,9 @@ exports.account = (accessId, sign, con) => {
                                     email: '',
                                     birthday: '',
                                     phone: '',
-                                    sex: 0,
+                                    sex: 2,
                                     address: '',
-                                    avatar: '',
+                                    avatar: 'default_avatar.png',
                                 }
                             }
                         ],

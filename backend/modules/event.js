@@ -1,3 +1,5 @@
+const { query } = require('express');
+
 const checkAuth = require('./account').checkAuth;
 
 exports.createEventType = (accessId, sign, info, con) => {
@@ -284,7 +286,7 @@ exports.updateEvent = (accessId, sign, eventId, info, con) => {
                         eventWeightAmount = ${info.eventWeight.amount},
                         eventWeightUnit = "${info.eventWeight.unit}",
                         eventTimesAmount = ${info.eventTimes.amount},
-                        eventTimesUnit = "${info.eventTimes.unit}"
+                        eventTimesUnit = "${info.eventTimes.unit}",
                         date = "${info.date}"
                     WHERE eventId = ${eventId}`)
             con.query("COMMIT")
@@ -314,6 +316,143 @@ exports.updateEvent = (accessId, sign, eventId, info, con) => {
         }
     }
     return {...json, ...auth}
+}
+
+exports.eventsByMonth = (accessId, sign, courseName, year, month, con) => {
+
+    let json = {
+
+        status: false,
+
+        errormessage: "",
+
+        dates: [
+
+            // {
+
+            //     date: 1,
+
+            //     events: [
+
+            //     ]
+
+            // }
+
+        ]
+
+    }
+
+    let auth = checkAuth(accessId, sign, con)
+
+    if(auth.auth){
+
+        let d = new Date(year, month, 0)
+
+        let lastDateOfMonth = d.getDate()
+
+        let idSeito = -1
+
+        if(auth.isMain){
+
+            idSeito = con.query(`SELECT id FROM accountView
+
+                                WHERE courseName = "${courseName}"
+
+                                AND idSensei = ${auth.id}`)[0].id
+
+        }else{
+            idSeito = auth.id
+        }
+
+        console.log(idSeito)
+
+        let r_events = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId,
+
+                                         et2.eventTypeName, e1.eventWeightAmount,
+
+                                         e1.eventWeightUnit, e1.eventTimesAmount,
+
+                                         e1.eventTimesUnit, DATE_FORMAT(e1.date, '%Y-%m-%d') as date
+
+                                  FROM event e1, eventType et2  
+
+                                  WHERE e1.eventTypeId = et2.eventTypeId 
+
+                                  AND e1.idSeito = ${idSeito} 
+
+                                  AND e1.date >= "${year}-${month}-01"
+                                  ORDER BY e1.date`)
+
+        let r_events_length = r_events.length
+
+        let current_event = 0
+        // console.log(r_events)
+
+        for(let i = 1; i<=lastDateOfMonth && current_event<r_events_length; i++){
+
+            let d = i<10 ? "0"+i : i
+            
+            if(r_events[current_event].date == `${year}-${month}-${d}`){
+
+                let events = []
+                
+                while(r_events[current_event].date == `${year}-${month}-${d}`){
+            
+                    let data = r_events[current_event]
+
+                    events.push({
+
+                        eventId: data.eventId,
+
+                        eventName: data.eventName,
+
+                        eventType: {
+
+                            eventTypeId: data.eventTypeId,
+
+                            eventTypeName: data.eventTypeName
+
+                        },
+
+                        eventWeight: {
+
+                            amount: data.eventWeightAmount,
+
+                            unit: data.eventWeightUnit
+
+                        },
+
+                        eventTimes: {
+
+                            amount: data.eventTimesAmount,
+
+                            unit: data.eventTimesUnit
+
+                        },
+
+                        date: data.date
+
+                    })
+
+                    current_event += 1
+                    if(current_event >= r_events_length){
+                        break
+                    }
+                }
+                json.dates.push({date: i, events: events})
+
+            }else{
+
+                json.dates.push({date: i, events: []})
+
+            }
+
+        }
+
+    }
+
+    return {...json, ...auth}
+
 }
 
 exports.events = (accessId, sign, courseName, date, con) => {
