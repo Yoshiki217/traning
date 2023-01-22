@@ -8,7 +8,7 @@ export const CourseNameIndex : FC = () => {
     useEffect(()=>{
         const dateObject = new Date()
         const url = dateUrl(dateObject.getFullYear(), dateObject.getMonth()+1, dateObject.getDate())
-        gate(`${url.year}/${url.month}/${url.date}`)
+        gate(`${url.year}/${url.month}`)
     })
     return (
         <>

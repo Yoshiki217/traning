@@ -54,6 +54,7 @@ export const EventUpdateIndex : FC = () => {
         formEvent.preventDefault()
         postg('updateEvent', {
             ...getStorage(),
+            ...getForm(inputs),
             eventId: event.eventInfo.eventId,
             info: {
                 ...getForm(inputs),

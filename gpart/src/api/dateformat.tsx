@@ -53,3 +53,18 @@ export const monthData = (year: number, month: number): {date: number, day: numb
     }
     return list
 }
+
+export const calendarData = (year: number, month: number): {date: number, day: number, thisMonth: -1|0|1, format: string}[][] => {
+    const list: {date: number, day: number, thisMonth: -1|0|1, format: string}[][] = []
+    let count = -1
+    const datas = monthData(year, month)
+    for(let data of datas){
+        if(data.day==0){
+            list.push([])
+            count++
+        }
+        list[count].push(data)
+    }
+    console.log(list)
+    return list
+}

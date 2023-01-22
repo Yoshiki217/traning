@@ -326,19 +326,13 @@ exports.eventsByMonth = (accessId, sign, courseName, year, month, con) => {
 
         errormessage: "",
 
-        dates: [
+        dates: {
 
-            // {
+            // [day1]: [
 
-            //     date: 1,
+            // ]
 
-            //     events: [
-
-            //     ]
-
-            // }
-
-        ]
+        }
 
     }
 
@@ -388,11 +382,11 @@ exports.eventsByMonth = (accessId, sign, courseName, year, month, con) => {
         let current_event = 0
         // console.log(r_events)
 
-        for(let i = 1; i<=lastDateOfMonth && current_event<r_events_length; i++){
+        for(let i = 1; i<=lastDateOfMonth; i++){
 
             let d = i<10 ? "0"+i : i
             
-            if(r_events[current_event].date == `${year}-${month}-${d}`){
+            if(current_event<r_events_length && r_events[current_event].date == `${year}-${month}-${d}`){
 
                 let events = []
                 
@@ -439,15 +433,19 @@ exports.eventsByMonth = (accessId, sign, courseName, year, month, con) => {
                         break
                     }
                 }
-                json.dates.push({date: i, events: events})
+                // json.dates.push({date: i, events: events})
+                json.dates[`day${i}`] = events
 
             }else{
 
-                json.dates.push({date: i, events: []})
+                // json.dates.push({date: i, events: []})
+                json.dates[`day${i}`] = []
 
             }
 
         }
+
+        json.status = true
 
     }
 

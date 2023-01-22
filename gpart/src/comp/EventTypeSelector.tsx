@@ -3,7 +3,7 @@ import React, { ChangeEvent, createContext, FC, useContext, useState } from "rea
 import { useAuth } from "../api/logout";
 import { postg } from "../api/postg";
 import { getStorage } from "../api/storage";
-import { useInputs } from "../api/useInputs";
+import { getForm, useInputs } from "../api/useInputs";
 import { createEventType, removeEventType } from "../interfaces/event";
 
 export const EventTypesContext = createContext<{
@@ -74,6 +74,7 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
         console.log(mInputs)
         postg('createEventType', {
             ...getStorage(),
+            cInputs: cInputs,
             info: {
                 eventTypeName: cInputs
             }
