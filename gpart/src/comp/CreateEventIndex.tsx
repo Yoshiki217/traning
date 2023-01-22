@@ -56,8 +56,10 @@ export const CreateEventIndex : FC = () => {
     const auth = useAuth()
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        console.log(inputs)
         postg('createEvent', {
             ...getStorage(),
+            ...getForm(inputs),
             info: {
                 ...getForm(inputs),
                 courseName: course.courseName,

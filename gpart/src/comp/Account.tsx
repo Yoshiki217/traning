@@ -40,9 +40,9 @@ export const AccountContext = createContext<accountInfo>({
     email: '',
     birthday: getDateFormat(),
     phone: '',
-    sex: 0,
+    sex: 2,
     address: '',
-    avatar: '',
+    avatar: 'default_avatar.png',
     isMain: false,
     courses: []
 })

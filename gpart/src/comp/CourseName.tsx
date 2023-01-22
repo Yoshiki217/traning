@@ -12,9 +12,9 @@ export const CourseContext = createContext({
         email: '',
         birthday: '',
         phone: '',
-        sex: 0,
+        sex: 2,
         address: '',
-        avatar: ''
+        avatar: 'default_avatar.png'
     }
 })
 

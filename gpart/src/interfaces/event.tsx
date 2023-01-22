@@ -86,6 +86,32 @@ export interface updateEvent{
     }
 }
 
+export interface eventsByMonth {
+    auth: boolean,
+    sign: string,
+    status: boolean,
+    errormessage: string,
+    dates: {
+        [date: string]: {
+            eventId: number,
+            eventName: string
+            eventType: {
+                eventTypeId: number,
+                eventTypeName: string
+            }
+            eventWeight: {
+                amount: number,
+                unit: string
+            }
+            eventTimes: {
+                amount: number,
+                unit: string
+            }
+            date: string
+        }[]
+    }
+}
+
 export interface events{
     auth: boolean,
     sign: string

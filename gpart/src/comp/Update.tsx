@@ -29,7 +29,7 @@ export const updateForm = {
     },
     sex: {
         name: 'sex',
-        value: "0"
+        value: "2"
     },
     address: {
         name: 'address',
@@ -37,7 +37,7 @@ export const updateForm = {
     },
     avatar: {
         name: "avatar",
-        value: ""
+        value: "default_avatar.png"
     }
 }   
 
@@ -99,6 +99,7 @@ export const Update : FC = () => {
         }
         postg('updateInfo', {
             ...getStorage(),
+            ...getForm(inputs),
             info: getForm(inputs)
         }, image).then((json: updateInfo)=>{
             console.log(json)
