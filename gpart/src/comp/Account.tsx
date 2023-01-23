@@ -40,9 +40,9 @@ export const AccountContext = createContext<accountInfo>({
     email: '',
     birthday: getDateFormat(),
     phone: '',
-    sex: 2,
+    sex: 0,
     address: '',
-    avatar: 'default_avatar.png',
+    avatar: '',
     isMain: false,
     courses: []
 })
@@ -73,11 +73,20 @@ export const Account : FC = () => {
             setValue(json.accountInfo)
             setLoaded(true)
             if(!json.status){
+                setState(false)
                 gate("update")
+            } else {
+                setState(true)
+                gate(".")
             }
         })
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }, [refresh.state])
+    useEffect(()=>{
+        if(!state){
+            gate("update")
+        }
+    }, [location.pathname])
     // EventTypes
     useEffect(()=>{
         postg('eventTypes', {
@@ -115,7 +124,7 @@ export const Account : FC = () => {
                                 </svg>
                             </button>
                         </div>
-                        <div className="flex flex-col flex-grow px-4 mt-5">
+                        <div className="flex flex-col flex-grow px-3 mt-5">
                             <nav className="flex-1 space-y-1 bg-white">
                                 <ul>
                                     <li>
@@ -179,9 +188,20 @@ export const Account : FC = () => {
                                         </a>
                                     </li>
                                 </ul>
+                                <div className="dropdown dropdown-hover pr-2 w-60">
+                                    <div className="relative  bg-sakura-50 px-6 py-5 rounded-box">
+                                        <div className="avatar placeholder">
+                                        <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
+                                            <span>{useState.name}</span>
+                                        </div>
+                                        <p className="pl-5 pt-1">{useState.name}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </nav>
                         </div>
-                        <div className="dropdown flex flex-shrink-0 p-4 px-4 bg-white">
+                        
+                        {/* <div className="dropdown flex flex-shrink-0 p-4 px-4 bg-white">
                                     <a href="https://google.com" className="flex-shrink-0 block w-full group hover:bg-gray-50">
                                         <div className="flex items-center">
                                             <div>
@@ -196,19 +216,22 @@ export const Account : FC = () => {
                                         <li><a>Item 1</a></li>
                                         <li><a>Item 2</a></li>
                                 </ul>
-                            </div>
+                        </div> */}
                     </div>
+                    
                 </div>
+                
             </div>
             <div className="flex flex-col flex-1 w-0 overflow-hidden">
                 <main className="relative flex-1 overflow-y-auto focus:outline-none">
-                    <div className="py-6">
+                    {/* <div className="py-6">
                         <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
                         </div>
+                        </div> 
                         <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
                             <Outlet/>
                         </div>
-                    </div>
+                    {/* </div> */}
                 </main>
             </div>
         </div>
