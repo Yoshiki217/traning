@@ -194,7 +194,7 @@ export const Account : FC = () => {
                                         <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
                                             <span>{useState.name}</span>
                                         </div>
-                                        <p className="pl-5 pt-1">{useState.name}</p>
+                                            <p className="pl-5 pt-1">{useState.name}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -224,14 +224,13 @@ export const Account : FC = () => {
             </div>
             <div className="flex flex-col flex-1 w-0 overflow-hidden">
                 <main className="relative flex-1 overflow-y-auto focus:outline-none">
-                    {/* <div className="py-6">
+                    <div className="py-6">
                         <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
-                        </div>
                         </div> 
-                        <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
-                            <Outlet/>
+                            <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
+                                <Outlet/>
+                            </div>
                         </div>
-                    {/* </div> */}
                 </main>
             </div>
         </div>
