@@ -121,7 +121,7 @@ export const Update : FC = () => {
     }
     return (
         <>
-            <div className="bg-gray-200 min-h-screen pt-2 font-mono my-16">
+            <div className="bg-gray-200 min-h-screen pt-2 font-mono my-6">
                 <div className="container mx-auto">
                     <div className="inputs w-full max-w-2xl p-6 mx-auto">
                         <h2 className="text-2xl text-gray-900">Account Setting</h2>
@@ -135,7 +135,7 @@ export const Update : FC = () => {
                                 </div>
                                 <div className='w-full md:w-full px-3 mb-6 '>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>password</label>
-                                    <button onClick={toPasswordChange} className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change your password</button>
+                                    <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change your password</button>
                                 </div>
                                 <div className="personal w-full border-t border-gray-400 pt-4">
                                     <h2 className="text-2xl text-gray-900">Personal info:</h2>
