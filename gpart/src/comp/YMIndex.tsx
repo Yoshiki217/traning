@@ -1,14 +1,17 @@
 import {FC, useContext, useEffect, useState} from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { calendarData, monthData } from "../api/dateformat"
+import { AccountContext } from "./Account"
 import { eventsByMonthContext } from "./YM"
 export const YMIndex : FC = () => {
     const events = useContext(eventsByMonthContext)
+    const account = useContext(AccountContext)
     const params = useParams()
     const gate = useNavigate()
     const [data, setData] = useState(calendarData(Number(params.year), Number(params.month)))
-    const toDate = (date: number)=>{
-        gate(date<10? `0${date}`: `${date}`)
+    const toCreateEvent = (date: number) =>{
+        const d = date<10? `0${date}`: `${date}`
+        gate(`../createEvent?date=${params.year}-${params.month}-${d}`)
     }
     const toEvent = (eventId: number)=>{
         gate(`../event/${eventId}`)
@@ -35,16 +38,16 @@ export const YMIndex : FC = () => {
                 <div className="buttons">
                     <button className="p-1" onClick={previousMonth}>
                         <svg width="1em" fill="gray" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-left-circle"  xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
-                        <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+                        <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path fillRule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+                        <path fillRule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
                         </svg>
                     </button>
                     <button className="p-1" onClick={nextMonth}>
                         <svg width="1em" fill="gray" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-right-circle"  xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path fill-rule="evenodd" d="M7.646 11.354a.5.5 0 0 1 0-.708L10.293 8 7.646 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"/>
-                        <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
+                        <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path fillRule="evenodd" d="M7.646 11.354a.5.5 0 0 1 0-.708L10.293 8 7.646 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"/>
+                        <path fillRule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
                         </svg>
                     </button>
                 </div>
@@ -95,7 +98,7 @@ export const YMIndex : FC = () => {
                                     </div>
                                     <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer">
                                         {
-                                            d.thisMonth==0 && events[`day${d.date}`].map((e)=>
+                                            d.thisMonth==0 ? events[`day${d.date}`].map((e)=>
                                             <div
                                             key={e.eventId}
                                             onClick={()=>{toEvent(e.eventId)}}
@@ -104,12 +107,25 @@ export const YMIndex : FC = () => {
                                             <span className="event-name">
                                                 {e.eventName}
                                             </span>
-                                            <span className="time">
+                                            {/* <span className="time">
                                                 {e.eventType.eventTypeName}
+                                            </span> */}
+                                            </div>
+                                            ) : <></>
+                                        }
+                                        {
+                                            d.thisMonth==0 && account.isMain?
+                                            <div
+                                            onClick={()=>{toCreateEvent(d.date)}}
+                                            className="event bg-purple-400 text-white rounded p-1 text-sm mb-1"
+                                            >
+                                            <span className="event-name">
+                                                +
                                             </span>
                                             </div>
-                                            )
+                                            :<></>
                                         }
+                                            
                                     </div>
                                     </div>
                                 </td>)
