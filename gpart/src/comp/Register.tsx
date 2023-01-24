@@ -5,6 +5,7 @@ import { getForm, useInputs } from "../api/useInputs";
 import { register } from "../interfaces/account";
 import { MessageContext } from "./Top";
 import Header from "./Header";
+import { Message } from "./Message";
 
 export const registerForm = {
     accountName: {
@@ -25,7 +26,7 @@ export const Register : FC = () => {
     const gate = useNavigate()
     const messageContext = useContext(MessageContext)
     const [inputs, setInputs] = useInputs(registerForm)
-    const [message, setMessage] = useState(<></>)
+    const [message, setMessage] = useState("")
     const toReturn = () => {
         gate('../')
     }
@@ -36,48 +37,28 @@ export const Register : FC = () => {
         event.preventDefault()
         //check password same
         if(inputs.password.value!==inputs.confirmPassword.value){
-            setMessage(<>
-                <div className="alert alert-error shadow-lg">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span>パスワード一致していません</span>
-                    </div>
-                </div>
-            </>)
+            setMessage("パスワードは一致していません")
             return
         }
-        // console.log(getForm(inputs))
-        // return
         postg('register', getForm(inputs))
         .then((json: register)=>{
-            console.log(json)
             if(json.status){
-                // setMessage(<>
-                //     <div className="alert alert-error shadow-lg">
-                //         <div>
-                //             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                //             <span>登録完了<Link to='../login'>ログインへ</Link></span>
-                //         </div>
-                //     </div>
-                // </>)
                 messageContext.setValue("登録完了しました！！！")
                 gate("../login")
             } else {
-                setMessage(<>
-                    <div className="alert alert-error shadow-lg">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <span>{json.errormessage}</span>
-                        </div>
-                    </div>
-                </>)
+                setMessage(json.errormessage)
             }
         })
     }
     return (
         <>
         {
-            Header([])
+            Header([
+                {
+                    label: "Log In",
+                    url: "/top/login"
+                }
+            ])
         }
             <div className="bg-white py-8 sm:py-8 lg:py-12">
                 <div className="max-w-screen-2xl px-8 md:px-20 mx-auto">
@@ -95,16 +76,6 @@ export const Register : FC = () => {
 
                         <div className="sm:col-span-2">
                             <label htmlFor="sex" className="inline-block text-blue-800 text-sm sm:text-base mb-2">性別</label>
-                            {/* <div className="flex justify-around">
-                                <div className="flex items-center mb-4">
-                                    <input id="default-radio-1" onChange={setInputs} type="radio"  name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label htmlFor="default-radio-1" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">女性</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input checked id="default-radio-2" onChange={setInputs} type="radio" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label htmlFor="default-radio-2" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">男性</label>
-                                </div>
-                            </div> */}
                         </div>
                         <div className="sm:col-span-2">
                             <label htmlFor="password" className="inline-block text-blue-800 text-sm sm:text-base mb-2">パスワード</label>
@@ -115,10 +86,7 @@ export const Register : FC = () => {
                             <label htmlFor="password" className="inline-block text-blue-800 text-sm sm:text-base mb-2">パスワード</label>
                             <input type="password" name={inputs.confirmPassword.name} onChange={setInputs} className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
                         </div>
-                        {
-                            message
-                        }
-
+                        <Message message={message}/>
                         <div className="sm:col-span-2 flex justify-between items-center">
                             <button className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">登録</button>
 

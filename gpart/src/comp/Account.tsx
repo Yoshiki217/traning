@@ -73,22 +73,16 @@ export const Account : FC = () => {
             setValue(json.accountInfo)
             setLoaded(true)
             if(!json.status){
-                gate("update")
+                gate("settings")
             }
         })
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }, [refresh.state])
-    // EventTypes
     useEffect(()=>{
         postg('eventTypes', {
             ...getStorage()
         }).then((json: eventTypes)=>{
             console.log(json)
             if(!auth(json)) return
-            // if(!json.status){
-            //     gate('/account')
-            //     return
-            // }
             setTypesValue(json.eventTypes)
             setTypesLoad(true)
         })
@@ -192,23 +186,6 @@ export const Account : FC = () => {
                                 </div>
                             </nav>
                         </div>
-                        
-                        {/* <div className="dropdown flex flex-shrink-0 p-4 px-4 bg-white">
-                                    <a href="https://google.com" className="flex-shrink-0 block w-full group hover:bg-gray-50">
-                                        <div className="flex items-center">
-                                            <div>
-                                                <img className="inline-block rounded-full h-9 w-9" src="" alt=""></img>
-                                            </div>
-                                            <div className="ml-3">
-                                                <p className="text-sm font-medium text-gray-900">{useState.name}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <ul className="dropdown-content menu p-2 shadow bg-base-100 w-52">
-                                        <li><a>Item 1</a></li>
-                                        <li><a>Item 2</a></li>
-                                </ul>
-                        </div> */}
                     </div>
                     
                 </div>

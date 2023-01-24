@@ -5,6 +5,7 @@ import { postg } from "../api/postg";
 import { getStorage } from "../api/storage";
 import { getForm, useInputs } from "../api/useInputs";
 import { createCourse } from "../interfaces/course";
+import { Message } from "./Message";
 import { RefreshContext } from "./Slash";
 
 export const CreateCourse : FC = () => {
@@ -29,7 +30,7 @@ export const CreateCourse : FC = () => {
             }
         }
     )
-    const [message, setMessage] = useState(<></>)
+    const [message, setMessage] = useState("")
     const auth = useAuth()
     const logout = useLogout()
     const gate = useNavigate()
@@ -39,7 +40,7 @@ export const CreateCourse : FC = () => {
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(inputs.subAccountPassword.value!=inputs.subAccountPasswordConfirm.value){
-            setMessage(<>パスワード一致していません</>)
+            setMessage("パスワード一致していません")
             return
         }
         postg('createCourse', {
@@ -49,7 +50,7 @@ export const CreateCourse : FC = () => {
             console.log(json)
             if(!auth(json)) return
             if(!json.status){
-                setMessage(<>{json.errormessage}</>)
+                setMessage(json.errormessage)
                 return
             }
             gate('/account')
@@ -71,7 +72,7 @@ export const CreateCourse : FC = () => {
                                 name={inputs.courseName.name} value={inputs.courseName.value} onChange={setInputs} />
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
-                                <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>User Name</label>
+                                <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Account Name</label>
                                 <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                 type='text'  required
                                 name={inputs.subAccountName.name} value={inputs.subAccountName.value} onChange={setInputs} />
@@ -88,6 +89,7 @@ export const CreateCourse : FC = () => {
                                 type='password'  required
                                 name={inputs.subAccountPasswordConfirm.name} value={inputs.subAccountPasswordConfirm.value} onChange={setInputs} />
                             </div>
+                            <Message message={message}/>
                             <div className="flex justify-end">
                                 <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>
                             </div>
