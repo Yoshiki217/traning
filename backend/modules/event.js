@@ -105,18 +105,24 @@ exports.changeEventTypeName = (accessId, sign, eventTypeId, afterEventTypeName, 
             let r_eventTypeName = con.query(`SELECT eventTypeName FROM eventType 
                     WHERE idSensei = ${auth.id} 
                     AND eventTypeId = ${eventTypeId}`)
+            console.log(r_eventTypeName)
             if(afterEventTypeName == r_eventTypeName[0].eventTypeName){
                 json.errormessage = "新の種目類名は元の種目類名と同じです。"
             }
             else{
-                con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
-                con.query(`UPDATE eventType SET eventTypeName = "${afterEventTypeName}" 
-                        WHERE idSensei = ${auth.id} 
-                        AND eventTypeId = ${eventTypeId}`)
-                con.query("COMMIT")
-                json.status = true
-                json.eventTypeInfo.eventTypeId = eventTypeId
-                json.eventTypeInfo.eventTypeName = afterEventTypeName
+                let r_otherType = con.query(`SELECT eventTypeId FROM eventType WHERE idSensei = ${auth.id} AND eventTypeName = "${afterEventTypeName}"`)
+                if(r_otherType.length>0){
+                    json.errormessage = `${afterEventTypeName}の種目類名は既に登録されています。`
+                }else{
+                    con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
+                    con.query(`UPDATE eventType SET eventTypeName = "${afterEventTypeName}" 
+                            WHERE idSensei = ${auth.id} 
+                            AND eventTypeId = ${eventTypeId}`)
+                    con.query("COMMIT")
+                    json.status = true
+                    json.eventTypeInfo.eventTypeId = eventTypeId
+                    json.eventTypeInfo.eventTypeName = afterEventTypeName
+                }
             }
         }
         else{
@@ -358,7 +364,7 @@ exports.eventsByMonth = (accessId, sign, courseName, year, month, con) => {
             idSeito = auth.id
         }
 
-        console.log(idSeito)
+        // console.log(idSeito)
 
         let r_events = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId,
 
@@ -592,6 +598,7 @@ exports.event = (accessId, sign, eventId, con) =>{
             // {
             //     logAccountName: '',
             //     logAccountUserName: '',
+            //     avatar: '',
             //     logText: ''
             // }
         ]
@@ -629,7 +636,7 @@ exports.event = (accessId, sign, eventId, con) =>{
                 },
                 date: r_event[0].date
             }
-            let r_eventLogs = con.query(`SELECT logText, accountName, name 
+            let r_eventLogs = con.query(`SELECT logText, accountName, name, avatar
                     FROM logText, account  
                     LEFT JOIN information USING (id) 
                     WHERE logText.id = account.id 
@@ -640,6 +647,7 @@ exports.event = (accessId, sign, eventId, con) =>{
                     json.eventLogs.push({
                         logAccountName: logText.accountName,
                         logAccountUserName: logText.name,
+                        avatar: logText.avatar,
                         logText: logText.logText
                     })
                 })

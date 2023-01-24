@@ -27,12 +27,18 @@ exports.createCourse = (accessId, sign, courseName, subAccountName, subAccountPa
                 json.errormessage = `${courseName}のコース名は既に登録されました。`
             }
             else{
-                let r_insert_into_account = con.query(`INSERT INTO account(accountName, password, idSensei) VALUES ("${subAccountName}", "${subAccountPassword}", ${auth.id})`)
-                let idSeito = r_insert_into_account.insertId
-                con.query(`INSERT INTO course(courseName, idSeito, idSensei) VALUES ("${courseName}",${idSeito}, ${auth.id})`)
-                con.query("COMMIT")
-                json.subAccountInfo.accountName = subAccountName
-                json.status = true
+                let get_account = con.query(`SELECT accountName FROM account WHERE accountName="${subAccountName}"`)
+                if(get_account.length==0){
+                    let r_insert_into_account = con.query(`INSERT INTO account(accountName, password, idSensei) VALUES ("${subAccountName}", "${subAccountPassword}", ${auth.id})`)
+                    let idSeito = r_insert_into_account.insertId
+                    con.query(`INSERT INTO course(courseName, idSeito, idSensei) VALUES ("${courseName}",${idSeito}, ${auth.id})`)
+                    con.query("COMMIT")
+                    json.subAccountInfo.accountName = subAccountName
+                    json.status = true
+                } else {
+                    json.status = false
+                    json.errormessage = "アカウント名がすでに使用されています。"
+                }
             }
         } else {
             auth.auth=false

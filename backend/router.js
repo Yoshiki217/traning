@@ -50,9 +50,9 @@ const searchPost = (post, indents) => {
 app.post('/register', (req, res)=>{
     // let post=req.body
     let post = JSON.parse(req.body.json)
-    console.log(post)
+    // console.log(post)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.register(post.accountName, post.password, con))
@@ -61,7 +61,7 @@ app.post('/register', (req, res)=>{
 app.post('/login', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.login(post.accountName, post.password, con))
@@ -71,7 +71,7 @@ app.post('/login', (req, res)=>{
 app.post('/logout', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.logout(post.accessId, post.sign, con))
@@ -80,7 +80,7 @@ app.post('/logout', (req, res)=>{
 app.post('/account', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.account(post.accessId, post.sign, con))
@@ -89,7 +89,7 @@ app.post('/account', (req, res)=>{
 app.post('/updateInfo', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     if(req.files){
@@ -113,7 +113,7 @@ app.post('/updateInfo', (req, res)=>{
 app.post('/updateBodyParams', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.updateBodyParams(post.accessId, post.sign, post.info, con))
@@ -122,7 +122,7 @@ app.post('/updateBodyParams', (req, res)=>{
 app.post('/removeBodyParams', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.removeBodyParams(post.accessId, post.sign, con))
@@ -136,7 +136,7 @@ app.post('/bodyParams', (req, res)=>{
 app.post('/passwordChange', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(account.passwordChange(post.accessId, post.sign, post.password, con))
@@ -146,7 +146,7 @@ app.post('/passwordChange', (req, res)=>{
 app.post('/createCourse', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(course.createCourse(post.accessId, post.sign,
@@ -156,7 +156,7 @@ app.post('/createCourse', (req, res)=>{
 app.post('/removeCourse', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(course.removeCourse(post.accessId, post.sign,
@@ -166,7 +166,7 @@ app.post('/removeCourse', (req, res)=>{
 app.post('/changeCourseName', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(course.changeCourseName(post.accessId, post.sign,
@@ -177,7 +177,7 @@ app.post('/changeCourseName', (req, res)=>{
 app.post('/createEventType', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     console.log(post.info)
@@ -187,7 +187,7 @@ app.post('/createEventType', (req, res)=>{
 app.post('/eventTypes', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.eventTypes(post.accessId, post.sign, con))
@@ -196,7 +196,7 @@ app.post('/eventTypes', (req, res)=>{
 app.post('/changeEventTypeName', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.changeEventTypeName(post.accessId, post.sign,
@@ -206,7 +206,7 @@ app.post('/changeEventTypeName', (req, res)=>{
 app.post('/removeEventType', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.removeEventType(post.accessId, post.sign,
@@ -216,7 +216,7 @@ app.post('/removeEventType', (req, res)=>{
 app.post('/createEvent', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.createEvent(post.accessId, post.sign, post.info, con))
@@ -225,7 +225,7 @@ app.post('/createEvent', (req, res)=>{
 app.post('/updateEvent', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.updateEvent(post.accessId, post.sign,
@@ -235,7 +235,7 @@ app.post('/updateEvent', (req, res)=>{
 app.post('/eventsByMonth', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.eventsByMonth(post.accessId, post.sign, post.courseName, post.year, post.month, con))
@@ -244,7 +244,7 @@ app.post('/eventsByMonth', (req, res)=>{
 app.post('/events', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.events(post.accessId, post.sign,
@@ -254,7 +254,7 @@ app.post('/events', (req, res)=>{
 app.post('/removeEvent', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.removeEvent(post.accessId, post.sign,
@@ -264,7 +264,7 @@ app.post('/removeEvent', (req, res)=>{
 app.post('/logEvent', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.logEvent(post.accessId, post.sign,
@@ -274,7 +274,7 @@ app.post('/logEvent', (req, res)=>{
 app.post('/event', (req, res)=>{
     let post = JSON.parse(req.body.json)
     if(!searchPost(post)){
-        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
     res.json(event.event(post.accessId, post.sign,

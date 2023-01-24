@@ -9,6 +9,7 @@ import { getStorage } from "../api/storage";
 import { getForm, noneEmpty, useInputs, useUpload } from "../api/useInputs";
 import { updateInfo } from "../interfaces/account";
 import { AccountContext } from "./Account";
+import { Message } from "./Message";
 import { RefreshContext } from "./Slash";
 
 export const updateForm = {
@@ -82,7 +83,7 @@ export const Settings = () => {
     const [image, setImage] = useUpload([{name: 'avatar', link: accountInfo.avatar}])
     const avatarPreview = imagePreview('avatar', image)
     const gate = useNavigate()
-    const [message, setMessage] = useState(<></>)
+    const [message, setMessage] = useState("")
     const auth = useAuth()
     const logout = useLogout()
     const toInfo = () => {
@@ -106,7 +107,7 @@ export const Settings = () => {
             console.log(json)
             if(!auth(json)) return
             if(!json.status){
-                setMessage(<>{json.errormessage}</>)
+                setMessage(json.errormessage)
                 return
             }
             gate('/account')
@@ -141,16 +142,6 @@ export const Settings = () => {
                                 </div>
                                 <div className="personal w-full border-t border-gray-400 pt-4">
                                     <h2 className="text-2xl text-gray-900">Personal info:</h2>
-                                    {/* <div className="flex items-center justify-between mt-4">
-                                        <div className='w-full md:w-1/2 px-3 mb-6'>
-                                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >first name</label>
-                                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required />
-                                        </div>
-                                        <div className='w-full md:w-1/2 px-3 mb-6'>
-                                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >last name</label>
-                                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required />
-                                        </div>
-                                    </div> */}
                                     <div className='w-full md:w-full px-3 mb-6'>
                                         <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>user name</label>
                                         <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
@@ -192,6 +183,7 @@ export const Settings = () => {
                                             avatarPreview
                                         }
                                     </div>
+                                    <Message message={message} />
                                     <div className="flex justify-end">
                                         <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>
                                     </div>
