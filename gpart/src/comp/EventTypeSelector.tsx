@@ -108,40 +108,32 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
         })
     }
     return (
-        <>  
-        <div style={{
-            position: "relative"
-        }} 
-        onMouseEnter={onHover} onMouseLeave={onLeave}
-        >
+        <>
             <div className='w-full md:w-full px-3 mb-6'>
                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Event Type</label>
-                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
-                type='text' required id={props.id? props.id : undefined}
-                value={cInputs} onChange={(e)=>{setCInputs(e.target.value)}}/>
-                <div className="flex justify-end">
-                    <button
-                    onClick={onAddButtonClick}
-                    className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="button">Add</button>
+                <select className="select select-bordered w-full max-w-xs">
+                    <option disabled selected>Who shot first?</option>
+                    <option>Han Solo</option>
+                    <option>Greedo</option>
+                </select>
+                <div className="m-3 dropdown">
+                    <label tabIndex={0} className="btn w-12 h-12  bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500">＋</label>
+                    <div tabIndex={0} className="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content">
+                        <div className="card-body">
+                            <p className="card-title">カテゴリー追加</p>
+                            <input type="text" placeholder="Type here" className="input w-full max-w-xs" />
+                            <button className="btn">追加</button>
+                            <button className="btn">更新</button>
+                            <p>(登録済み)：</p>
+                        </div>
+                    </div>
                 </div>
-                <div style={
-                    {
-                        display: dropdownDisplay,
-                        position: "absolute",
-                        backgroundColor: "red"
-                    }
-                }>
-                    {
-                        eventTypes?.map(type=>
-                            <div key={type.eventTypeId} >
-                                <span onClick={()=>{onEventTypeChoose(type)}}>{type.eventTypeName}</span>|
-                                <button onClick={()=>{onTypeDeleteClick(type)}}>del</button>
-                            </div>
-                        )
-                    }
+                <div className="m-3">
+                    <label className="btn w-12 h-12  bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500">－</label>
                 </div>
+                    
             </div>
-        </div>
+        
         </>
     )
 }

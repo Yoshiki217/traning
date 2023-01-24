@@ -123,7 +123,7 @@ export const Settings = () => {
 
   return (
     <>
-      <div className="bg-gray-200 min-h-screen pt-2 font-mono my-16">
+      <div className="bg-gray-200 min-h-screen pt-2 font-mono my-6">
                 <div className="container mx-auto">
                     <div className="inputs w-full max-w-2xl p-6 mx-auto">
                         <h2 className="text-2xl text-gray-900">Account Setting</h2>
