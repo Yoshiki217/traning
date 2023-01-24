@@ -118,7 +118,7 @@ _class: cection-title
 
 ジム満足度調査では、数ある中からパーソナルジムが効果満足度１位でした。
 
-![](src/gim_manzoku2.png)
+![height:400](src/gim_manzoku2.png)
 
 ---
 <!-- 
