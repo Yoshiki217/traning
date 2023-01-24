@@ -59,7 +59,7 @@ _class: title-and-body
 # 問題定義
 
 明治の調べでは、コロナにより約半数が __健康意識__ 高まったと回答しています。
-![](src/keko_ishiki.png)
+![height:350](src/keko_ishiki.png)
 
 ---
 
@@ -83,7 +83,7 @@ _class: title-and-body
 
 __健康意識__ の中でも私たちは、__運動__ に注目しました、明治の調べでは、__50%__ の人が食事や栄養を、__35%__ の人が運動を心がけるようになったと回答しています。
 
-![](src/anke_ishiki.png)
+![height:400](src/anke_ishiki.png)
 
 ---
 
