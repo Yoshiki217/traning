@@ -8,6 +8,7 @@ import { RefreshContext } from "./Slash";
 import Header from "./Header";
 import { MessageContext } from "./Top";
 import Fotter from "./Fotter";
+import { Message } from "./Message";
 
 export const loginForm = {
 
@@ -65,9 +66,8 @@ export const Login : FC = () => {
                         {
                             messageContext.value!=""?
                                 <>
-                                    <div className="alert alert-error shadow-lg">
+                                    <div className="bg-blue-100 rounded-lg py-5 px-6 mb-3 text-base text-blue-700 inline-flex items-center w-full" role="alert">
                                         <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                             <span>{messageContext.value}</span>
                                         </div>
                                     </div>
@@ -75,19 +75,7 @@ export const Login : FC = () => {
                             :
                             <></>
                         }
-                        {
-                            message!=""?
-                                <>
-                                    <div className="alert alert-error shadow-lg">
-                                        <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                            <span>{message}</span>
-                                        </div>
-                                    </div>
-                                </>
-                            :
-                            <></>
-                        }
+                        <Message message={message}/>
                         <div>
                         <label form="email" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Name</label>
                         <input  name={inputs.accountName.name} value={inputs.accountName.value} onChange={setInputs}  className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />

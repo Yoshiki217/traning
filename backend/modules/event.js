@@ -105,18 +105,24 @@ exports.changeEventTypeName = (accessId, sign, eventTypeId, afterEventTypeName, 
             let r_eventTypeName = con.query(`SELECT eventTypeName FROM eventType 
                     WHERE idSensei = ${auth.id} 
                     AND eventTypeId = ${eventTypeId}`)
+            console.log(r_eventTypeName)
             if(afterEventTypeName == r_eventTypeName[0].eventTypeName){
                 json.errormessage = "新の種目類名は元の種目類名と同じです。"
             }
             else{
-                con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
-                con.query(`UPDATE eventType SET eventTypeName = "${afterEventTypeName}" 
-                        WHERE idSensei = ${auth.id} 
-                        AND eventTypeId = ${eventTypeId}`)
-                con.query("COMMIT")
-                json.status = true
-                json.eventTypeInfo.eventTypeId = eventTypeId
-                json.eventTypeInfo.eventTypeName = afterEventTypeName
+                let r_otherType = con.query(`SELECT eventTypeId FROM eventType WHERE idSensei = ${auth.id} AND eventTypeName = "${afterEventTypeName}"`)
+                if(r_otherType.length>0){
+                    json.errormessage = `${afterEventTypeName}の種目類名は既に登録されています。`
+                }else{
+                    con.query("SELECT 1 FROM eventType LIMIT 1 FOR UPDATE")
+                    con.query(`UPDATE eventType SET eventTypeName = "${afterEventTypeName}" 
+                            WHERE idSensei = ${auth.id} 
+                            AND eventTypeId = ${eventTypeId}`)
+                    con.query("COMMIT")
+                    json.status = true
+                    json.eventTypeInfo.eventTypeId = eventTypeId
+                    json.eventTypeInfo.eventTypeName = afterEventTypeName
+                }
             }
         }
         else{
