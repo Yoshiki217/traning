@@ -50,7 +50,7 @@ const searchPost = (post, indents) => {
 app.post('/register', (req, res)=>{
     // let post=req.body
     let post = JSON.parse(req.body.json)
-    console.log(post)
+    // console.log(post)
     if(!searchPost(post)){
         res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "not enough data"})
         return

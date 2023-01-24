@@ -27,6 +27,7 @@ export const EventContext = createContext<{
     eventLogs: {
         logAccountName: string,
         logAccountUserName: string,
+        avatar: string,
         logText: string
     }[]
 }>({

@@ -175,6 +175,7 @@ export interface event{
     eventLogs: {
         logAccountName: string,
         logAccountUserName: string,
+        avatar: string,
         logText: string
     }[]
 }
