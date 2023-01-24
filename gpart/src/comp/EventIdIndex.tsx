@@ -46,6 +46,7 @@ export const EventIdIndex : FC = () => {
                 setMessage(<>{json.errormessage}</>)
                 return
             }
+            setLog('')
             eventRefresh.setState()
         })
     }
@@ -76,25 +77,6 @@ export const EventIdIndex : FC = () => {
                     <button onClick={removeEvent} className="btn">削除</button>
                 </div>
             </div>
-            <div className="overflow-x-auto">
-                <table className="table w-full">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>comment</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {
-                        event.eventLogs.map(log=><tr key={id_supply()}>
-                            <th>{log.logAccountUserName}</th>
-                            <td>{log.logText}</td>
-                        </tr>)
-                        }
-                    </tbody>
-                </table>
-            </div>
-
             <div className="bg-white py-6 sm:py-8 lg:py-12">
                 <form onSubmit={onSubmit}>
                     <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
@@ -112,6 +94,24 @@ export const EventIdIndex : FC = () => {
                         </div>
                     </div>
                 </form>
+            </div>
+            <div className="overflow-x-auto">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {
+                        event.eventLogs.map(log=><tr key={id_supply()}>
+                            <th>{log.logAccountUserName}</th>
+                            <td>{log.logText}</td>
+                        </tr>)
+                        }
+                    </tbody>
+                </table>
             </div>
         </>
     )
