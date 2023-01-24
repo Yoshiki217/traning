@@ -114,7 +114,7 @@ __2022年__ ,には多様化が進み様々な形の、ジムが誕生しまし�
 ---
 
 <!-- 
-_class: cection-title
+_class: title-and-bo
  -->
 
 # 問題定義
@@ -124,8 +124,9 @@ _class: cection-title
 ![height:400](src/gim_manzoku2.png)
 
 ---
+
 <!-- 
-_class: cection-title
+_class:  title-and-body
  -->
 
 # 問題定義
@@ -140,6 +141,14 @@ _class: cection-title
  -->
 
 # 現状分析
+
+---
+
+<!-- 
+_class:  title-and-body
+ -->
+
+
 
 ---
 
