@@ -59,22 +59,60 @@ export const EventIdIndex : FC = () => {
     })
     return (
         <>  
-            <button onClick={toUpdate}>アップデート</button>
-            <button onClick={removeEvent}>削除</button>
-            <h1>{event.eventInfo.eventName}</h1>
-            <h2>{event.eventInfo.eventType.eventTypeName}</h2>
-            {
-                event.eventLogs.map(log=><div key={id_supply()}>
-                    <h2>{log.logAccountUserName} : {log.logText}</h2>
-                </div>)
-            }
-            <form onSubmit={onSubmit}>
-                <input type="textarea" name="log" value={log} onChange={(e)=>setLog(e.target.value)}/>
-                {
-                    message
-                }
-                <input type="submit" value="ログ" />
-            </form>
+            <div className="bg-white py-6 sm:py-8 lg:py-12">
+                <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
+                    <div className="flex flex-col items-center gap-4 md:gap-6">
+                        <h1>Menu</h1>
+                           <div className="max-w-md text-gray-600 lg:text-lg text-center">Menu Name</div>
+                           <h1>{event.eventInfo.eventName}</h1>
+                           <div className="max-w-md text-gray-600 lg:text-lg text-center">Body Name</div>
+                           <h1>{event.eventInfo.eventType.eventTypeName}</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="py-6 px-4 md:px-8">
+                <div className="flex justify-center gap-4 md:gap-6">
+                    <button onClick={toUpdate} className="btn">変更</button>
+                    <button onClick={removeEvent} className="btn">削除</button>
+                </div>
+            </div>
+            <div className="overflow-x-auto">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {
+                        event.eventLogs.map(log=><tr key={id_supply()}>
+                            <th>{log.logAccountUserName}</th>
+                            <td>{log.logText}</td>
+                        </tr>)
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="bg-white py-6 sm:py-8 lg:py-12">
+                <form onSubmit={onSubmit}>
+                    <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
+                        <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-100 rounded-lg gap-4 p-4 md:p-8">
+                            <p>コメント</p>
+                            <div>
+                            
+                                <input type="textarea" name="log" className="input input-bordered w-full max-w-xs" value={log} onChange={(e)=>setLog(e.target.value)}/>
+                                {
+                                    message
+                                }
+                            
+                            </div>
+                        <input type="submit" value="送信" className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" />
+                        </div>
+                    </div>
+                </form>
+            </div>
         </>
     )
 }

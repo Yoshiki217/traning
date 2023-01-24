@@ -105,6 +105,8 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
         <>
             <div className='w-full md:w-full px-3 mb-6'>
                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Event Type</label>
+
+
                 <select className="select select-bordered w-full max-w-xs" name={props.inputs.eventTypeId.name} value={props.inputs.eventTypeId.value} onChange={onTypeSelect}>
                     {
                         eventTypes?.map(type=>
@@ -122,12 +124,17 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
                         <button className="btn" type="button" onClick={onChangeClick}>更新</button>
                         <Message message={message}/>
                     </div>
+
                 </div>
+                    
             </div>
+
+
             <div className="m-3">
                 <label className="btn w-12 h-12 bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500" onClick={onTypeDeleteClick}>ー</label>
             </div>
         </div>
     </>
+
     )
 }
