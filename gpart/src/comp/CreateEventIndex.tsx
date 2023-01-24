@@ -1,5 +1,5 @@
 import { FC, FormEvent, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatToUrl, getDateFormat } from "../api/dateformat";
 import { useAuth, useLogout } from "../api/logout";
 import { postg } from "../api/postg";
@@ -12,7 +12,7 @@ import { RefreshContext } from "./Slash";
 
 export const CreateEventIndex : FC = () => {
     const refresh = useContext(RefreshContext)
-    // const eventTypeRefresh = useContext(EventTypeRefreshContext)
+    const [req] = useSearchParams()
     const course = useContext(CourseContext)
     const eventTypes = useContext(EventTypesContext)
     const [eventTypeName, setEventTypeName] = useState('')
@@ -28,7 +28,7 @@ export const CreateEventIndex : FC = () => {
         },
         eventWeightAmount: {
             name: 'eventWeightAmount',
-            value: 0
+            value: '0'
         },
         eventWeightUnit: {
             name: 'eventWeightUnit',
@@ -36,7 +36,7 @@ export const CreateEventIndex : FC = () => {
         },
         eventTimesAmount: {
             name: 'eventTimesAmount',
-            value: 0
+            value: '0'
         },
         eventTimesUnit: {
             name: 'eventTimesUnit',
@@ -44,7 +44,7 @@ export const CreateEventIndex : FC = () => {
         },
         date: {
             name: 'date',
-            value: getDateFormat()
+            value: req.has("date")? req.get("date")! : getDateFormat()
         }
     })
     const [message, setMessage] = useState(<></>)
@@ -79,32 +79,68 @@ export const CreateEventIndex : FC = () => {
                 setMessage(<>{json.errormessage}</>)
                 return
             }
-            gate(`../${formatToUrl(json.eventInfo.date)}`)
+            gate(-1)
             refresh.setState()
         })
     }
     return (
         <>
-            <button onClick={logout}>ログアウト</button>
-            <button onClick={toAccount}>戻る</button>
-            <form onSubmit={onSubmit}>
-                <input type="text" name={inputs.eventName.name} value={inputs.eventName.value} onChange={setInputs} />
-                <div>
-                    {
-                        createEventTypeMessage
-                    }
-                    <EventTypeSelector inputs={inputs} setInputs={setInputs}/>
+        <div className="bg-gray-200 min-h-screen pt-2 font-mono my-16">
+            <div className="container mx-auto">
+                <div className="inputs w-full max-w-2xl p-6 mx-auto">
+                    <h2 className="text-2xl text-gray-900">Create Event</h2>
+                    <form className="mt-6 border-t border-gray-400 pt-4" onSubmit={onSubmit}>
+                    <div className='flex flex-wrap -mx-3 mb-6'>
+                        <div className='w-full md:w-full px-3 mb-6'>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Event Name</label>
+                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            type='text'  required
+                            name={inputs.eventName.name} value={inputs.eventName.value} onChange={setInputs} />
+                        </div>
+                        <div>
+                            {
+                                createEventTypeMessage
+                            }
+                            <EventTypeSelector inputs={inputs} setInputs={setInputs}/>
+                        </div>
+                        <div className='w-full md:w-full px-3 mb-6'>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Weight Amount</label>
+                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            type='number'  required
+                            name={inputs.eventWeightAmount.name} value={inputs.eventWeightAmount.value} onChange={setInputs} />
+                        </div>
+                        <div className='w-full md:w-full px-3 mb-6'>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Weight Unit</label>
+                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            type='text'  required
+                            name={inputs.eventWeightUnit.name} value={inputs.eventWeightUnit.value} onChange={setInputs} />
+                        </div>
+                        <div className='w-full md:w-full px-3 mb-6'>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Times Amount</label>
+                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            type='number'  required
+                            name={inputs.eventTimesAmount.name} value={inputs.eventTimesAmount.value} onChange={setInputs} />
+                        </div>
+                        <div className='w-full md:w-full px-3 mb-6'>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Times Unit</label>
+                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            type='text'  required
+                            name={inputs.eventTimesUnit.name} value={inputs.eventTimesUnit.value} onChange={setInputs} />
+                        </div>
+                        <div className='w-full md:w-1/2 px-3 mb-6'>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Event Day</label>
+                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            type='date'  required
+                            name={inputs.date.name} value={inputs.date.value} onChange={setInputs} />
+                        </div>
+                        <div className="flex justify-end">
+                            <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
-                <input type="number" name={inputs.eventWeightAmount.name} value={inputs.eventWeightAmount.value} onChange={setInputs} />
-                <input type="text" name={inputs.eventWeightUnit.name} value={inputs.eventWeightUnit.value} onChange={setInputs} />
-                <input type="number" name={inputs.eventTimesAmount.name} value={inputs.eventTimesAmount.value} onChange={setInputs} />
-                <input type="text" name={inputs.eventTimesUnit.name} value={inputs.eventTimesUnit.value} onChange={setInputs} />
-                <input type="date" name={inputs.date.name} value={inputs.date.value} onChange={setInputs} />
-                {
-                    message
-                }
-                <input type="submit" value="作成" />
-            </form>
+            </div>
+        </div>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { createContext, FC, useContext, useEffect, useRef, useState } from "react";
-import { postg } from "../api/postg";
+import { getPublic, postg } from "../api/postg";
 import { getStorage } from "../api/storage";
 import { refresh, RefreshContext } from "./Slash";
 import {account} from "../interfaces/account";
@@ -48,7 +48,6 @@ export const AccountContext = createContext<accountInfo>({
 })
 
 export const Account : FC = () => {
-    const [state, setState] = useState(true)
     const context = useContext(AccountContext)
     const refresh = useContext(RefreshContext)
     const [typesValues, setTypesValue] = useState<{
@@ -66,6 +65,7 @@ export const Account : FC = () => {
     const logout = useLogout()
     const location = useLocation()
     useEffect(()=>{
+        setLoaded(false)
         postg('account', getStorage())
         .then((json: account)=>{
             console.log(json)
@@ -73,20 +73,11 @@ export const Account : FC = () => {
             setValue(json.accountInfo)
             setLoaded(true)
             if(!json.status){
-                setState(false)
                 gate("update")
-            } else {
-                setState(true)
-                gate(".")
             }
         })
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }, [refresh.state])
-    useEffect(()=>{
-        if(!state){
-            gate("update")
-        }
-    }, [location.pathname])
     // EventTypes
     useEffect(()=>{
         postg('eventTypes', {
@@ -94,10 +85,10 @@ export const Account : FC = () => {
         }).then((json: eventTypes)=>{
             console.log(json)
             if(!auth(json)) return
-            if(!json.status){
-                gate('/account')
-                return
-            }
+            // if(!json.status){
+            //     gate('/account')
+            //     return
+            // }
             setTypesValue(json.eventTypes)
             setTypesLoad(true)
         })
@@ -128,11 +119,11 @@ export const Account : FC = () => {
                             <nav className="flex-1 space-y-1 bg-white">
                                 <ul>
                                     <li>
-                                        <a className="inline-flex items-center w-full px-4 py-2 mt-1 text-base text-gray-900 transition duration-500 ease-in-out transform rounded-lg bg-gray-50 focus:shadow-outline"  onClick={()=>{gate('/account/update')}}>
+                                        <a className="inline-flex items-center w-full px-4 py-2 mt-1 text-base text-gray-900 transition duration-500 ease-in-out transform rounded-lg bg-gray-50 focus:shadow-outline"  onClick={()=>{gate('/account/info')}}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                             </svg>
-                                            <span className="ml-4">Chart</span>
+                                            <span className="ml-4">Overview</span>
                                         </a>
                                     </li>
                                     <li>
@@ -192,9 +183,10 @@ export const Account : FC = () => {
                                     <div className="relative  bg-sakura-50 px-6 py-5 rounded-box">
                                         <div className="avatar placeholder">
                                         <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-                                            <span>{useState.name}</span>
+                                        <img className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+                                            src={getPublic(value.avatar)} alt="画像" />
                                         </div>
-                                            <p className="pl-5 pt-1">{useState.name}</p>
+                                            <p className="pl-5 pt-1">{value.userName}</p>
                                         </div>
                                     </div>
                                 </div>

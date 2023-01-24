@@ -9,6 +9,7 @@ import { CourseName } from "./CourseName";
 import { EventTypesContext, EventTypeSelector } from "./EventTypeSelector";
 import { useInputs } from "../api/useInputs";
 import { monthData } from "../api/dateformat";
+import { Info } from "./Info";
 
 export const AccountIndex : FC = () => {
     const context = useContext(AccountContext)
@@ -30,12 +31,9 @@ export const AccountIndex : FC = () => {
             value: eventTypes.length > 0? eventTypes[0].eventTypeId : -1
         }
     })
-    const onCC = () => {
-        console.log(monthData(2023, 2))
-    }
     return (
         <>
-            <button onClick={onCC}>YORA</button>
+            <Info/>
         </>
     )
 }

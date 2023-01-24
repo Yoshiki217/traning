@@ -13,7 +13,7 @@ const checkAuth = (accessId, sign, con) => {
         json.sign = result[0].sign
         json.id = result[0].id
         let result_isMain = con.query(`SELECT idSensei FROM account WHERE id = ${result[0].id}`)
-        if(result_isMain[0].isSensei==null){
+        if(result_isMain[0].idSensei==null){
             json.isMain = true
         }
     }

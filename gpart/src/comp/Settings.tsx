@@ -178,9 +178,8 @@ export const Settings = () => {
                                         name={inputs.address.name} onChange={setInputs} value={inputs.address.value}/>
                                     </div>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >sex</label>
-                                        <select className='bg-gray-100 rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner  border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'
-                                        required
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>sex</label>
+                                        <select className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                         name={inputs.sex.name} value={inputs.sex.value} onChange={setInputs} >
                                             <option value={0}>男</option>
                                             <option value={1}>女</option>

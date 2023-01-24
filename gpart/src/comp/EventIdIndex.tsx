@@ -59,8 +59,6 @@ export const EventIdIndex : FC = () => {
     })
     return (
         <>  
-            <button onClick={logout}>ログアウト</button>
-            <button onClick={toCourseName}>戻る</button>
             <button onClick={toUpdate}>アップデート</button>
             <button onClick={removeEvent}>削除</button>
             <h1>{event.eventInfo.eventName}</h1>
