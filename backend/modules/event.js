@@ -358,7 +358,7 @@ exports.eventsByMonth = (accessId, sign, courseName, year, month, con) => {
             idSeito = auth.id
         }
 
-        console.log(idSeito)
+        // console.log(idSeito)
 
         let r_events = con.query(`SELECT e1.eventId, e1.eventName, et2.eventTypeId,
 
@@ -592,6 +592,7 @@ exports.event = (accessId, sign, eventId, con) =>{
             // {
             //     logAccountName: '',
             //     logAccountUserName: '',
+            //     avatar: '',
             //     logText: ''
             // }
         ]
@@ -629,7 +630,7 @@ exports.event = (accessId, sign, eventId, con) =>{
                 },
                 date: r_event[0].date
             }
-            let r_eventLogs = con.query(`SELECT logText, accountName, name 
+            let r_eventLogs = con.query(`SELECT logText, accountName, name, avatar
                     FROM logText, account  
                     LEFT JOIN information USING (id) 
                     WHERE logText.id = account.id 
@@ -640,6 +641,7 @@ exports.event = (accessId, sign, eventId, con) =>{
                     json.eventLogs.push({
                         logAccountName: logText.accountName,
                         logAccountUserName: logText.name,
+                        avatar: logText.avatar,
                         logText: logText.logText
                     })
                 })
