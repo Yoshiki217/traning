@@ -199,6 +199,18 @@ _class: cection-title
 
 ---
 
+<!--
+_class: title-and-body
+ -->
+
+# 企画概要
+
+webアプリケーションとして、__筋トレ管理アプリ__ を開発しました。
+
+フロントは __React + TypeScript__ で開発しました。
+バックエンドは __Node.js + Express__ で開発しました。
+
+---
 <!-- 
 _class: cection-title
  -->
@@ -211,7 +223,7 @@ _class: cection-title
 _class: cection-title
  -->
 
-# 今後の展望
+# 今後の展望 と 反省
 
 ---
 
@@ -219,6 +231,6 @@ _class: cection-title
 _class: title-and-body
  -->
 
-# 今後の展望
+# 今後の展望 と 反省
 
-今後は、デザイン、システムともにブラッシュアップしていき、ゆくゆくはモバイル番のアプリとしてリリースしたいと考えています。
+今後は、デザイン、システムともにブラッシュアップしていき、ゆくゆくはモバイルのアプリ開発もしたいと開発したいと考えています。
