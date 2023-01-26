@@ -7,6 +7,7 @@ import { getForm, useInputs } from "../api/useInputs";
 import { createEventType, updateEvent } from "../interfaces/event";
 import { EventContext } from "./EventId";
 import { EventTypeSelector } from "./EventTypeSelector";
+import { Message } from "./Message";
 import { RefreshContext } from "./Slash";
 
 export const EventUpdateIndex : FC = () => {
@@ -43,7 +44,7 @@ export const EventUpdateIndex : FC = () => {
             value: event.eventInfo.date
         }
     })
-    const [message, setMessage] = useState(<></>)
+    const [message, setMessage] = useState("")
     const logout = useLogout()
     const gate = useNavigate()
     const toEvent = () => {
@@ -72,7 +73,7 @@ export const EventUpdateIndex : FC = () => {
             console.log(json)
             if(!auth(json)) return
             if(!json.status){
-                setMessage(<>{json.errormessage}</>)
+                setMessage(json.errormessage)
                 return
             }
             gate(`../`)
@@ -129,6 +130,7 @@ export const EventUpdateIndex : FC = () => {
                             type='date'  required
                             name={inputs.date.name} value={inputs.date.value} onChange={setInputs} />
                         </div>
+                        <Message message={message}/>
                         <div className="flex justify-end">
                             <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>
                         </div>

@@ -6,12 +6,13 @@ import { postg } from "../api/postg";
 import { getStorage } from "../api/storage";
 import { logEvent, removeEvent } from "../interfaces/event";
 import { EventContext, EventRefreshContext } from "./EventId";
+import { Message } from "./Message";
 
 export const EventIdIndex : FC = () => {
     const [log, setLog] = useState('')
     const event = useContext(EventContext)
     const eventRefresh = useContext(EventRefreshContext)
-    const [message, setMessage] = useState(<></>)
+    const [message, setMessage] = useState("")
     const gate = useNavigate()
     const auth = useAuth()
     const logout = useLogout()
@@ -43,7 +44,7 @@ export const EventIdIndex : FC = () => {
             console.log(json)
             if(!auth(json)) return
             if(!json.status){
-                setMessage(<>{json.errormessage}</>)
+                setMessage(json.errormessage)
                 return
             }
             eventRefresh.setState()
@@ -76,6 +77,21 @@ export const EventIdIndex : FC = () => {
                     <button onClick={removeEvent} className="btn">削除</button>
                 </div>
             </div>
+            <div className="bg-white py-6 sm:py-8 lg:py-12">
+                <form onSubmit={onSubmit}>
+                    <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
+                        <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-100 rounded-lg gap-4 p-4 md:p-8">
+                            <p>コメント</p>
+                            <div>
+                            
+                                <input type="textarea" name="log" className="input input-bordered w-full max-w-xs" value={log} onChange={(e)=>setLog(e.target.value)}/>
+                                <Message message={message} />
+                            </div>
+                        <input type="submit" value="送信" className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" />
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
@@ -93,25 +109,6 @@ export const EventIdIndex : FC = () => {
                         }
                     </tbody>
                 </table>
-            </div>
-
-            <div className="bg-white py-6 sm:py-8 lg:py-12">
-                <form onSubmit={onSubmit}>
-                    <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
-                        <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-100 rounded-lg gap-4 p-4 md:p-8">
-                            <p>コメント</p>
-                            <div>
-                            
-                                <input type="textarea" name="log" className="input input-bordered w-full max-w-xs" value={log} onChange={(e)=>setLog(e.target.value)}/>
-                                {
-                                    message
-                                }
-                            
-                            </div>
-                        <input type="submit" value="送信" className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" />
-                        </div>
-                    </div>
-                </form>
             </div>
         </>
     )
