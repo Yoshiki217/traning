@@ -5,10 +5,10 @@
 * フロントは、gpart > src > comp の中です。
 
 ## 開発メンバー
-1. Thai Van Danh(バックエンド)
-2. Tran Quoc Thien(バックエンド)
-3. 林 良輝(フロント)
-4. 藤嶌 伊音(フロント)
+1. SaiBunMei ( FrontEnd , Database Design )
+2. deadpool252 (BackEnd , Database Design)
+3. Yoshiki217 ( design , Task Management)
+4. fujishimaion (design )
 
 ## 使用言語 : フレームワーク
 * front : TypeScript
