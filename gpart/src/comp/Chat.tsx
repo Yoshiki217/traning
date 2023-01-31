@@ -52,37 +52,37 @@ export const Chat = () => {
     })
   }
   return (
-  <div class="shadow-lg rounded-lg">
+  <div className="shadow-lg rounded-lg">
     
-      <div class="flex flex-row h-1000 justify-between bg-white">
+      <div className="flex flex-row h-1000 justify-between bg-white">
 
-        <div class="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
+        <div className="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
           {/* search chatting */}
-          <div class="border-b-2 py-4 px-2">
+          <div className="border-b-2 py-4 px-2">
             <input
               id = "inputSe"
               type="text"
               placeholder="search chatting"
-              class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full"
+              className="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full"
             />
           </div>
           {/* friend list */}
           {
             data.map(d=>{
               return(
-                <div key={d.userId} id={d.userId} className={"flex flex-row py-4 px-2 items-center border-b-2" + (d.isActive ? " border-l-4 border-blue-400":"")}
+                <div key={d.userId} id={d.userId} classNameName={"flex flex-row py-4 px-2 items-center border-b-2" + (d.isActive ? " border-l-4 border-blue-400":"")}
                   onClick={()=>{handleClick(d)}}
                 >
-                  <div class="w-1/4">
+                  <div className="w-1/4">
                     <img
                       src={d.img}
-                      class="object-cover h-12 w-12 rounded-full"
+                      className="object-cover h-12 w-12 rounded-full"
                       alt=""
                     />
                   </div>
-                  <div class="w-full">
-                    <div class="text-lg font-semibold">{d.name}</div>
-                    <span class="text-gray-500">{d.firstText}</span>
+                  <div className="w-full">
+                    <div className="text-lg font-semibold">{d.name}</div>
+                    <span className="text-gray-500">{d.firstText}</span>
                   </div>
                 </div>
               )
@@ -90,9 +90,9 @@ export const Chat = () => {
           }
         </div>
 
-        <div class="w-full px-5 h-1000 flex flex-col justify-between">
+        <div className="w-full px-5 h-1000 flex flex-col justify-between">
           {/* Conversation */}
-          <div class="flex flex-col mt-5">
+          <div className="flex flex-col mt-5">
             {
               data.map(d=>{
                 if(d.isActive && d.currentText.length != 0){
@@ -100,11 +100,11 @@ export const Chat = () => {
                     d.currentText.map(t=>{
                       if(t.userId==myId){
                         return(
-                          <div className={"flex justify-end mb-4"}>
-                            <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.text}</div>
+                          <div classNameName={"flex justify-end mb-4"}>
+                            <div classNameName={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.text}</div>
                             <img
                               src={myImg}
-                              class="object-cover h-8 w-8 rounded-full"
+                              className="object-cover h-8 w-8 rounded-full"
                               alt=""
                             />
                           </div>
@@ -114,7 +114,7 @@ export const Chat = () => {
                           <div className={"flex justify-start mb-4"}>
                             <img
                               src={d.img}
-                              class="object-cover h-8 w-8 rounded-full"
+                              className="object-cover h-8 w-8 rounded-full"
                               alt=""
                             />
                             <div className={"ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"}>{t.text}</div>
@@ -136,7 +136,7 @@ export const Chat = () => {
                             <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.text}</div>
                             <img
                               src={myImg}
-                              class="object-cover h-8 w-8 rounded-full"
+                              className="object-cover h-8 w-8 rounded-full"
                               alt=""
                             />
                           </div>
@@ -153,14 +153,14 @@ export const Chat = () => {
             data.map(d=>{
               if(d.isActive){
                 return (
-                  <div class="flex py-5">
+                  <div className="flex py-5">
                     <input
                       id = "inputCon"
-                      class="w-full bg-gray-300 py-5 px-3 rounded-xl"
+                      className="w-full bg-gray-300 py-5 px-3 rounded-xl"
                       type="text"
                       placeholder="type your message here..."
                     />
-                    <button class="w-full bg-gray-300 py-5 px-3 rounded-xl" type='button'
+                    <button className="w-full bg-gray-300 py-5 px-3 rounded-xl" type='button'
                       onClick={()=>{
                         let inputCon = document.getElementById("inputCon")
                         let text = inputCon.value
