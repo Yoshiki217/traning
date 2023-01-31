@@ -53,7 +53,7 @@ export const CreateCourse : FC = () => {
                 setMessage(json.errormessage)
                 return
             }
-            gate('/account')
+            gate('/account/user')
             refresh.setState()
         })
     }

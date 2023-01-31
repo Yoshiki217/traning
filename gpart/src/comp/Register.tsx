@@ -73,10 +73,6 @@ export const Register : FC = () => {
                             <label htmlFor="accountName" className="inline-block text-blue-800 text-sm sm:text-base mb-2">アカウント名</label>
                             <input name="accountName" onChange={setInputs} className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
                         </div>
-
-                        <div className="sm:col-span-2">
-                            <label htmlFor="sex" className="inline-block text-blue-800 text-sm sm:text-base mb-2">性別</label>
-                        </div>
                         <div className="sm:col-span-2">
                             <label htmlFor="password" className="inline-block text-blue-800 text-sm sm:text-base mb-2">パスワード</label>
                             <input type="password" name={inputs.password.name} onChange={setInputs} className="w-full bg-gray-50 text-blue-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
