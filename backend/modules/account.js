@@ -464,3 +464,27 @@ exports.passwordChange = (accessId, sign, password, con) => {
     }
     return {...json, ...auth}
 }
+
+exports.chatInbox = (accessId, sign, courseName, text, con) => {
+    let json = {
+        status: false,
+        errormessage: ""
+    }
+}
+
+exports.chatHistory = (accessId, sign, courseName, lastId, con) => {
+    let json = {
+        status: false,
+        errormessage: "",
+        chats: [
+            {
+                chatId: 0,
+                accountInfo: {
+                    userName: "",
+                    avatar: ""
+                },
+                chatText: ""
+            }
+        ]
+    }
+}
