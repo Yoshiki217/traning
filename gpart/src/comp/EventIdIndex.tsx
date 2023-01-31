@@ -48,6 +48,7 @@ export const EventIdIndex : FC = () => {
                 return
             }
             eventRefresh.setState()
+            setLog('')
         })
     }
     let id_supply_origin = 0;
