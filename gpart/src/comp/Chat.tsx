@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export const Chat = () => {
   let myId = "a"
@@ -10,7 +10,7 @@ export const Chat = () => {
   ]
 
   // データを取得
-  const [data, setData] = useState(
+  const [data, setData] = useState<any[]>(
     [
       {name : "Yoshiki", userId: "user1", img: "https://source.unsplash.com/_7LbC5J-jw4/600x600", isActive: false, firstText : t[t.length-1].text, currentText: t, newText : []},
       {name : "Fujishima", userId: "user2", img : "https://source.unsplash.com/otT2199XwI8/600x600", isActive: false, firstText : "", currentText : [], newText : []}
@@ -19,7 +19,7 @@ export const Chat = () => {
 
   const [isActiveData, setIsActiveData] = useState({})
 
-  const handleClick = (d) =>{
+  const handleClick = (d: any) =>{
     const newD = data
     for(let i in newD){
       const a = newD[i]
@@ -35,7 +35,7 @@ export const Chat = () => {
       ]
     })
   }
-  const handleSendClick =(newText)=>{
+  const handleSendClick =(newText: any[])=>{
     const newData = data
     for(let i in newData){
       const a = newData[i]
@@ -70,7 +70,7 @@ export const Chat = () => {
           {
             data.map(d=>{
               return(
-                <div key={d.userId} id={d.userId} classNameName={"flex flex-row py-4 px-2 items-center border-b-2" + (d.isActive ? " border-l-4 border-blue-400":"")}
+                <div key={d.userId} id={d.userId} className={"flex flex-row py-4 px-2 items-center border-b-2" + (d.isActive ? " border-l-4 border-blue-400":"")}
                   onClick={()=>{handleClick(d)}}
                 >
                   <div className="w-1/4">
@@ -97,11 +97,11 @@ export const Chat = () => {
               data.map(d=>{
                 if(d.isActive && d.currentText.length != 0){
                   return(
-                    d.currentText.map(t=>{
+                    d.currentText.map((t: any)=>{
                       if(t.userId==myId){
                         return(
-                          <div classNameName={"flex justify-end mb-4"}>
-                            <div classNameName={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.text}</div>
+                          <div className={"flex justify-end mb-4"}>
+                            <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.text}</div>
                             <img
                               src={myImg}
                               className="object-cover h-8 w-8 rounded-full"
@@ -130,7 +130,7 @@ export const Chat = () => {
               data.map(d=>{
                 if(d.isActive && d.newText.length != 0){
                   return(
-                    d.newText.map(t=>{
+                    d.newText.map((t: any)=>{
                         return(
                           <div className={"flex justify-end mb-4"}>
                             <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.text}</div>
@@ -162,7 +162,7 @@ export const Chat = () => {
                     />
                     <button className="w-full bg-gray-300 py-5 px-3 rounded-xl" type='button'
                       onClick={()=>{
-                        let inputCon = document.getElementById("inputCon")
+                        let inputCon: any = document.getElementById("inputCon")
                         let text = inputCon.value
                         handleSendClick(text)
                         inputCon.value = ""
