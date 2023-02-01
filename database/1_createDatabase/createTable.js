@@ -158,3 +158,13 @@ sql = `CREATE VIEW accountView AS
         ON account.id = course.idSeito 
         ORDER BY account.id`
 createView(sql, viewName)
+
+// 10 chatHist
+tableName = "chatHist"
+sql = `CREATE TABLE chatHist(
+        chatId INT PRIMARY KEY AUTO_INCREMENT,
+        fromId INT,
+        courseId INT,
+        text VARCHAR(100),
+        CONSTRAINT fk_from FOREIGN KEY (from) REFERENCES account(id) ON DELETE CASCADE,
+        CONSTRAINT fk_to FOREIGN KEY (courseId) REFERENCES course(courseId) ON DELETE CASCADE)`
