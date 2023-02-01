@@ -470,6 +470,31 @@ exports.chatInbox = (accessId, sign, courseName, text, con) => {
         status: false,
         errormessage: ""
     }
+    let auth = checkAuth(accessId, sign, con)
+    if(auth.auth){
+        let idFrom = auth.id
+        let courseId = -1
+        let course = []
+        if(auth.isMain){
+            course = con.query(`SELECT courseId FROM course WHERE courseName = "${courseName}" AND idSensei = ${idFrom}`)
+        }else{
+            course = con.query(`SELECT courseId FROM course WHERE courseName = "${courseName}" AND idSeito = ${idFrom}`)
+        }
+        if(course.length == 1){
+            courseId = course[0].courseId
+            if(courseId<0){
+                json.errormessage = "id見つからない"
+            }else{
+                con.query(`SELECT 1 FROM chatHist LIMIT 1 FOR UPDATE`)
+                con.query(`INSERT INTO chatHist(fromId, courseId, text) VALUES(
+                            ${idFrom}, ${courseId}, "${text}"
+                            )`)
+                con.query(`COMMIT`)
+                json.status = true
+            }
+        }
+    }
+    return {...json, ...auth}
 }
 
 exports.chatHistory = (accessId, sign, courseName, lastId, con) => {
@@ -547,4 +572,6 @@ exports.chatHistory = (accessId, sign, courseName, lastId, con) => {
                 }
             })
         }
+    }
+    return {...json, ...auth}
 }
