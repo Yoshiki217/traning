@@ -64,3 +64,25 @@ export interface passwordChange {
     status: boolean,
     errormessage: string
 }
+
+export interface chatInbox {
+    auth: boolean,
+    sign: string
+    status: boolean,
+    errormessage: string
+}
+
+export interface chatHistory {
+    auth: boolean,
+    sign: string
+    status: boolean,
+    errormessage: string,
+    chats: {
+        chatId: number,
+        accountInfo: {
+            userName: string,
+            avatar: string
+        },
+        chatText: string
+    }[]
+}

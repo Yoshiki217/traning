@@ -27,10 +27,13 @@ import { Settings } from "./comp/Settings"
 import { YM } from './comp/YM';
 import { EventUpdateIndex } from './comp/EventUpdateIndex';
 import { YMIndex } from './comp/YMIndex';
+import { ChatOver } from './comp/ChatOver';
+import { BodyParams } from './comp/BodyParams';
+import { BodyParamsYM } from './comp/BodyParamsYM';
 
 declare global{
     interface Window{
-        utilDraw: (chart: HTMLCanvasElement, rawData: {
+        utilDraw: (canvas: HTMLDivElement, rawData: {
             date: string,
             weight: string | number
         }[]) => void
@@ -54,7 +57,11 @@ function App() {
                 <Route path='info' element={<Info/>}></Route>
                 <Route path='update' element={<Update/>}></Route>
                 <Route path="user" element={<Users/>} ></Route>
-                <Route path="chat" element={<Chat/>} ></Route>
+                <Route path="chat" element={<ChatOver/>} ></Route>
+                <Route path="bodyparams" element={<Outlet/>}>
+                  <Route index element={<BodyParams/>}></Route>
+                  <Route path=':year/:month' element={<BodyParamsYM/>}></Route>
+                </Route>
                 <Route path="settings" element={<Settings/>}></Route>
                 <Route path='passwordChange' element={<PasswordChange/>}></Route>
                 <Route path='createCourse' element={<CreateCourse/>}></Route>

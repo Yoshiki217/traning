@@ -166,5 +166,6 @@ sql = `CREATE TABLE chatHist(
         fromId INT,
         courseId INT,
         text VARCHAR(100),
-        CONSTRAINT fk_from FOREIGN KEY (from) REFERENCES account(id) ON DELETE CASCADE,
+        CONSTRAINT fk_from FOREIGN KEY (fromId) REFERENCES account(id) ON DELETE CASCADE,
         CONSTRAINT fk_to FOREIGN KEY (courseId) REFERENCES course(courseId) ON DELETE CASCADE)`
+createTable(sql, tableName)
