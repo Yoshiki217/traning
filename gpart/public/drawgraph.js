@@ -21,13 +21,29 @@ function prepareData(data){
     maxY = Math.ceil(maxY)+1
     minY = Math.floor(minY)-1
 
-    if(data.length < lastDateOfMonth){
-        for(let i=data.length+1; i<=lastDateOfMonth; i++){
-            data.push({date: `${year}-${month}-${i}`, weight: null})
+    let iterator = 0
+    let last_weight = null
+    const r_data = []
+    for(let i=1; i<=lastDateOfMonth; i++){
+        let dform = `${i<10? `0${i}`: i}`
+        let date = `${year}-${month}-${dform}`
+        if(iterator<data.length && date == data[iterator].date){
+            r_data.push(data[iterator])
+            last_weight = data[iterator].weight
+            iterator++;
+        } else {
+            let weight = null
+            if(last_weight!=null && iterator<data.length){
+                const f_weight = data[iterator].weight
+                const f_date = data[iterator].date.slice(8, 10)
+                weight = last_weight+(f_weight-last_weight)/(f_date-i+1)
+                last_weight = weight
+            }
+            r_data.push({date: date, weight: weight})
         }
     }
 
-    return {data, year, month, maxY, minY}
+    return {r_data, year, month, maxY, minY}
 }
 
 function prepareDataForLinear(data, fromDate, toDate){
@@ -70,9 +86,9 @@ function prepareDataForLinear(data, fromDate, toDate){
     }
 }
 
-function drawFirstData(doc, data, linearData, year, month, maxY, minY){
+function drawFirstData(canvas, data, linearData, year, month, maxY, minY){
     let chart = new Chart(
-        doc,
+        canvas,
         {
             data:{
                 labels: data.map(row => row.date.slice(8,10)),
@@ -111,7 +127,6 @@ function drawFirstData(doc, data, linearData, year, month, maxY, minY){
 }
 
 function drawPredictData(chart, data){
-    console.log("dark magician")
     chart.data.datasets.push(
       {
         type: "line",
@@ -126,16 +141,31 @@ function drawPredictData(chart, data){
     )
 }
 
-function utilDraw(chart, rawData){
-    let {data, year, month, maxY, minY} = prepareData(rawData)
+function utilDraw(canvas, rawData){
+    const cloneData = []
 
-    let toDate = rawData
-    let fromDate = rawData - 5
+    for(let d of rawData){
+        cloneData.push({
+            date: d.date,
+            weight: d.weight
+        })
+    }
+
+    let {r_data, year, month, maxY, minY} = prepareData(cloneData)
+
+    let canvav = document.createElement("canvas")
+
+    let toDate = cloneData
+    let fromDate = cloneData - 5
     if(fromDate<1){
         fromDate = 1
     }
 
-    let dataForLinnear = prepareDataForLinear(data, fromDate, toDate)
+    let dataForLinnear = prepareDataForLinear(r_data, fromDate, toDate)
 
-    let graph = drawFirstData(chart, data, dataForLinnear, year, month, maxY, minY)
+    drawFirstData(canvav, r_data, dataForLinnear, year, month, maxY, minY)
+
+    canvas.innerHTML = ''
+
+    canvas.appendChild(canvav)
 }

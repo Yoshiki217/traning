@@ -432,7 +432,7 @@ exports.bodyParams = (accessId, sign, year, month, con) => {
     let auth = checkAuth(accessId, sign, con)
     if(auth.auth){
         data = con.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d') as date, weight, height FROM bodyParameter 
-                        WHERE idUser=${auth.id} AND date like "${year}-${month}-%"`)
+                        WHERE idUser=${auth.id} AND date like "${year}-${month}-%" ORDER BY date`)
         if (data.length != 0){
             data.forEach(d=>{
                 json.paramInfos.push({
@@ -497,7 +497,7 @@ exports.chatInbox = (accessId, sign, courseName, text, con) => {
     return {...json, ...auth}
 }
 
-exports.chatHistory = (accessId, sign, courseName, lastId, con) => {
+exports.chatHistory = (accessId, sign, courseName, limit, con) => {
     let json = {
         status: false,
         errormessage: "",
@@ -533,44 +533,131 @@ exports.chatHistory = (accessId, sign, courseName, lastId, con) => {
             }
         }
         if(courseId>0){
-            let chatHist = con.query(`SELECT chatId, fromId, text FROM chatHist WHERE courseId = ${courseId} AND chatId > ${lastId} LIMIT 10`)
-
-            let infoSensei = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSensei}`)
-            if (infoSensei.length != 1){
-                infoSensei = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSensei}`)    
-                infoSensei[0].avatar = ""
-            }
-            infoSensei = infoSensei[0]
-
-            let infoSeito = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSeito}`)
-            if(infoSeito.length != 1){
-                infoSeito = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSeito}`)
-                infoSeito[0].avatar = ""
-            }
-            infoSeito = infoSeito[0]
-
-            chatHist.forEach(c=>{
-                if(c.fromId == infoSensei.id){
-                    json.chats.append({
-                        chatId: c.chatId,
-                        accountInfo: {
-                            userName: infoSensei.name,
-                            avatar: infoSensei.avatar
-                        },
-                        chatText: c.text
-                    })
+            let chatHist = con.query(`SELECT * FROM (SELECT chatId, fromId, text FROM chatHist WHERE courseId = ${courseId} ORDER BY chatId DESC LIMIT ${limit}) AS T1 ORDER BY chatId`)
+            if(chatHist.length==0){
+                json.status = true
+            }else{
+                let infoSensei = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSensei}`)
+                if (infoSensei.length != 1){
+                    infoSensei = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSensei}`)    
+                    infoSensei[0].avatar = ""
                 }
-                if(c.fromId == infoSeito.id){
-                    json.chats.append({
-                        chatId: c.chatId,
-                        accountInfo: {
-                            userName: infoSeito.name,
-                            avatar: infoSeito.avatar
-                        },
-                        chatText: c.text
-                    })
+                infoSensei = infoSensei[0]
+
+                let infoSeito = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSeito}`)
+                if(infoSeito.length != 1){
+                    infoSeito = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSeito}`)
+                    infoSeito[0].avatar = ""
                 }
-            })
+                infoSeito = infoSeito[0]
+
+                chatHist.forEach(c=>{
+                    if(c.fromId == infoSensei.id){
+                        json.chats.push({
+                            chatId: c.chatId,
+                            accountInfo: {
+                                userName: infoSensei.name,
+                                avatar: infoSensei.avatar
+                            },
+                            chatText: c.text
+                        })
+                    }
+                    if(c.fromId == infoSeito.id){
+                        json.chats.push({
+                            chatId: c.chatId,
+                            accountInfo: {
+                                userName: infoSeito.name,
+                                avatar: infoSeito.avatar
+                            },
+                            chatText: c.text
+                        })
+                    }
+                })
+                json.status = true
+            }
+        }
+    }
+    return {...json, ...auth}
+}
+
+exports.chatRealtime = (accessId, sign, courseName, chatId, con) => {
+    let json = {
+        status: false,
+        errormessage: "",
+        chats: [
+            // {
+            //     chatId: 0,
+            //     accountInfo: {
+            //         userName: "",
+            //         avatar: ""
+            //     },
+            //     chatText: ""
+            // }
+        ]
+    }
+    let auth = checkAuth(accessId, sign, con)
+    if(auth.auth){
+        let idSensei = -1
+        let idSeito = -1
+        let courseId = -1
+        if(auth.isMain){
+            let course = con.query(`SELECT idSeito, courseId FROM course WHERE courseName = "${courseName}" AND idSensei = ${auth.id}`)
+            if(course.length==1){
+                idSensei = auth.id
+                idSeito = course[0].idSeito
+                courseId = course[0].courseId
+            }
+        }else{
+            let course = con.query(`SELECT idSensei, courseId FROM course WHERE courseName = "${courseName}" AND idSeito = ${auth.id}`)
+            if(course.length==1){
+                idSensei = course[0].idSensei
+                idSeito = auth.id
+                courseId = course[0].courseId
+            }
+        }
+        if(courseId>0){
+            let chatHist = con.query(`SELECT chatId, fromId, text FROM chatHist WHERE courseId = ${courseId} AND chatId >= ${chatId}`)
+            if(chatHist.length==0){
+                json.status = true
+            }else{
+                let infoSensei = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSensei}`)
+                if (infoSensei.length != 1){
+                    infoSensei = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSensei}`)    
+                    infoSensei[0].avatar = ""
+                }
+                infoSensei = infoSensei[0]
+
+                let infoSeito = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSeito}`)
+                if(infoSeito.length != 1){
+                    infoSeito = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSeito}`)
+                    infoSeito[0].avatar = ""
+                }
+                infoSeito = infoSeito[0]
+
+                chatHist.forEach(c=>{
+                    if(c.fromId == infoSensei.id){
+                        json.chats.push({
+                            chatId: c.chatId,
+                            accountInfo: {
+                                userName: infoSensei.name,
+                                avatar: infoSensei.avatar
+                            },
+                            chatText: c.text
+                        })
+                    }
+                    if(c.fromId == infoSeito.id){
+                        json.chats.push({
+                            chatId: c.chatId,
+                            accountInfo: {
+                                userName: infoSeito.name,
+                                avatar: infoSeito.avatar
+                            },
+                            chatText: c.text
+                        })
+                    }
+                })
+                json.status = true
+            }
         }
     }
     return {...json, ...auth}

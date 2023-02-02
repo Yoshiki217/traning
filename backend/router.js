@@ -125,7 +125,7 @@ app.post('/removeBodyParams', (req, res)=>{
         res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
-    res.json(account.removeBodyParams(post.accessId, post.sign, con))
+    res.json(account.removeBodyParams(post.accessId, post.sign, post.date, con))
 })
 
 app.post('/bodyParams', (req, res)=>{
@@ -140,6 +140,25 @@ app.post('/passwordChange', (req, res)=>{
         return
     }
     res.json(account.passwordChange(post.accessId, post.sign, post.password, con))
+})
+
+app.post('/chatInbox', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    if(!searchPost(post)){
+        res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
+        return
+    }
+    res.json(account.chatInbox(post.accessId, post.sign, post.courseName, post.text, con))
+})
+
+app.post('/chatHistory', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.chatHistory(post.accessId, post.sign, post.courseName, post.limit, con))
+})
+
+app.post('/chatRealtime', (req, res)=>{
+    let post = JSON.parse(req.body.json)
+    res.json(account.chatRealtime(post.accessId, post.sign, post.courseName, post.chatId, con))
 })
 
 // cource

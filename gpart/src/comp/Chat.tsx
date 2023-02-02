@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import SimpleBarReact from 'simplebar-react'
 
 export const Chat = () => {
   let myId = "a"
@@ -67,12 +68,12 @@ export const Chat = () => {
             />
           </div>
           {/* friend list */}
+          
           {
             data.map(d=>{
               return(
                 <div key={d.userId} id={d.userId} className={"flex flex-row py-4 px-2 items-center border-b-2" + (d.isActive ? " border-l-4 border-blue-400":"")}
-                  onClick={()=>{handleClick(d)}}
-                >
+                  onClick={()=>{handleClick(d)}}>
                   <div className="w-1/4">
                     <img
                       src={d.img}
@@ -130,6 +131,7 @@ export const Chat = () => {
               data.map(d=>{
                 if(d.isActive && d.newText.length != 0){
                   return(
+                      
                     d.newText.map((t: any)=>{
                         return(
                           <div className={"flex justify-end mb-4"}>
@@ -142,6 +144,7 @@ export const Chat = () => {
                           </div>
                         )
                     })
+                      
                   )
                 }
               })
