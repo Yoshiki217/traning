@@ -3,13 +3,12 @@ import { getPublic, postg } from "../api/postg";
 import { getStorage } from "../api/storage";
 import { chatHistory, chatInbox } from "../interfaces/account";
 import { AccountContext } from "./Account";
-import SimpleBarReact from 'simplebar-react'
 import { useInputs } from "../api/useInputs";
 import { useAuth } from "../api/logout";
+import { io } from "socket.io-client";
 
 export const ChatOver: FC = () => {
     const accountInfo = useContext(AccountContext)
-    
     const auth = useAuth()
     const [text, setText] = useState<{
         chatId: number,
@@ -67,13 +66,17 @@ export const ChatOver: FC = () => {
     }, [courseName])
 
     useEffect(()=>{
-        window.setInterval(()=>{
-            if(courseName!=""){
-                getTextRealtime()
-            }
-        }, 1000)
-    }, [courseName, text])
-
+        const socket = io('http://localhost:8081')
+        socket.on('hello', ()=>{
+            console.log("connnect ok")
+        })
+        socket.on(accountInfo.accountName, ()=>{
+            getTextRealtime()
+        })
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(courseName!=""){
@@ -83,7 +86,14 @@ export const ChatOver: FC = () => {
                 text: inputs.text.value
             }).then((json: chatInbox)=>{
                 console.log(json)
-                getTextRealtime()
+                if(!auth(json)) return
+                if(!json.status) return
+                setInputs({
+                    target: {
+                        name: "text",
+                        value: ""
+                    }
+                })
             })
         }
     }

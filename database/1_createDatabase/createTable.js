@@ -43,6 +43,9 @@ function createView(sql, viewName){
 }
 
 //////////////////////////// drop table, view
+dropTable("chatHist")
+
+dropView("courseView")
 dropView("accountView")
 
 dropTable("logText")
@@ -159,6 +162,13 @@ sql = `CREATE VIEW accountView AS
         ORDER BY account.id`
 createView(sql, viewName)
 
+viewName = "courseView"
+sql = `CREATE VIEW courseView AS
+        SELECT accountName, courseName
+        FROM course
+        JOIN account
+        ON course.idSensei = account.id OR course.idSeito = account.id`
+createView(sql, viewName)
 // 10 chatHist
 tableName = "chatHist"
 sql = `CREATE TABLE chatHist(
