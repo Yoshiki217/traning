@@ -5,8 +5,11 @@ const fileupload = require('express-fileupload')
 const sync = require('sync-mysql')
 const express = require('express')
 const app = express()
-const bodyparse = require('body-parser')
 const cors = require('cors')
+
+const http = require('http')
+const server = http.createServer(app)
+const {Server} = require("socket.io")
 
 const con = new sync({
     host: 'localhost',
@@ -22,6 +25,16 @@ const con = new sync({
 app.use(cors())
 app.use(fileupload())
 app.use(express.static('public'))
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+})
+
+io.on('connection', (socket)=>{
+    socket.emit('hello')
+})
 
 app.post('/', (req, res)=>{
     res.json(
@@ -148,7 +161,13 @@ app.post('/chatInbox', (req, res)=>{
         res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
-    res.json(account.chatInbox(post.accessId, post.sign, post.courseName, post.text, con))
+    let ret = account.chatInbox(post.accessId, post.sign, post.courseName, post.text, con)
+    res.json(ret)
+    if(ret.auth && ret.status){
+        for(let name of ret.accountNames){
+            io.sockets.emit(name)
+        }
+    }
 })
 
 app.post('/chatHistory', (req, res)=>{
@@ -300,4 +319,12 @@ app.post('/event', (req, res)=>{
         post.eventId, con))
 })
 
-app.listen(8081)
+// io.sockets.on("sendMessage", (json)=>{
+//     let post = JSON.parse(json)
+//     let req = account.chatInbox(post.accessId, post.sign, post.courseName, post.text, con)
+//     if(req.auth && req.status){
+        
+//     }
+// })
+
+server.listen(8081)

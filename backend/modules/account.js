@@ -468,7 +468,8 @@ exports.passwordChange = (accessId, sign, password, con) => {
 exports.chatInbox = (accessId, sign, courseName, text, con) => {
     let json = {
         status: false,
-        errormessage: ""
+        errormessage: "",
+        accountNames: []
     }
     let auth = checkAuth(accessId, sign, con)
     if(auth.auth){
@@ -491,6 +492,10 @@ exports.chatInbox = (accessId, sign, courseName, text, con) => {
                             )`)
                 con.query(`COMMIT`)
                 json.status = true
+                const names = con.query(`SELECT * FROM courseView WHERE courseName = "${courseName}"`)
+                names.forEach(name=>{
+                    json.accountNames.push(name.accountName)
+                })
             }
         }
     }
