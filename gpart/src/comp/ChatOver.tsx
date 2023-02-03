@@ -14,6 +14,7 @@ export const ChatOver: FC = () => {
         chatId: number,
         accountInfo: {
             userName: string,
+            accountName: string
             avatar: string
         },
         chatText: string
@@ -120,7 +121,17 @@ export const ChatOver: FC = () => {
                             {
                                 text.map(t=>
                                 <div key={t.chatId}>
-                                    {t.chatText}
+                                    {
+                                        t.accountInfo.accountName == accountInfo.accountName?
+                                        <div>
+                                            {t.chatText}
+                                        </div>
+                                        :
+                                        <div>
+                                            {t.chatText}:::
+                                        </div>
+                                    }
+                                    
                                 </div>)
                             }
                         </div>
