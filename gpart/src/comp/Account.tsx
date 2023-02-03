@@ -97,7 +97,7 @@ export const Account : FC = () => {
                     <div className="flex overflow-hidden bg-white rounded-lg">
             <div className="hidden md:flex md:flex-shrink-0">
                 <div className="flex flex-col w-64">
-                    <div className="flex flex-col flex-grow pt-5 overflow-y-auto bg-white border-r border-gray-50">
+                    <div className="flex flex-col flex-grow pt-5 overflow-y-auto bg-white border-r border-gray-50" style={{position: "fixed"}}>
                         <div className="flex flex-col items-center flex-shrink-0 px-4">
                             <a href="localhost:3000" className="px-8 text-left focus:outline-none">
                                 <h2 className="block p-2 text-xl font-medium tracking-tighter text-gray-900 transition duration-500 ease-in-out transform cursor-pointer hover:text-gray-900">G part</h2>
