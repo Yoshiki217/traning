@@ -178,11 +178,13 @@ export const Settings = () => {
                                         </select>
                                     </div>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <input type="file" id={image.avatar.name} name={image.avatar.name} onChange={setImage}/>
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>image</label>
+                            
                                         {
                                             avatarPreview
                                         }
                                     </div>
+                                    <input type="file" id={image.avatar.name} name={image.avatar.name} onChange={setImage}/>
                                     <Message message={message} />
                                     <div className="flex justify-end">
                                         <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>

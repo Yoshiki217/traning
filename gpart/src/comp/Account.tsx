@@ -177,7 +177,7 @@ export const Account : FC = () => {
                                     <div className="relative  bg-sakura-50 px-6 py-5 rounded-box">
                                         <div className="avatar placeholder">
                                         <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-                                        <img className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+                                        <img className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full"
                                             src={getPublic(value.avatar)} alt="画像" />
                                         </div>
                                             <p className="pl-5 pt-1">{value.userName}</p>
