@@ -122,30 +122,27 @@ export const ChatOver: FC = () => {
                             {
                                 text.map(t=>
                                 <div key={t.chatId}>
-                                  {/*  {/* <img src={getPublic(t.accountInfo.avatar)} alt="" className="object-cover h-8 w-8 rounded-full" />
-                                    <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.chatText}</div> */}
-                                    <div className="chat chat-start">
-                                        <div className="chat-image avatar">
-                                            <div className="w-10 rounded-full">
-                                                <img src={getPublic(t.accountInfo.avatar)} />
-                                            </div>
-                                        </div>
-                                    <div className="chat-bubble">{t.chatText}</div>
-                                    </div>
-                                </div>
-                                
-                                )*/}
                                     {
                                         t.accountInfo.accountName == accountInfo.accountName?
-                                        <div>
-                                            {t.chatText}
+                                        <div className="chat chat-end">
+                                            <div className="chat-image avatar">
+                                                <div className="w-10 rounded-full">
+                                                    <img src={getPublic(t.accountInfo.avatar)} />
+                                                </div>
+                                            </div>
+                                            <div className="chat-bubble">{t.chatText}</div>
                                         </div>
                                         :
-                                        <div>
-                                            {t.chatText}:::
+                                        <div className="chat chat-start">
+                                            <div className="chat-image avatar">
+                                                <div className="w-10 rounded-full">
+                                                    <img src={getPublic(t.accountInfo.avatar)} />
+                                                </div>
+                                            </div>
+                                            <div className="chat-bubble">{t.chatText}</div>
                                         </div>
-                                    }
-                                    
+                                        
+                                    }                                  
                                 </div>)
                             }
                         </div>
