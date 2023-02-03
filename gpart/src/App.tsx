@@ -58,6 +58,7 @@ function App() {
                 <Route path='update' element={<Update/>}></Route>
                 <Route path="user" element={<Users/>} ></Route>
                 <Route path="chat" element={<ChatOver/>} ></Route>
+                <Route path='example' element={<Chat/>}></Route>
                 <Route path="bodyparams" element={<Outlet/>}>
                   <Route index element={<BodyParams/>}></Route>
                   <Route path=':year/:month' element={<BodyParamsYM/>}></Route>
