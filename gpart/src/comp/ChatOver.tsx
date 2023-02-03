@@ -68,9 +68,10 @@ export const ChatOver: FC = () => {
     useEffect(()=>{
         const socket = io('http://localhost:8081')
         socket.on('hello', ()=>{
-            console.log("connnect ok")
+            console.log("connnect ok: "+accountInfo.accountName)
         })
         socket.on(accountInfo.accountName, ()=>{
+            console.log("on new message")
             getTextRealtime()
         })
         return () => {
@@ -120,8 +121,19 @@ export const ChatOver: FC = () => {
                             {
                                 text.map(t=>
                                 <div key={t.chatId}>
-                                    {t.chatText}
-                                </div>)
+                                    {/* <img src={getPublic(t.accountInfo.avatar)} alt="" className="object-cover h-8 w-8 rounded-full" />
+                                    <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.chatText}</div> */}
+                                    <div className="chat chat-start">
+                                        <div className="chat-image avatar">
+                                            <div className="w-10 rounded-full">
+                                                <img src={getPublic(t.accountInfo.avatar)} />
+                                            </div>
+                                        </div>
+                                    <div className="chat-bubble">{t.chatText}</div>
+                                    </div>
+                                </div>
+                                
+                                )
                             }
                         </div>
                     </div>
