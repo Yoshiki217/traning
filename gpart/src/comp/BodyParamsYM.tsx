@@ -1,5 +1,5 @@
 import { FC, useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDateFormat } from "../api/dateformat";
 import { useAuth } from "../api/logout";
 import { postg } from "../api/postg";
@@ -14,6 +14,7 @@ export const BodyParamsYM: FC = () => {
     
     const auth = useAuth()
     const params = useParams()
+    const gate = useNavigate()
     const [inputs, setInputs] = useInputs({
         date: {
             name: "date",
@@ -106,6 +107,20 @@ export const BodyParamsYM: FC = () => {
     useEffect(()=>{
         getRawData()
     }, [params.year, params.month])
+    const nextMonth = ()=>{
+        if(params.month=="12"){
+            gate(`../${Number(params.year)+1}/01`)
+        } else {
+            gate(`../${params.year}/${Number(params.month)<9? `0${Number(params.month)+1}`: Number(params.month)+1}`)
+        }
+    }
+    const previousMonth = () => {
+        if(params.month=="01"){
+            gate(`../${Number(params.year)-1}/12`)
+        } else {
+            gate(`../${params.year}/${Number(params.month)<11? `0${Number(params.month)-1}`: Number(params.month)-1}`)
+        }
+    }
     return (
         <>
             <div id="canvas_chart"></div>

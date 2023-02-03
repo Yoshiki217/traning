@@ -5,6 +5,7 @@ import { useAuth, useLogout } from "../api/logout";
 import { postg } from "../api/postg";
 import { getStorage } from "../api/storage";
 import { logEvent, removeEvent } from "../interfaces/event";
+import { AccountContext } from "./Account";
 import { EventContext, EventRefreshContext } from "./EventId";
 import { Message } from "./Message";
 
@@ -12,6 +13,7 @@ export const EventIdIndex : FC = () => {
     const [log, setLog] = useState('')
     const event = useContext(EventContext)
     const eventRefresh = useContext(EventRefreshContext)
+    const account = useContext(AccountContext)
     const [message, setMessage] = useState("")
     const gate = useNavigate()
     const auth = useAuth()
@@ -72,12 +74,16 @@ export const EventIdIndex : FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="py-6 px-4 md:px-8">
-                <div className="flex justify-center gap-4 md:gap-6">
-                    <button onClick={toUpdate} className="btn">変更</button>
-                    <button onClick={removeEvent} className="btn">削除</button>
+            {
+                account.isMain?
+                <div className="py-6 px-4 md:px-8">
+                    <div className="flex justify-center gap-4 md:gap-6">
+                        <button onClick={toUpdate} className="btn">変更</button>
+                        <button onClick={removeEvent} className="btn">削除</button>
+                    </div>
                 </div>
-            </div>
+                : <></>
+            }
             <div className="bg-white py-6 sm:py-8 lg:py-12">
                 <form onSubmit={onSubmit}>
                     <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
