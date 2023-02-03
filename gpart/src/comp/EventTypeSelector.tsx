@@ -104,36 +104,40 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
     return (
         <>
             <div className='w-full md:w-full px-3 mb-6'>
+                
                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Event Type</label>
 
-
-                <select className="select select-bordered w-full max-w-xs" name={props.inputs.eventTypeId.name} value={props.inputs.eventTypeId.value} onChange={onTypeSelect}>
-                    {
-                        eventTypes?.map(type=>
-                            <option key={type.eventTypeId} value={type.eventTypeId}>{type.eventTypeName}</option>
-                        )
-                    }
-                </select>
-            <div className="m-3 dropdown">
-                <label tabIndex={0} className="btn w-12 h-12 bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500">＋</label>
-                <div tabIndex={0} className="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content">
-                    <div className="card-body">
-                        <p className="card-title">カテゴリー追加・更新</p>
-                        <input type="text" placeholder="Type here" className="input w-full max-w-xs text-black" value={cint} onChange={(e)=>{setCint(e.target.value)}}/>
-                        <button className="btn" type="button" onClick={onAddButtonClick}>追加</button>
-                        <button className="btn" type="button" onClick={onChangeClick}>更新</button>
-                        <Message message={message}/>
+                <div className="flex">
+                    <div className="pt-3">
+                        <select className="select select-bordered w-full max-w-xs" name={props.inputs.eventTypeId.name} value={props.inputs.eventTypeId.value} onChange={onTypeSelect}>
+                            {
+                                eventTypes?.map(type=>
+                                    <option key={type.eventTypeId} value={type.eventTypeId}>{type.eventTypeName}</option>
+                                )
+                            }
+                        </select>
                     </div>
+                    <div className="m-3 dropdown">
+                        <label tabIndex={0} className="btn w-12 h-12 bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500">＋</label>
+                        <div tabIndex={0} className="dropdown-content card card-compact w-64 p-2 shadow bg-base-300 text-primary-content">
+                            <div className="card-body">
+                                <p className="card-title">カテゴリー追加・更新</p>
+                                <input type="text" placeholder="Type here" className="input w-full max-w-xs text-white" value={cint} onChange={(e)=>{setCint(e.target.value)}}/>
+                                <button className="btn" type="button" onClick={onAddButtonClick}>追加</button>
+                                <button className="btn" type="button" onClick={onChangeClick}>更新</button>
+                                <Message message={message}/>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div className="m-3">
+                        <label className="btn w-12 h-12 bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500" onClick={onTypeDeleteClick}>ー</label>
+                    </div>
                 </div>
-                    
-            </div>
 
 
-            <div className="m-3">
-                <label className="btn w-12 h-12 bg-blue-400 text-lg text-white font-semibold rounded-full hover:bg-blue-500" onClick={onTypeDeleteClick}>ー</label>
+                
             </div>
-        </div>
     </>
 
     )
