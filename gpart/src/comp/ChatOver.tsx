@@ -14,6 +14,7 @@ export const ChatOver: FC = () => {
         chatId: number,
         accountInfo: {
             userName: string,
+            accountName: string
             avatar: string
         },
         chatText: string
@@ -121,7 +122,7 @@ export const ChatOver: FC = () => {
                             {
                                 text.map(t=>
                                 <div key={t.chatId}>
-                                    {/* <img src={getPublic(t.accountInfo.avatar)} alt="" className="object-cover h-8 w-8 rounded-full" />
+                                  {/*  {/* <img src={getPublic(t.accountInfo.avatar)} alt="" className="object-cover h-8 w-8 rounded-full" />
                                     <div className={"ml-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"}>{t.chatText}</div> */}
                                     <div className="chat chat-start">
                                         <div className="chat-image avatar">
@@ -133,7 +134,19 @@ export const ChatOver: FC = () => {
                                     </div>
                                 </div>
                                 
-                                )
+                                )*/}
+                                    {
+                                        t.accountInfo.accountName == accountInfo.accountName?
+                                        <div>
+                                            {t.chatText}
+                                        </div>
+                                        :
+                                        <div>
+                                            {t.chatText}:::
+                                        </div>
+                                    }
+                                    
+                                </div>)
                             }
                         </div>
                     </div>

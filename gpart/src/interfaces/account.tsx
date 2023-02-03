@@ -81,6 +81,7 @@ export interface chatHistory {
         chatId: number,
         accountInfo: {
             userName: string,
+            accountName: string,
             avatar: string
         },
         chatText: string
