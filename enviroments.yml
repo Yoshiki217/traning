@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks: 
+    - name: enviroment node
+      command: echo "npm install"
+      register: register
+      state: present
+
+    - name: enviroment frontend
+      command: echo "npm --prefix ./gpart install ./gpart npm --global"
+      register: register
+      state: present
