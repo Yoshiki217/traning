@@ -4,6 +4,7 @@
 * 2022年度後期システム開発概論演習 で作成したWEBアプリケーションです。
 * フロントは `cd gpart` , `npm start` で起動します。
 * バックエンドは, `cd backend` , `node router.js` で起動します。
+* ansible = enviroment
 
 ## 開発メンバー
 1. SaiBunMei ( FrontEnd , Database Design )
