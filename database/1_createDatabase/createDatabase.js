@@ -9,11 +9,7 @@
 mysql = require("mysql2")
 
 // コネクションを作成
-con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root"
-})
+con = mysql.createConnection(info)
 // コネクション成功を知らせ
 console.log("Connected!")
 
