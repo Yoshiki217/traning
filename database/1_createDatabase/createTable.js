@@ -179,3 +179,5 @@ sql = `CREATE TABLE chatHist(
         CONSTRAINT fk_from FOREIGN KEY (fromId) REFERENCES account(id) ON DELETE CASCADE,
         CONSTRAINT fk_to FOREIGN KEY (courseId) REFERENCES course(courseId) ON DELETE CASCADE)`
 createTable(sql, tableName)
+
+con.end()
