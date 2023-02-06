@@ -49,16 +49,15 @@ export const ChatOver: FC = () => {
         })
     }
     const getTextRealtime = () => {
-        if(text.length>0){
-            postg("chatRealtime", {
-                ...getStorage(),
-                courseName: courseName,
-                chatId: text[0].chatId
-            }).then((json: chatHistory)=>{
-                console.log(json)
-                insertText(json)
-            })
-        }
+        console.log(text.length)
+        postg("chatRealtime", {
+            ...getStorage(),
+            courseName: courseName,
+            chatId: text[0]?.chatId
+        }).then((json: chatHistory)=>{
+            console.log(json)
+            insertText(json)
+        })
     }
     useEffect(()=>{
         if(courseName!=""){
@@ -78,7 +77,7 @@ export const ChatOver: FC = () => {
         return () => {
             socket.disconnect()
         }
-    }, [])
+    }, [text])
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(courseName!=""){

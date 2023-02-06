@@ -122,7 +122,7 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
                         <div tabIndex={0} className="dropdown-content card card-compact w-64 p-2 shadow bg-base-300 text-primary-content">
                             <div className="card-body">
                                 <p className="card-title">カテゴリー追加・更新</p>
-                                <input type="text" placeholder="Type here" className="input w-full max-w-xs text-white" value={cint} onChange={(e)=>{setCint(e.target.value)}}/>
+                                <input type="text" placeholder="Type here" className="input w-full max-w-xs text-black" value={cint} onChange={(e)=>{setCint(e.target.value)}}/>
                                 <button className="btn" type="button" onClick={onAddButtonClick}>追加</button>
                                 <button className="btn" type="button" onClick={onChangeClick}>更新</button>
                                 <Message message={message}/>
