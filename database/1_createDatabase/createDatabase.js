@@ -5,15 +5,38 @@
 // user : projectg
 // password : fitness
 
+// terminalで情報を習得
+let info = {
+    host: "",
+    user: "",
+    password: ""
+}
+for(a in info){
+    let flag = true
+    let input = ""
+    while(flag){
+        let prompt = require('prompt-sync')()
+        input = prompt(a + " : ")
+        let f = true
+        while(f){
+            let inputFlag = prompt(a+ " : " + input + " でよろしいですか？(Y/n) : ")
+            if(inputFlag == "Y"){
+                flag = false
+                f = false
+            }
+            else if(inputFlag == "n"){
+                f = false
+            }
+        }
+    }
+    info[a] = input
+    console.log("///////////////////////////////")
+}
 // mysqlを呼び出す
 mysql = require("mysql2")
 
 // コネクションを作成
-con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root"
-})
+con = mysql.createConnection(info)
 // コネクション成功を知らせ
 console.log("Connected!")
 
@@ -51,3 +74,5 @@ con.query("GRANT ALL ON customerdb.* TO projectg", function(err){
     // 実行が成功を知らせ
     console.log("ユーザーの許可   ー>   承諾")
 })
+
+con.end()
