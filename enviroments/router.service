@@ -1,0 +1,12 @@
+[Unit]
+Description=Backend
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=node /usr/share/nginx/traning/backend/router.js
+ExecStop=/usr/bin/kill -WINCH ${MAINPID}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

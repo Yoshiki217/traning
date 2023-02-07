@@ -1,0 +1,12 @@
+[Unit]
+Description=react
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=npm --prefix /usr/share/nginx/traning/gpart start
+ExecStop=/usr/bin/kill -WINCH ${MAINPID}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

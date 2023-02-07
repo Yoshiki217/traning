@@ -11,11 +11,6 @@
       register: register
       state: present
 
-    - name: created Database
-      command: echo "node ./"
-      register: register
-      state: present
-
     - name: create DB
       command: echo "node ./database/1_createDatabase/createDatabase.js"
       register: register
