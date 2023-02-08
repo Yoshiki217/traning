@@ -119,28 +119,27 @@ export const ChatOver: FC = () => {
                     <div className="w-full px-5 h-1000 flex flex-col justify-between">
                         <div className="flex flex-col mt-5">
                             {
-                                text.map(t=>
+                                text?.map(t=>
                                 <div key={t.chatId}>
                                     {
                                         t.accountInfo.accountName == accountInfo.accountName?
-                                        <div className="chat chat-end">
+                                        <div className="flex justify-end mb-4">
+                                            <div className="chat-bubble">{t.chatText}</div>
                                             <div className="chat-image avatar">
                                                 <div className="w-10 rounded-full">
                                                     <img src={getPublic(t.accountInfo.avatar)} />
                                                 </div>
                                             </div>
-                                            <div className="chat-bubble">{t.chatText}</div>
                                         </div>
                                         :
-                                        <div className="chat chat-start">
+                                        <div className="flex justify-start mb-4">
                                             <div className="chat-image avatar">
                                                 <div className="w-10 rounded-full">
                                                     <img src={getPublic(t.accountInfo.avatar)} />
                                                 </div>
                                             </div>
                                             <div className="chat-bubble">{t.chatText}</div>
-                                        </div>
-                                        
+                                        </div>   
                                     }                                  
                                 </div>)
                             }
