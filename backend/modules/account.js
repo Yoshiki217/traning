@@ -630,15 +630,17 @@ exports.chatRealtime = (accessId, sign, courseName, chatId, con) => {
                 json.status = true
             }else{
                 let infoSensei = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSensei}`)
+                let nameInfoSensei = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSensei}`)
                 if (infoSensei.length != 1){
-                    infoSensei = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSensei}`)    
+                    infoSensei = nameInfoSensei
                     infoSensei[0].avatar = ""
                 }
                 infoSensei = infoSensei[0]
 
                 let infoSeito = con.query(`SELECT name, avatar, id FROM information WHERE id = ${idSeito}`)
+                let nameInfoSeito = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSeito}`)
                 if(infoSeito.length != 1){
-                    infoSeito = con.query(`SELECT accountName AS name, id FROM account WHERE id = ${idSeito}`)
+                    infoSeito = nameInfoSeito
                     infoSeito[0].avatar = ""
                 }
                 infoSeito = infoSeito[0]
@@ -649,6 +651,7 @@ exports.chatRealtime = (accessId, sign, courseName, chatId, con) => {
                             chatId: c.chatId,
                             accountInfo: {
                                 userName: infoSensei.name,
+                                accountName: nameInfoSensei[0].name,
                                 avatar: infoSensei.avatar
                             },
                             chatText: c.text
@@ -659,6 +662,7 @@ exports.chatRealtime = (accessId, sign, courseName, chatId, con) => {
                             chatId: c.chatId,
                             accountInfo: {
                                 userName: infoSeito.name,
+                                accountName: nameInfoSeito[0].name,
                                 avatar: infoSeito.avatar
                             },
                             chatText: c.text
