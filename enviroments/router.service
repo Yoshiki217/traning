@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=node /usr/share/nginx/traning/backend/router.js
+ExecStart=node /var/www/htmnl/traning/backend/router.js
 ExecStop=/usr/bin/kill -WINCH ${MAINPID}
 Restart=always
 
