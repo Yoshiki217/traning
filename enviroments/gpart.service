@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=npm --prefix /var/www/html/traning/gpart start
+ExecStart/bin/gpart.sh npm --prefix /var/www/html/traning/gpart start
 ExecStop=/usr/bin/kill -WINCH ${MAINPID}
 Restart=always
 
