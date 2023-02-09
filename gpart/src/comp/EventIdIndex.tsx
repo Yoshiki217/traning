@@ -74,16 +74,21 @@ export const EventIdIndex : FC = () => {
                     </div>
                 </div>
             </div>
-            {
-                account.isMain?
+            
                 <div className="py-6 px-4 md:px-8">
                     <div className="flex justify-center gap-4 md:gap-6">
+                    {
+                        account.isMain?
+                        <>
                         <button onClick={toUpdate} className="btn">変更</button>
                         <button onClick={removeEvent} className="btn">削除</button>
+                        </>
+                        : <></>
+                    }
+                    <button onClick={()=>{gate(-1)}} className="btn">戻る</button>
                     </div>
                 </div>
-                : <></>
-            }
+                
             <div className="bg-white py-6 sm:py-8 lg:py-12">
                 <form onSubmit={onSubmit}>
                     <div className="max-w-screen-2xl px-6 md:px-8 mx-auto">

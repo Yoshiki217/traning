@@ -40,7 +40,7 @@ export const CreateEventIndex : FC = () => {
         },
         eventTimesUnit: {
             name: 'eventTimesUnit',
-            value: ''
+            value: '時'
         },
         date: {
             name: 'date',
@@ -88,11 +88,12 @@ export const CreateEventIndex : FC = () => {
         <div className="bg-gray-200 min-h-screen pt-2 font-mono my-16">
             <div className="container mx-auto">
                 <div className="inputs w-full max-w-2xl p-6 mx-auto">
-                    <h2 className="text-2xl text-gray-900">Create Event</h2>
+                    <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" onClick={()=>{gate(-1)}}>戻る</button>
+                    <h2 className="text-2xl text-gray-900">種目作成</h2>
                     <form className="mt-6 border-t border-gray-400 pt-4" onSubmit={onSubmit}>
                     <div className='flex flex-wrap -mx-3 mb-6'>
                         <div className='w-full md:w-full px-3 mb-6'>
-                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Event Name</label>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>種目名</label>
                             <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='text'  required
                             name={inputs.eventName.name} value={inputs.eventName.value} onChange={setInputs} />
@@ -104,37 +105,41 @@ export const CreateEventIndex : FC = () => {
                             <EventTypeSelector inputs={inputs} setInputs={setInputs}/>
                         </div>
                         <div className='w-full md:w-full px-3 mb-6'>
-                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Weight Amount</label>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>重量数</label>
                             <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='number'  required
                             name={inputs.eventWeightAmount.name} value={inputs.eventWeightAmount.value} onChange={setInputs} />
                         </div>
                         <div className='w-full md:w-full px-3 mb-6'>
-                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Weight Unit</label>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>重量単位</label>
                             <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='text'  required
                             name={inputs.eventWeightUnit.name} value={inputs.eventWeightUnit.value} onChange={setInputs} />
                         </div>
                         <div className='w-full md:w-full px-3 mb-6'>
-                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Times Amount</label>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>時間数</label>
                             <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='number'  required
                             name={inputs.eventTimesAmount.name} value={inputs.eventTimesAmount.value} onChange={setInputs} />
                         </div>
                         <div className='w-full md:w-full px-3 mb-6'>
-                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Times Unit</label>
-                            <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
-                            type='text'  required
-                            name={inputs.eventTimesUnit.name} value={inputs.eventTimesUnit.value} onChange={setInputs} />
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>時間単位</label>
+                            <select className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                            required
+                            name={inputs.eventTimesUnit.name} value={inputs.eventTimesUnit.value} onChange={setInputs}>
+                                <option value="時">時</option>
+                                <option value="分">分</option>
+                                <option value="秒">秒</option>
+                            </select>
                         </div>
                         <div className='w-full md:w-1/2 px-3 mb-6'>
-                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Event Day</label>
+                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >日付</label>
                             <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='date'  required
                             name={inputs.date.name} value={inputs.date.value} onChange={setInputs} />
                         </div>
                         <div className="flex justify-end">
-                            <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>
+                            <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">作成</button>
                         </div>
                     </div>
                     </form>
