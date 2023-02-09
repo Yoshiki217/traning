@@ -110,9 +110,11 @@ export const ChatOver: FC = () => {
     }, [])
     return (
         <>
-            <div className="shadow-lg rounded-lg"> 
-                <div className="flex flex-row h-1000 justify-between bg-white">
-                    
+
+            <div className="shadow-lg rounded-lg h-screen"> 
+                <div className="flex flex-row justify-between bg-white h-screen ">
+                    <div className="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+
                     {
                         accountInfo.isMain?
                         <>
@@ -133,7 +135,8 @@ export const ChatOver: FC = () => {
                         </>
                         :<></>
                     }
-                    <div className="w-full px-5 h-1000 flex flex-col justify-between">
+                    </div>
+                    <div className="w-full px-5 flex flex-col justify-between overflow-y-auto over">
                         <div className="flex flex-col mt-5">
                             {
                                 text?.map(t=>
@@ -161,15 +164,19 @@ export const ChatOver: FC = () => {
                                 </div>)
                             }
                         </div>
-                        <form onSubmit={onSubmit}>
-                        <div className="flex py-5">
-                            <input className="flex flex-col w-4/5 w-full bg-gray-300 py-5 px-3 rounded-xl" type="text" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
-                            <button className="flex flex-col w-1/5 w-full bg-gray-300 py-5 px-3 rounded-xl">send</button>
+                        <div className="sticky bottom-0" >
+                            <form className="flex flex-row input-group" onSubmit={onSubmit}>
+                                <input type="text" placeholder="テキストを入力してください" className="w-full input input-bordered input-info bg-white" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
+                                <button className="btn btn-square btn-outline btn-info bg-white">send</button>
+                            </form>
                         </div>
-                        </form>
+
                     </div>
+                    
                 </div>
+                
             </div>
+
         </>
     )
 }

@@ -28,8 +28,8 @@ export const Users = () =>{
     })
   return (<>
     { load?
-    <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
+    <section className="text-gray-600 body-font h-screen">
+        <div className="container px-5 py-16 mx-auto">
             <div className="flex flex-wrap -m-2">
             {
                 context.courses?.map(course=>
