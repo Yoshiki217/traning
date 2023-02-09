@@ -31,9 +31,11 @@ export const AccountIndex : FC = () => {
             value: eventTypes.length > 0? eventTypes[0].eventTypeId : -1
         }
     })
+    useEffect(()=>{
+        gate('/account/user')
+    })
     return (
-        <>
-            <Info/>
+        <>        
         </>
     )
 }

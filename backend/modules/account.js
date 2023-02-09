@@ -333,7 +333,7 @@ exports.updateInfo = (accessId, sign, info, con) => {
     return {...json, ...auth}
 }
 
-exports.updateBodyParams = (accessId, sign, info, con) => {
+exports.updateBodyParams = (accessId, sign, courseName, info, con) => {
     // info: {
     //     weight: Number,
     //     height: Number,
@@ -350,12 +350,19 @@ exports.updateBodyParams = (accessId, sign, info, con) => {
     }
     let auth = checkAuth(accessId, sign, con)
     if(auth.auth){
-        let findAsDate = con.query(`SELECT id, weight, height FROM bodyParameter WHERE idUser=${auth.id} AND date="${info.date}" FOR UPDATE`)
+        let courseAuth = con.query(`SELECT id, courseId FROM accountView WHERE courseName = "${courseName}" AND ( id = ${auth.id} OR idSensei = ${auth.id} )`)
+        if(courseAuth.length<1){
+            auth.auth = false
+            return {...auth, ...json}
+        }
+        auth.id = courseAuth[0].id
+        let courseId = courseAuth[0].courseId
+        let findAsDate = con.query(`SELECT id, weight, height FROM bodyParameter WHERE courseId = ${courseId} AND date="${info.date}" FOR UPDATE`)
         if(findAsDate.length != 0){
             if(findAsDate[0].weight != info.weight || findAsDate[0].height != info.height){
                 con.query(`UPDATE bodyParameter 
                             SET weight = ${info.weight}, height = ${info.height} 
-                            WHERE idUser=${auth.id} AND date="${info.date}"`
+                            WHERE courseId = ${courseId} AND date="${info.date}"`
                 )
                 con.query("COMMIT")
                 json.status = true
@@ -374,9 +381,9 @@ exports.updateBodyParams = (accessId, sign, info, con) => {
                 }
             }
         }else{
-            con.query(`INSERT INTO bodyParameter(idUser, weight, height, date) 
+            con.query(`INSERT INTO bodyParameter(courseId, weight, height, date) 
                            VALUES (
-                            ${auth.id},
+                            ${courseId},
                             ${info.weight},
                             ${info.height},
                             "${info.date}"
@@ -395,7 +402,7 @@ exports.updateBodyParams = (accessId, sign, info, con) => {
     return {...json, ...auth}
 }
 
-exports.removeBodyParams = (accessId, sign, date, con) => {
+exports.removeBodyParams = (accessId, sign,courseName, date, con) => {
     //     date: String
     let json = {
         status: false,
@@ -403,7 +410,14 @@ exports.removeBodyParams = (accessId, sign, date, con) => {
     }
     let auth = checkAuth(accessId, sign, con)
     if(auth.auth){
-        findInfo = con.query(`SELECT id FROM bodyParameter WHERE idUser=${auth.id} AND date="${date}" FOR UPDATE`)
+        let courseAuth = con.query(`SELECT id, courseId FROM accountView WHERE courseName = "${courseName}" AND ( id = ${auth.id} OR idSensei = ${auth.id} )`)
+        if(courseAuth.length<1){
+            auth.auth = false
+            return {...auth, ...json}
+        }
+        auth.id = courseAuth[0].id
+        let courseId = courseAuth[0].courseId
+        findInfo = con.query(`SELECT id FROM bodyParameter WHERE courseId = ${courseId} AND date="${date}" FOR UPDATE`)
         if(findInfo.length==1){
             con.query(`DELETE FROM bodyParameter 
                         WHERE id=${findInfo[0].id}`)
@@ -417,7 +431,7 @@ exports.removeBodyParams = (accessId, sign, date, con) => {
     return {...json, ...auth}
 }
 
-exports.bodyParams = (accessId, sign, year, month, con) => {
+exports.bodyParams = (accessId, sign,courseName, year, month, con) => {
     let json = {
         status: false,
         errormessage: "",
@@ -431,8 +445,15 @@ exports.bodyParams = (accessId, sign, year, month, con) => {
     }
     let auth = checkAuth(accessId, sign, con)
     if(auth.auth){
+        let courseAuth = con.query(`SELECT id, courseId FROM accountView WHERE courseName = "${courseName}" AND ( id = ${auth.id} OR idSensei = ${auth.id} )`)
+        if(courseAuth.length<1){
+            auth.auth = false
+            return {...auth, ...json}
+        }
+        auth.id = courseAuth[0].id
+        let courseId = courseAuth[0].courseId
         data = con.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d') as date, weight, height FROM bodyParameter 
-                        WHERE idUser=${auth.id} AND date like "${year}-${month}-%" ORDER BY date`)
+                        WHERE courseId = ${courseId} AND date like "${year}-${month}-%" ORDER BY date`)
         if (data.length != 0){
             data.forEach(d=>{
                 json.paramInfos.push({

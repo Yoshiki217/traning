@@ -129,7 +129,7 @@ app.post('/updateBodyParams', (req, res)=>{
         res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
-    res.json(account.updateBodyParams(post.accessId, post.sign, post.info, con))
+    res.json(account.updateBodyParams(post.accessId, post.sign, post.courseName , post.info, con))
 })
 
 app.post('/removeBodyParams', (req, res)=>{
@@ -138,12 +138,12 @@ app.post('/removeBodyParams', (req, res)=>{
         res.json({auth: post.accessId, sign: post.sign, status: false, errormessage: "データ入力されていません"})
         return
     }
-    res.json(account.removeBodyParams(post.accessId, post.sign, post.date, con))
+    res.json(account.removeBodyParams(post.accessId, post.sign, post.courseName, post.date, con))
 })
 
 app.post('/bodyParams', (req, res)=>{
     let post = JSON.parse(req.body.json)
-    res.json(account.bodyParams(post.accessId, post.sign, post.year, post.month, con))
+    res.json(account.bodyParams(post.accessId, post.sign, post.courseName, post.year, post.month, con))
 })
 
 app.post('/passwordChange', (req, res)=>{

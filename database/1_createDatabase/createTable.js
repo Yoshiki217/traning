@@ -52,10 +52,10 @@ dropTable("logText")
 dropTable("eventInfo")
 dropTable("event")
 dropTable("eventType")
-
+dropTable("bodyParameter")
 dropTable("course")
 dropTable("access")
-dropTable("bodyParameter")
+
 dropTable("information")
 
 dropTable("account")
@@ -85,17 +85,6 @@ sql = `CREATE TABLE information(
         CONSTRAINT fk_in FOREIGN KEY (id) REFERENCES account(id) ON DELETE CASCADE)`
 createTable(sql, tableName)
 
-// 3/ bodyParameter
-tableName = "bodyParameter"
-sql = `CREATE TABLE bodyParameter(
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        idUser INT,
-        weight INT,
-        height INT,
-        date DATE DEFAULT (CURRENT_DATE),
-        CONSTRAINT fk_bdp FOREIGN KEY (idUser) REFERENCES account(id) ON DELETE CASCADE)`
-createTable(sql, tableName)
-
 // 4/ access
 tableName = "access"
 sql = `CREATE TABLE access(
@@ -114,6 +103,17 @@ sql = `CREATE TABLE course(
         idSensei INT,
         CONSTRAINT fk_acc1 FOREIGN KEY (idSensei) REFERENCES account(idSensei) ON DELETE CASCADE,
         CONSTRAINT fk_acc2 FOREIGN KEY (idSeito) REFERENCES account(id) ON DELETE CASCADE)`
+createTable(sql, tableName)
+
+// 3/ bodyParameter
+tableName = "bodyParameter"
+sql = `CREATE TABLE bodyParameter(
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        courseId INT,
+        weight INT,
+        height INT,
+        date DATE DEFAULT (CURRENT_DATE),
+        CONSTRAINT fk_bdp FOREIGN KEY (courseId) REFERENCES course(courseId) ON DELETE CASCADE)`
 createTable(sql, tableName)
 
 // 6/ eventType

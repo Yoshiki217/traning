@@ -98,22 +98,42 @@ export const ChatOver: FC = () => {
             })
         }
     }
+    useEffect(()=>{
+        if(!accountInfo.isMain){
+            setCourseName(accountInfo.courses[0].courseName)
+        }
+    })
+    useEffect(()=>{
+        if(accountInfo.isMain && accountInfo.courses.length>0 ){
+            setCourseName(accountInfo.courses[0].courseName)
+        }
+    }, [])
     return (
         <>
+
             <div className="shadow-lg rounded-lg h-screen"> 
                 <div className="flex flex-row justify-between bg-white h-screen ">
                     <div className="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+
                     {
-                        accountInfo.courses?.map(course=>
-                        <div key={course.courseName} onClick={()=>{setCourseName(course.courseName)}} className={"flex flex-row py-4 px-2 items-center border-b-2" + (course.courseName == courseName ? " border-l-4 border-blue-400":"")}>
-                            <div className="w-1/4">
-                                <img src={getPublic(course.subAccountInfo.avatar)} className="object-cover h-12 w-12 rounded-full" alt=""/>
+                        accountInfo.isMain?
+                        <>
+                            <div className="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
+                            {
+                                accountInfo.courses?.map(course=>
+                                <div key={course.courseName} onClick={()=>{setCourseName(course.courseName)}} className={"flex flex-row py-4 px-2 items-center border-b-2" + (course.courseName == courseName ? " border-l-4 border-blue-400":"")}>
+                                    <div className="w-1/4">
+                                        <img src={getPublic(course.subAccountInfo.avatar)} className="object-cover h-12 w-12 rounded-full" alt=""/>
+                                    </div>
+                                    <div className="w-full">
+                                        <div className="text-lg font-semibold">{course.subAccountInfo.userName!="" ? course.subAccountInfo.userName : course.subAccountInfo.accountName}</div>
+                                        <span className="text-gray-500">{course.courseName}</span>
+                                    </div>
+                                </div>)
+                            }
                             </div>
-                            <div className="w-full">
-                                <div className="text-lg font-semibold">{course.subAccountInfo.userName!="" ? course.subAccountInfo.userName : course.subAccountInfo.accountName}</div>
-                                <span className="text-gray-500">{course.courseName}</span>
-                            </div>
-                        </div>)
+                        </>
+                        :<></>
                     }
                     </div>
                     <div className="w-full px-5 flex flex-col justify-between overflow-y-auto over">
@@ -150,12 +170,13 @@ export const ChatOver: FC = () => {
                                 <button className="btn btn-square btn-outline btn-info bg-white">send</button>
                             </form>
                         </div>
+
                     </div>
                     
                 </div>
                 
             </div>
-            
+
         </>
     )
 }

@@ -54,20 +54,17 @@ function App() {
               </Route>
               <Route path='account' element={<Account/>}> {/* post account to get data */}  
                 <Route index element={<AccountIndex/>}></Route>
-                <Route path='info' element={<Info/>}></Route>
-                <Route path='update' element={<Update/>}></Route>
                 <Route path="user" element={<Users/>} ></Route>
                 <Route path="chat" element={<ChatOver/>} ></Route>
-                <Route path='example' element={<Chat/>}></Route>
-                <Route path="bodyparams" element={<Outlet/>}>
-                  <Route index element={<BodyParams/>}></Route>
-                  <Route path=':year/:month' element={<BodyParamsYM/>}></Route>
-                </Route>
                 <Route path="settings" element={<Settings/>}></Route>
                 <Route path='passwordChange' element={<PasswordChange/>}></Route>
                 <Route path='createCourse' element={<CreateCourse/>}></Route>
                 <Route path='course/:courseName' element={<CourseName/>}> {/* add course data from account to context */}
                   <Route index element={<CourseNameIndex/>}></Route> {/* redirect to today */}
+                  <Route path="bodyparams" element={<Outlet/>}>
+                    <Route index element={<BodyParams/>}></Route>
+                    <Route path=':year/:month' element={<BodyParamsYM/>}></Route>
+                  </Route>
                   <Route path=':year/:month' element={<YM/>}>
                     <Route index element={<YMIndex/>}></Route>
                   </Route>

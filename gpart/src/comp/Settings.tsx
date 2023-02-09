@@ -127,49 +127,49 @@ export const Settings = () => {
       <div className="bg-gray-200 min-h-screen pt-2 font-mono my-6">
                 <div className="container mx-auto">
                     <div className="inputs w-full max-w-2xl p-6 mx-auto">
-                        <h2 className="text-2xl text-gray-900">Account Setting</h2>
+                        <h2 className="text-2xl text-gray-900">アカウント情報</h2>
                         <form className="mt-6 border-t border-gray-400 pt-4" onSubmit={onSubmit}>
                             <div className='flex flex-wrap -mx-3 mb-6'>
                                 <div className='w-full md:w-full px-3 mb-6'>
-                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-text-1'>email address</label>
+                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-text-1'>メール</label>
                                     <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
                                         id='grid-text-1' type='text' placeholder='Enter email'  required
                                         name={inputs.email.name} onChange={setInputs} value={inputs.email.value}/>
                                 </div>
                                 <div className='w-full md:w-full px-3 mb-6 '>
-                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>password</label>
-                                    <button onClick={toPasswordChange} className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change your password</button>
+                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>パスワード</label>
+                                    <button onClick={toPasswordChange} className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">パスワード更新</button>
                                 </div>
                                 <div className="personal w-full border-t border-gray-400 pt-4">
-                                    <h2 className="text-2xl text-gray-900">Personal info:</h2>
+                                    <h2 className="text-2xl text-gray-900">個人情報</h2>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>user name</label>
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>名前</label>
                                         <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                         type='text'  required 
                                         value={inputs.userName.value} onChange={setInputs} name={inputs.userName.name} />
                                     </div>
                                     <div className="flex items-center justify-between mt-4">
                                         <div className='w-full md:w-1/2 px-3 mb-6'>
-                                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >birthday</label>
+                                            <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >生年月日</label>
                                             <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                             type='date'  required
                                             value={inputs.birthday.value} onChange={setInputs} name={inputs.birthday.name} />
                                         </div>
                                     </div>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>phone</label>
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>電話番号</label>
                                         <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                         type='text'  required
                                         name={inputs.phone.name} onChange={setInputs} value={inputs.phone.value}/>
                                     </div>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>address</label>
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>住所</label>
                                         <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                         type='text'  required
                                         name={inputs.address.name} onChange={setInputs} value={inputs.address.value}/>
                                     </div>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>sex</label>
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>性別</label>
                                         <select className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                         name={inputs.sex.name} value={inputs.sex.value} onChange={setInputs} >
                                             <option value={0}>男</option>
@@ -178,7 +178,7 @@ export const Settings = () => {
                                         </select>
                                     </div>
                                     <div className='w-full md:w-full px-3 mb-6'>
-                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>image</label>
+                                        <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>画像</label>
                             
                                         {
                                             avatarPreview
@@ -187,7 +187,7 @@ export const Settings = () => {
                                     <input type="file" id={image.avatar.name} name={image.avatar.name} onChange={setImage}/>
                                     <Message message={message} />
                                     <div className="flex justify-end">
-                                        <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">save changes</button>
+                                        <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">保存</button>
                                     </div>
                                 </div>
                             </div>
