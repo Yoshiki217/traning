@@ -1,6 +1,11 @@
 ---
 - hosts: all
   tasks: 
+    - name: install modules
+      command: echo "npm install mysql2 disyUI socket.io"
+      register: register
+      state: present
+
     - name: enviroment node
       command: echo "npm install"
       register: register
