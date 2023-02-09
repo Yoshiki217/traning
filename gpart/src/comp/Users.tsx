@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useLogout } from "../api/logout"
 import { AccountContext } from "./Account"
@@ -6,6 +6,7 @@ import {getPublic} from "../api/postg"
 
 export const Users = () =>{
     const context = useContext(AccountContext)
+    const [load, setLoad] = useState(false)
     const logout = useLogout()
     const gate = useNavigate()
     const toInfo = () => {
@@ -17,13 +18,18 @@ export const Users = () =>{
     const onCourseclick = (courseName: string) => {
         gate(`../course/${courseName}`)
     }
-
+    useEffect(()=>{
+        if(!context.isMain){
+            onCourseclick(context.courses[0].courseName)
+            setLoad(false)
+            return
+        }
+        setLoad(true)
+    })
   return (<>
+    { load?
     <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
-            {/* <div className="flex flex-col text-center w-full mb-20">
-                
-            </div> */}
             <div className="flex flex-wrap -m-2">
             {
                 context.courses?.map(course=>
@@ -46,7 +52,7 @@ export const Users = () =>{
                     <img alt="team" className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
                     src="https://dummyimage.com/80x80"/>
                     <div className="flex-grow">
-                        <h2 className="text-gray-900 title-font font-medium">Add New Course</h2>
+                        <h2 className="text-gray-900 title-font font-medium">コース作成</h2>
                     </div>
                     </div>
                 </div>
@@ -55,5 +61,7 @@ export const Users = () =>{
             </div>
         </div>
     </section>
+    : <></>
+    }
   </>)
 }

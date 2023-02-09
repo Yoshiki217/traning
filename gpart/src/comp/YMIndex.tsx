@@ -50,38 +50,47 @@ export const YMIndex : FC = () => {
                         <path fillRule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
                         </svg>
                     </button>
+                    <button>
+                        <a className="inline-flex items-center w-full px-4 py-2 mt-1 text-base text-gray-900 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-50" onClick={()=>{gate("../bodyparams")}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                            </svg>
+                            <span className="ml-4">体重グラフに</span>
+                        </a>
+                    </button>
                 </div>
                 </div>
                 <table className="w-full">
                 <thead>
                     <tr>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Sunday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Sun</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">日曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">日</span>
                     </th>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Monday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Mon</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">月曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">月</span>
                     </th>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Tuesday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Tue</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">火曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">火</span>
                     </th>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Wednesday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Wed</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">水曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">水</span>
                     </th>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Thursday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Thu</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">木曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">木</span>
                     </th>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Friday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Fri</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">金曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">金</span>
                     </th>
                     <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                        <span className="xl:block lg:block md:block sm:block hidden">Saturday</span>
-                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Sat</span>
+                        <span className="xl:block lg:block md:block sm:block hidden">土曜日</span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">土</span>
                     </th>
                     </tr>
                 </thead>

@@ -2,8 +2,10 @@ export const getDateFormat = () => {
     const date = new Date()
     return dateFormat(date.getFullYear(), date.getMonth()+1, date.getDate())
 }
-export const dateFormat = (year: number, month: number, date: number) => {
-    return `${year}-${month<10 ? `0${month}` : month}-${date<10 ? `0${date}` : date}`
+export const dateFormat = (year: number, month: number, date?: number) => {
+    let ym =  `${year}-${month<10 ? `0${month}` : month}`
+    let mdate = date == undefined || date == null ? `-01` : `-${date<10 ? `0${date}` : date}`
+    return ym+mdate
 }
 export const dateUrl = (year: number, month: number, date: number) => {
     return {

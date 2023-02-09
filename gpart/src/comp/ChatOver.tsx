@@ -98,24 +98,41 @@ export const ChatOver: FC = () => {
             })
         }
     }
+    useEffect(()=>{
+        if(!accountInfo.isMain){
+            setCourseName(accountInfo.courses[0].courseName)
+        }
+    })
+    useEffect(()=>{
+        if(accountInfo.isMain && accountInfo.courses.length>0 ){
+            setCourseName(accountInfo.courses[0].courseName)
+        }
+    }, [])
     return (
         <>
             <div className="shadow-lg rounded-lg"> 
                 <div className="flex flex-row h-1000 justify-between bg-white">
-                    <div className="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
+                    
                     {
-                        accountInfo.courses?.map(course=>
-                        <div key={course.courseName} onClick={()=>{setCourseName(course.courseName)}} className={"flex flex-row py-4 px-2 items-center border-b-2" + (course.courseName == courseName ? " border-l-4 border-blue-400":"")}>
-                            <div className="w-1/4">
-                                <img src={getPublic(course.subAccountInfo.avatar)} className="object-cover h-12 w-12 rounded-full" alt=""/>
+                        accountInfo.isMain?
+                        <>
+                            <div className="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
+                            {
+                                accountInfo.courses?.map(course=>
+                                <div key={course.courseName} onClick={()=>{setCourseName(course.courseName)}} className={"flex flex-row py-4 px-2 items-center border-b-2" + (course.courseName == courseName ? " border-l-4 border-blue-400":"")}>
+                                    <div className="w-1/4">
+                                        <img src={getPublic(course.subAccountInfo.avatar)} className="object-cover h-12 w-12 rounded-full" alt=""/>
+                                    </div>
+                                    <div className="w-full">
+                                        <div className="text-lg font-semibold">{course.subAccountInfo.userName!="" ? course.subAccountInfo.userName : course.subAccountInfo.accountName}</div>
+                                        <span className="text-gray-500">{course.courseName}</span>
+                                    </div>
+                                </div>)
+                            }
                             </div>
-                            <div className="w-full">
-                                <div className="text-lg font-semibold">{course.subAccountInfo.userName!="" ? course.subAccountInfo.userName : course.subAccountInfo.accountName}</div>
-                                <span className="text-gray-500">{course.courseName}</span>
-                            </div>
-                        </div>)
+                        </>
+                        :<></>
                     }
-                    </div>
                     <div className="w-full px-5 h-1000 flex flex-col justify-between">
                         <div className="flex flex-col mt-5">
                             {
@@ -144,13 +161,15 @@ export const ChatOver: FC = () => {
                                 </div>)
                             }
                         </div>
+                        <form onSubmit={onSubmit}>
+                        <div className="flex py-5">
+                            <input className="flex flex-col w-4/5 w-full bg-gray-300 py-5 px-3 rounded-xl" type="text" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
+                            <button className="flex flex-col w-1/5 w-full bg-gray-300 py-5 px-3 rounded-xl">send</button>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <form onSubmit={onSubmit}>
-                <input type="text" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
-                <button>send</button>
-            </form>
         </>
     )
 }

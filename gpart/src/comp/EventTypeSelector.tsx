@@ -105,7 +105,7 @@ export const EventTypeSelector: FC<eventTypeSelectorProps> = (props: eventTypeSe
         <>
             <div className='w-full md:w-full px-3 mb-6'>
                 
-                <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Event Type</label>
+                <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>カテゴリー</label>
 
                 <div className="flex">
                     <div className="pt-3">
