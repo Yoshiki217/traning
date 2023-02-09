@@ -19,8 +19,8 @@ export const Users = () =>{
     }
 
   return (<>
-    <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
+    <section className="text-gray-600 body-font h-screen">
+        <div className="container px-5 py-16 mx-auto">
             {/* <div className="flex flex-col text-center w-full mb-20">
                 
             </div> */}

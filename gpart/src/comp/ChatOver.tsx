@@ -100,9 +100,9 @@ export const ChatOver: FC = () => {
     }
     return (
         <>
-            <div className="shadow-lg rounded-lg"> 
-                <div className="flex flex-row h-1000 justify-between bg-white">
-                    <div className="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
+            <div className="shadow-lg rounded-lg h-screen"> 
+                <div className="flex flex-row justify-between bg-white h-screen ">
+                    <div className="flex flex-col w-2/5 border-r-2 overflow-y-auto">
                     {
                         accountInfo.courses?.map(course=>
                         <div key={course.courseName} onClick={()=>{setCourseName(course.courseName)}} className={"flex flex-row py-4 px-2 items-center border-b-2" + (course.courseName == courseName ? " border-l-4 border-blue-400":"")}>
@@ -116,7 +116,7 @@ export const ChatOver: FC = () => {
                         </div>)
                     }
                     </div>
-                    <div className="w-full px-5 h-1000 flex flex-col justify-between">
+                    <div className="w-full px-5 flex flex-col justify-between overflow-y-auto over">
                         <div className="flex flex-col mt-5">
                             {
                                 text?.map(t=>
@@ -144,13 +144,18 @@ export const ChatOver: FC = () => {
                                 </div>)
                             }
                         </div>
+                        <div className="sticky bottom-0" >
+                            <form className="flex flex-row input-group" onSubmit={onSubmit}>
+                                <input type="text" placeholder="テキストを入力してください" className="w-full input input-bordered input-info bg-white" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
+                                <button className="btn btn-square btn-outline btn-info bg-white">send</button>
+                            </form>
+                        </div>
                     </div>
+                    
                 </div>
+                
             </div>
-            <form onSubmit={onSubmit}>
-                <input type="text" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
-                <button>send</button>
-            </form>
+            
         </>
     )
 }
