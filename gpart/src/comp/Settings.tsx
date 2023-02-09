@@ -187,7 +187,7 @@ export const Settings = () => {
                                     <input type="file" id={image.avatar.name} name={image.avatar.name} onChange={setImage}/>
                                     <Message message={message} />
                                     <div className="flex justify-end">
-                                        <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">更新</button>
+                                        <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit">保存</button>
                                     </div>
                                 </div>
                             </div>
