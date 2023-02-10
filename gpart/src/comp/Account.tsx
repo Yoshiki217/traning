@@ -115,7 +115,7 @@ export const Account : FC = () => {
                     </svg>
                 </button>
             </div>
-            <div className="flex flex-col items-center flex-shrink-0 px-4 z-20 invisible">
+            <div className="flex flex-col items-center flex-shrink-0 px-1 z-20 invisible">
                 <a className="px-8 text-left focus:outline-none">
                     <h2 className="block p-2 text-xl font-medium tracking-tighter text-gray-900 transition duration-500 ease-in-out transform cursor-pointer hover:text-gray-900">G part</h2>
                 </a>
@@ -126,7 +126,7 @@ export const Account : FC = () => {
                     </svg>
                 </button>
             </div>
-            <div className="flex overflow-hidden bg-white rounded-lg relative">
+            <div className="flex overflow-hidden bg-white relative">
                 <div className="hidden md:flex md:flex-shrink-0 absolute z-20">
                     <div className={`flex flex-col w-64 ${naviDisplay? ``: "hidden"}`}> 
                         <div className="h-screen border-r-4 border-sky-400 flex flex-col flex-grow pt-5 overflow-y-auto bg-white border-r border-gray-50 fixed">
@@ -184,7 +184,7 @@ export const Account : FC = () => {
                 </div>
                 <div className="flex flex-col flex-1 w-0 overflow-hidden">
                     <main className="relative flex-1 overflow-y-auto focus:outline-none">
-                        <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
+                        <div className="px-1 mx-auto max-w-7xl sm:px-3 md:px-4">
                             <Outlet/>
                         </div>
                     </main>

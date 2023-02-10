@@ -112,13 +112,13 @@ export const ChatOver: FC = () => {
         <>
 
             <div className="shadow-lg rounded-lg h-screen"> 
-                <div className="flex flex-row justify-between bg-white h-screen ">
+                <div className="flex flex-row justify-between bg-white  ">
                     <div className="flex flex-col w-2/5 border-r-2 overflow-y-auto">
 
                     {
                         accountInfo.isMain?
                         <>
-                            <div className="flex flex-col w-2/5 h-1000 border-r-2 overflow-y-auto">
+                            <div className="flex flex-col border-r-2 overflow-y-auto">
                             {
                                 accountInfo.courses?.map(course=>
                                 <div key={course.courseName} onClick={()=>{setCourseName(course.courseName)}} className={"flex flex-row py-4 px-2 items-center border-b-2" + (course.courseName == courseName ? " border-l-4 border-blue-400":"")}>
@@ -136,8 +136,8 @@ export const ChatOver: FC = () => {
                         :<></>
                     }
                     </div>
-                    <div className="w-full px-5 flex flex-col justify-between overflow-y-auto over">
-                        <div className="flex flex-col mt-5">
+                    <div className="w-full px-2 flex flex-col justify-between">
+                        <div className="flex flex-col overflow-y-auto">
                             {
                                 text?.map(t=>
                                 <div key={t.chatId}>
@@ -164,7 +164,7 @@ export const ChatOver: FC = () => {
                                 </div>)
                             }
                         </div>
-                        <div className="sticky bottom-0" >
+                        <div className="fixed bottom-0 w-2/3" >
                             <form className="flex flex-row input-group" onSubmit={onSubmit}>
                                 <input type="text" placeholder="テキストを入力してください" className="w-full input input-bordered input-info bg-white" name={inputs.text.name} value={inputs.text.value} onChange={setInputs}/>
                                 <button className="btn btn-square btn-outline btn-info bg-white">send</button>
