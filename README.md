@@ -1,10 +1,11 @@
 # traning
+https;//h-yoshiki.org
 
 ## 筋力トレーニング管理アプリ
 * 2022年度後期システム開発概論演習 で作成したWEBアプリケーションです。
 * フロントは `cd gpart` , `npm start` で起動します。
 * バックエンドは, `cd backend` , `node router.js` で起動します。
-* ansible = enviroment
+* ansible = enviroment.yml で環境構築できます。
 
 ## 開発メンバー
 1. SaiBunMei ( FrontEnd , Database Design )
@@ -42,7 +43,6 @@
 
 
 ## 要件定義
-
 ### 開発
 1.　ログイン機能(済)
 2.　ユーザー登録機能(済)
@@ -54,7 +54,7 @@
 
 追加Libraly
 - DaisyUI : https://daisyui.com/docs/install/
-- Chart.js : https://dev.classmethod.jp/articles/react-chartjs-2/
+- Chart.js : https://dev.classmethod.jp/articles/react-chartjs-2
 
 実装したい機能
 - googleアカウントログイン :  https://blog.sustenage.com/blog/0019-react-google-auth/
