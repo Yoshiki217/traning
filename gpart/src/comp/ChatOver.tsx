@@ -143,7 +143,7 @@ export const ChatOver: FC = () => {
                                 <div key={t.chatId}>
                                     {
                                         t.accountInfo.accountName == accountInfo.accountName?
-                                        <div className="flex justify-end mb-4">
+                                        <div className="chat chat-end">
                                             <div className="chat-bubble">{t.chatText}</div>
                                             <div className="chat-image avatar">
                                                 <div className="w-10 rounded-full">
@@ -152,7 +152,7 @@ export const ChatOver: FC = () => {
                                             </div>
                                         </div>
                                         :
-                                        <div className="flex justify-start mb-4">
+                                        <div className="chat chat-start">
                                             <div className="chat-image avatar">
                                                 <div className="w-10 rounded-full">
                                                     <img src={getPublic(t.accountInfo.avatar)} />
