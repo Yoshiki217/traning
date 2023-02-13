@@ -152,7 +152,7 @@ export const ChatOver: FC = () => {
                                             </div>
                                         </div>
                                         :
-                                        <div className="chat caht-start">
+                                        <div className="chat chat-start">
                                             <div className="chat-image avatar">
                                                 <div className="w-10 rounded-full">
                                                     <img src={getPublic(t.accountInfo.avatar)} />
